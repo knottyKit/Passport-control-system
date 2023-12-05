@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Passport Control System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+
+    <link
+      rel="stylesheet"
+      href="css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/boxicons.css" />
+    <script src="js/html2canvas.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.inview.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/jquery.table2excel.js"></script> -->
+    <script>
+      var busterCall = [
+        "js/individual.js",
+        "css/index.css",
+        "css/bootstrap.min.css",
+      ];
+      $.post(
+        "php/get_version.php",
+        {
+          busterCall: busterCall,
+          titleName: "Passport Control System",
+        },
+        function (data) {
+          $("head").html(data);
+        }
+      );
+    </script>
+  </head>
+
+  <!-- #region modal -->
+  <div
+    class="modal fade"
+    id="changeCoreTime"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Change Core Time
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-O" id="totOnly">Change</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #endregion modal-->
+
+  <body>
+    <div class="home-content position-relative d-flex">
+      <div class="navigation">
+        <div class="title p-3">
+          <h5 class="fw-semibold text-center">Passport Control System</h5>
+        </div>
+        <nav>
+          <ul class="list-unstyled d-grid gap-2">
+            <a href="#"
+              ><li class="active">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bxs-dashboard fs-5"></i>
+                  <p>Dashboard</p>
+                </div>
+              </li></a
+            >
+            <a href="#"
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bxs-group fs-5"></i>
+                  <p>Employee List</p>
+                </div>
+              </li></a
+            >
+            <a href="#"
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bx-history fs-5"></i>
+                  <p>History Logs</p>
+                </div>
+              </li></a
+            >
+          </ul>
+        </nav>
+      </div>
+      <div class="content">
+        <div
+          class="topbar shadow-sm d-flex justify-content-end align-items-center px-3"
+        >
+          <h5 class="user m-0">Hello, Joshua</h5>
+        </div>
+        <div class="main d-flex">
+          <div class="left col-8 d-flex flex-column overflow-hidden">
+            <div
+              class="top p-5 d-flex justify-content-center align-items-center position-relative overflow-hidden"
+            >
+              <div
+                class="shadow-sm rounded-5 position-relative w-100 h-100 contain p-5 d-flex overflow-hidden"
+              >
+                <div
+                  class="left col-6 d-flex justify-content-between flex-column"
+                >
+                  <h1 class="fw-bold">
+                    Check employee availability for Dispatch
+                  </h1>
+                  <div>
+                    <a href="./checkAvailability/">
+                      <button class="btn-checkAvail">Check availability</button>
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="col-6 d-flex flex-column position-relative overflow-hidden"
+                >
+                  <p class="fs-6 fw-medium mt-2">
+                    Verify the current validity status of employees for
+                    assignment or deployment purposes.
+                  </p>
+                </div>
+                <div
+                  style="
+                    position: absolute;
+                    bottom: -150px;
+                    left: 0;
+                    pointer-events: none;
+                  "
+                >
+                  <img
+                    src="images/wave.svg"
+                    class="waveImg"
+                    alt="wave"
+                    style="height: 600px"
+                  />
+                </div>
+                <div
+                  style="
+                    position: absolute;
+                    bottom: -100px;
+                    right: -50px;
+                    pointer-events: none;
+                  "
+                >
+                  <img src="images/travel.png" alt="" style="width: 550px" />
+                </div>
+              </div>
+            </div>
+            <div class="bottom h-50 p-5">
+              <div class="title mb-3 d-flex justify-content-between">
+                <h3>Dispatch list</h3>
+                <div>
+                  <input type="month" class="form-control" id="" />
+                </div>
+              </div>
+              <div class="table-container">
+                <table class="table">
+                  <thead class="sticky-top bg-body">
+                    <tr>
+                      <th>Name</th>
+                      <th>Location</th>
+                      <th>Start date</th>
+                      <th>End date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td>Switzerland</td>
+                      <td>Jan 13, 2024</td>
+                      <td>Jan 13, 2025</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="right col-4 p-5 d-flex gap-5 flex-column">
+            <div
+              class="top shadow-sm rounded-4 d-flex flex-column position-relative overflow-hidden"
+            >
+              <div class="title text-center p-3 mb-2">
+                <h5>Upcoming Passport Expirations</h5>
+              </div>
+              <div class="passportExp overflow-auto w-100 px-3">
+                <table class="table">
+                  <thead class="sticky-top bg-body">
+                    <tr>
+                      <th class="emp">Passport holder</th>
+                      <th class="expiry">Expires in</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire short">3 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire">10 Months</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="imgCont d-flex justify-content-end">
+                <img src="images/passport.png" alt="" width="100%" />
+              </div>
+            </div>
+            <div
+              class="bottom shadow-sm rounded-4 d-flex flex-column position-relative overflow-hidden"
+            >
+              <div class="title text-center p-3 mb-2">
+                <h5>Upcoming Visa Expirations</h5>
+              </div>
+              <div class="visaExp w-100 px-3 overflow-auto">
+                <table class="table">
+                  <thead class="sticky-top bg-body">
+                    <tr>
+                      <th class="emp">Visa holder</th>
+                      <th class="expiry">Expires in</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire short">3 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire">10 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire short">3 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire">10 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire short">3 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire">10 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire short">3 Months</td>
+                    </tr>
+                    <tr>
+                      <td>Collene Medrano</td>
+                      <td class="expire">10 Months</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="imgCont d-flex justify-content-end">
+                <img src="images/visa.png" alt="" width="100%" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

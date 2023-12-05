@@ -1,0 +1,124 @@
+/* Google Fonts Import Link */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fff;
+  height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px;
+}
+ul,
+li,
+a {
+  list-style: none;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+p {
+  margin: 0 !important;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 10px;
+}
+.table-container::-webkit-scrollbar-track {
+  background: #ebebeb;
+}
+.table-container::-webkit-scrollbar-thumb {
+  background: var(--darkest);
+  border-radius: 25px;
+}
+
+:root {
+  --main: #e3f1d6;
+  --secondary: #9dc08b;
+  --tertiary: #609966;
+  --darkest: #40513b;
+  --bg: #f6fcf1;
+  --orange: #ec8f5e;
+
+  --red-color: #df2e38;
+  --yellow-color: #e9c24a;
+  --warning: #fcfad8;
+  --text-color: #555;
+}
+
+.navigation {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--bg);
+  z-index: 2;
+}
+.content {
+  width: calc(100% - 250px);
+  height: 100vh;
+  z-index: 1;
+}
+nav {
+  padding: 64px 16px 16px 16px;
+}
+nav li {
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+}
+nav li:hover {
+  background-color: var(--main);
+}
+nav li.active {
+  background-color: var(--secondary);
+}
+.content .topbar {
+  height: 55px;
+}
+.content .main {
+  height: calc(100vh - 55px);
+}
+.back a span,
+.back a i {
+  color: #555 !important;
+  transition: all 0.25s ease-in-out;
+  font-weight: 500;
+}
+.back a:hover span,
+.back a:hover i {
+  color: var(--tertiary) !important;
+}
+.main .left {
+  width: 500px;
+  height: 100%;
+  font-size: 14px !important;
+}
+.btn-dispatch {
+  background-color: var(--tertiary) !important;
+  color: #fff !important;
+  transition: background-color 0.25s ease-in-out;
+}
+.btn-dispatch:hover {
+  background-color: var(--darkest) !important;
+}
+.btn-clear {
+  border: 1px solid var(--text-color) !important;
+  font-weight: 500;
+}
+.btn-clear:hover {
+  background-color: #a7a7a7 !important;
+  border-color: #a7a7a7 !important;
+}
+
+.right {
+  width: calc(100% - 500px);
+  background-color: #f0f0f0;
+}
+.cards .passport {
+  height: 250px;
+  width: 400px;
+  background-image: url("../images/gradient.svg");
+  background-color: rgba(255, 255, 255, 0.5);
+}

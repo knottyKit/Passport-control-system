@@ -1,0 +1,171 @@
+/* Google Fonts Import Link */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fff;
+  height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px;
+}
+ul,
+li,
+a {
+  list-style: none;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+p {
+  margin: 0 !important;
+}
+
+.table-container::-webkit-scrollbar,
+.passportExp::-webkit-scrollbar,
+.visaExp::-webkit-scrollbar {
+  width: 10px;
+}
+.table-container::-webkit-scrollbar-track,
+.passportExp::-webkit-scrollbar-track,
+.visaExp::-webkit-scrollbar-track {
+  background: #ebebeb;
+}
+.table-container::-webkit-scrollbar-thumb,
+.passportExp::-webkit-scrollbar-thumb,
+.visaExp::-webkit-scrollbar-thumb {
+  background: var(--darkest);
+  border-radius: 25px;
+}
+
+:root {
+  --main: #e3f1d6;
+  --secondary: #9dc08b;
+  --tertiary: #609966;
+  --darkest: #40513b;
+  --bg: #f6fcf1;
+  --orange: #ec8f5e;
+
+  --red-color: #df2e38;
+  --yellow-color: rgb(254, 201, 88);
+  --text-color: #555;
+}
+
+.navigation {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--bg);
+  z-index: 2;
+}
+.content {
+  width: calc(100% - 250px);
+  height: 100vh;
+  z-index: 1;
+}
+nav {
+  padding: 64px 16px 16px 16px;
+}
+nav li {
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+}
+nav li:hover {
+  background-color: var(--main);
+}
+nav li.active {
+  background-color: var(--secondary);
+}
+.content .topbar {
+  height: 55px;
+}
+.content .main {
+  height: calc(100vh - 55px);
+}
+.left .top {
+  height: 45%;
+}
+.left .top .contain {
+  background-color: var(--main);
+}
+.left .top .contain .left h1 {
+  font-size: 48px;
+}
+.left .bottom {
+  height: 55%;
+}
+.btn-checkAvail {
+  background-color: var(--tertiary);
+  cursor: pointer;
+  border-radius: 30px;
+  border: none;
+  color: #fff;
+  padding: 20px 40px;
+  font-size: 20px;
+  transition: background-color 0.3s ease-in-out;
+}
+.btn-checkAvail:hover {
+  background-color: var(--darkest);
+}
+.left .bottom table th {
+  font-weight: medium;
+  text-transform: uppercase;
+  font-size: 12px;
+  /* text-transform: uppercase; */
+}
+.table-container {
+  overflow: auto;
+  height: calc(100vh - 680px);
+}
+table tbody tr:hover {
+  background-color: #ededed;
+}
+.waveImg {
+  transform: rotate(-30deg);
+  pointer-events: none;
+}
+
+.right {
+  background-color: var(--main);
+}
+.right .top {
+  height: 50%;
+  background-color: #fff;
+}
+.right .bottom {
+  height: 50%;
+  background-color: #fff;
+}
+.expire.short {
+  color: var(--red-color);
+  font-weight: 700;
+}
+.passportExp,
+.visaExp {
+  height: calc(100% - 100px);
+}
+.passportExp thead th,
+.visaExp thead th {
+  font-weight: medium;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+.passportExp table tbody tr,
+.visaExp table tbody tr {
+  cursor: pointer;
+}
+.right .bottom .imgCont,
+.right .top .imgCont {
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  right: -35px;
+  width: 50%;
+}
+.right .bottom .imgCont img,
+.right .top .imgCont img {
+  opacity: 0.015;
+}

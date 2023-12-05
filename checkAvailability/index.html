@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Passport Control System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+
+    <link
+      rel="stylesheet"
+      href="css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/boxicons.css" />
+    <script src="js/html2canvas.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.inview.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/jquery.table2excel.js"></script> -->
+    <script>
+      var busterCall = [
+        "js/individual.js",
+        "css/index.css",
+        "css/bootstrap.min.css",
+      ];
+      $.post(
+        "php/get_version.php",
+        {
+          busterCall: busterCall,
+          titleName: "Passport Control System",
+        },
+        function (data) {
+          $("head").html(data);
+        }
+      );
+    </script>
+  </head>
+
+  <!-- #region modal -->
+  <div
+    class="modal fade"
+    id="changeCoreTime"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Change Core Time
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-O" id="totOnly">Change</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #endregion modal-->
+
+  <body>
+    <div class="home-content position-relative d-flex">
+      <div class="navigation">
+        <div class="title p-3">
+          <h5 class="fw-semibold text-center">Passport Control System</h5>
+        </div>
+        <nav>
+          <ul class="list-unstyled d-grid gap-2">
+            <a href="#"
+              ><li class="active">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bxs-dashboard fs-5"></i>
+                  <p>Dashboard</p>
+                </div>
+              </li></a
+            >
+            <a href="#"
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bxs-group fs-5"></i>
+                  <p>Employee List</p>
+                </div>
+              </li></a
+            >
+            <a href="#"
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bx-history fs-5"></i>
+                  <p>History Logs</p>
+                </div>
+              </li></a
+            >
+          </ul>
+        </nav>
+      </div>
+      <div class="content">
+        <div
+          class="topbar shadow-sm d-flex justify-content-end align-items-center px-3"
+        >
+          <h5 class="user m-0">Hello, Joshua</h5>
+        </div>
+        <div class="main w-100">
+          <div class="p-3 back">
+            <a href="../" class="d-flex gap-2 align-items-center">
+              <i class="bx bx-arrow-back fs-5"></i>
+              <span>Back to dashboard</span>
+            </a>
+          </div>
+          <div class="d-flex gap-5 px-5 pb-5" style="height: calc(100% - 56px)">
+            <div class="left">
+              <div class="title pb-5">
+                <h1>Apply for Dispatch</h1>
+              </div>
+              <div class="">
+                <div class="mb-3 row">
+                  <label for="" class="col-sm-3 col-form-label">Group</label>
+                  <div class="col-sm-9">
+                    <select name="" class="form-select form-select-sm" id="">
+                      <option value="">SYS</option>
+                      <option value="">SYS1</option>
+                      <option value="">SYS2</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="" class="col-sm-3 col-form-label">Name</label>
+                  <div class="col-sm-9">
+                    <select name="" class="form-select form-select-sm" id="">
+                      <option value="">Collene Medrano</option>
+                      <option value="">Kit Medrano</option>
+                      <option value="">Kwinkad</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="" class="col-sm-3 col-form-label"
+                    >Date to Japan</label
+                  >
+                  <div class="col-sm-9">
+                    <div class="h-100 d-flex align-items-center">
+                      <input
+                        type="date"
+                        class="form-control form-control-sm"
+                        id=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="" class="col-sm-3 col-form-label"
+                    >Date to Philippines</label
+                  >
+                  <div class="col-sm-9">
+                    <div class="h-100 d-flex align-items-center">
+                      <input
+                        type="date"
+                        class="form-control form-control-sm"
+                        id=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="" class="col-sm-3 col-form-label"
+                    >Total days</label
+                  >
+                  <div class="col-sm-9">
+                    <h5 class="d-flex align-items-center h-100">90 days</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-clear">Clear</button>
+                <button class="btn btn-dispatch">Apply dispatch</button>
+              </div>
+            </div>
+            <div class="right rounded-2 p-3">
+              <div class="title">
+                <h5>Employee Details</h5>
+              </div>
+              <div class="cards d-flex p-3">
+                <div class="col-6">
+                  <div class="passport rounded-3 shadow p-3"></div>
+                </div>
+                <div class="col-6">Visa</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
