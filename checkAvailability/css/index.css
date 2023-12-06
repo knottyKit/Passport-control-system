@@ -45,7 +45,7 @@ p {
   --orange: #ec8f5e;
 
   --red-color: #df2e38;
-  --yellow-color: #e9c24a;
+  --yellow-color: #f4c948;
   --warning: #fcfad8;
   --text-color: #555;
 }
@@ -114,11 +114,103 @@ nav li.active {
 
 .right {
   width: calc(100% - 500px);
-  background-color: #f0f0f0;
+  border: 2px solid #c7c7c7;
 }
 .cards .passport {
   height: 250px;
   width: 400px;
   background-image: url("../images/gradient.svg");
   background-color: rgba(255, 255, 255, 0.5);
+  background-size: cover;
+}
+.passport .passportDetail label,
+.visa .visaDetail label {
+  position: absolute;
+  top: -0px;
+  left: 0;
+  font-size: 10px;
+  font-weight: 500;
+}
+.passport .passportDetail span,
+.visa .visaDetail span {
+  font-weight: 500;
+}
+.passportDetail,
+.visaDetail {
+  padding: 10px 0 0 0;
+}
+.passport .imgContainer,
+.visa .imgContainer {
+  width: 120px;
+  height: 130px;
+}
+.passport .imgContainer img,
+.visa .imgContainer img {
+  width: 100%;
+  height: auto;
+}
+.cards .visa {
+  height: 250px;
+  width: 400px;
+  background-image: url("../images/gradientvisa.svg");
+  background-color: rgba(255, 255, 255, 0.5);
+  background-size: cover;
+}
+.status {
+  bottom: 10%;
+  left: 0;
+  text-align: center;
+}
+.status span {
+  font-size: 100px;
+  font-weight: 700;
+  opacity: 0.2;
+  line-height: 50px;
+  color: #53b85d;
+}
+.status span.invalid {
+  color: var(--red-color);
+}
+.dispatch-hist table thead th {
+  text-transform: uppercase;
+  font-size: 12px !important;
+  text-wrap: nowrap;
+}
+.dispatch-hist table tbody td {
+  font-size: 14px;
+  vertical-align: middle;
+}
+.dispatch-hist table tbody tr:hover {
+  background-color: #e6e6e6;
+}
+.btn-edit,
+.btn-delete {
+  border: none;
+  background-color: transparent;
+}
+.btn-edit:hover {
+  color: var(--yellow-color) !important;
+}
+.btn-delete:hover {
+  color: var(--red-color) !important;
+}
+.totalThisYear {
+  border-radius: 8px;
+  background-color: #f5d8c9;
+}
+.totalThisYear .label {
+  font-size: 14px;
+
+  text-transform: uppercase;
+}
+.totalThisYear .count {
+  font-size: 36px;
+  font-weight: 600;
+}
+.dispatch-hist .top .title {
+  font-size: 20px;
+  font-weight: 500;
+}
+.prog-cont small {
+  color: var(--red-color);
 }

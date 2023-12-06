@@ -182,21 +182,258 @@
                     <h5 class="d-flex align-items-center h-100">90 days</h5>
                   </div>
                 </div>
+
+                <div class="mb-3 row">
+                  <div></div>
+                </div>
               </div>
               <div class="d-flex justify-content-end gap-2">
                 <button class="btn btn-clear">Clear</button>
                 <button class="btn btn-dispatch">Apply dispatch</button>
               </div>
             </div>
-            <div class="right rounded-2 p-3">
-              <div class="title">
+            <div class="right rounded-2">
+              <div class="title px-4 py-2">
                 <h5>Employee Details</h5>
               </div>
-              <div class="cards d-flex p-3">
-                <div class="col-6">
-                  <div class="passport rounded-3 shadow p-3"></div>
+              <div class="d-flex flex-column gap-4 p-4 pt-0">
+                <div class="cards d-flex p-3">
+                  <div
+                    class="col-lg-6 d-flex justify-content-center align-items-center flex-column"
+                  >
+                    <div>Current Passport</div>
+                    <div
+                      class="passport position-relative rounded-3 p-3 d-flex gap-3"
+                    >
+                      <div class="position-absolute status">
+                        <span class="text-uppercase">Valid</span>
+                      </div>
+                      <div class="imgContainer">
+                        <img src="./images/empPic.jpg" alt="Employee picture" />
+                      </div>
+                      <div class="">
+                        <div class="passportDetail position-relative">
+                          <label for="passSurname">Surname</label>
+                          <span class="text-uppercase" id="passSurname"
+                            >Coquia</span
+                          >
+                        </div>
+                        <div class="passportDetail position-relative">
+                          <label for="passGivenName">Given Name</label>
+                          <span class="text-uppercase" id="passGivenName"
+                            >Joshua</span
+                          >
+                        </div>
+                        <div class="passportDetail position-relative">
+                          <label for="passMiddleName">Middle Name</label>
+                          <span class="text-uppercase" id="passMiddleName"
+                            >Padua</span
+                          >
+                        </div>
+                        <div class="passportDetail position-relative">
+                          <label for="passNationality">Nationality Name</label>
+                          <span class="text-uppercase" id="passNationality"
+                            >Filipino</span
+                          >
+                        </div>
+                        <div class="passportDetail position-relative">
+                          <label for="passBday">Date of Birth</label>
+                          <span class="text-uppercase" id="passBday"
+                            >15 AUG 1999</span
+                          >
+                        </div>
+                        <div class="passportDetail position-relative">
+                          <label for="passNo">Passport No.</label>
+                          <span class="text-uppercase" id="passNo"
+                            >P0592436B</span
+                          >
+                        </div>
+                      </div>
+                      <div class="">
+                        <div class="passportDetail position-relative">
+                          <label for="passIssue">Date of Issue</label>
+                          <span class="text-uppercase" id="passIssue"
+                            >08 FEB 2019</span
+                          >
+                        </div>
+                        <div class="passportDetail position-relative">
+                          <label for="passExp">Valid Until</label>
+                          <span class="text-uppercase" id="passExp"
+                            >07 FEB 2029</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-lg-6 d-flex justify-content-center flex-column align-items-center"
+                  >
+                    <div class="text-center">Current Japan Visa</div>
+                    <div
+                      class="visa rounded-3 position-relative p-3 d-flex gap-3"
+                    >
+                      <div class="position-absolute status">
+                        <span class="text-uppercase invalid">inValid</span>
+                      </div>
+                      <div class="imgContainer">
+                        <img src="./images/empPic.jpg" alt="Employee picture" />
+                      </div>
+                      <div class="">
+                        <div class="visaDetail position-relative">
+                          <label for="visaNo">Visa No.</label>
+                          <span class="text-uppercase" id="visaNo"
+                            >DA7926897</span
+                          >
+                        </div>
+                        <div class="visaDetail position-relative">
+                          <label for="visaDuration">For stay(s) of</label>
+                          <span class="text-uppercase" id="visaNationality"
+                            >5 years</span
+                          >
+                        </div>
+
+                        <div class="visaDetail position-relative">
+                          <label for="visaSurname">Surname</label>
+                          <span class="text-uppercase" id="visaSurname"
+                            >Coquia</span
+                          >
+                        </div>
+                        <div class="visaDetail position-relative">
+                          <label for="visaGivenName">Given Name</label>
+                          <span class="text-uppercase" id="visaGivenName"
+                            >Joshua</span
+                          >
+                        </div>
+                        <div class="visaDetail position-relative">
+                          <label for="visaMiddleName">Middle Name</label>
+                          <span class="text-uppercase" id="visaMiddleName"
+                            >Padua</span
+                          >
+                        </div>
+
+                        <div class="visaDetail position-relative">
+                          <label for="visaNo">Passport No.</label>
+                          <span class="text-uppercase" id="visaNo"
+                            >P0592436B</span
+                          >
+                        </div>
+                      </div>
+                      <div class="">
+                        <div class="visaDetail position-relative">
+                          <label for="visaIssue">Date of Issue</label>
+                          <span class="text-uppercase" id="visaIssue"
+                            >08 FEB 2019</span
+                          >
+                        </div>
+                        <div class="visaDetail position-relative">
+                          <label for="visaExp">Valid Until</label>
+                          <span class="text-uppercase" id="visaExp"
+                            >07 FEB 2024</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-6">Visa</div>
+                <div
+                  class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3"
+                >
+                  <div class="label">Total Days of Dispatch this Year</div>
+                  <div>
+                    <div class="count">90 days</div>
+                    <!-- <div class="progress" role="progressbar">
+                     <div
+                       class="progress-bar progress-bar-striped bg-success"
+                       style="width: 49%"
+                     ></div>
+                   </div> -->
+                    <div class="prog-cont">
+                      <div class="progress mb-1" role="progressbar">
+                        <div
+                          class="progress-bar progress-bar-striped bg-danger"
+                          style="width: 120%"
+                        ></div>
+                      </div>
+                      <small class=""
+                        ><i
+                          class="bx bx-error-circle"
+                          style="vertical-align: middle"
+                        ></i
+                        ><span class="ps-1"
+                          >Warning: Total dispatch days already exceeded 183
+                          days for this year.</span
+                        ></small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="dispatch-hist">
+                  <div class="top d-flex justify-content-between">
+                    <div class="title pb-4">Dispatch History to Japan</div>
+                    <div>
+                      <select class="form-select form-select-sm">
+                        <option selected>All</option>
+                        <option value="1">This Year Only</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="table-cont overflow-auto">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>No.</th>
+                          <th>Date to Japan</th>
+                          <th>Date to Philippines</th>
+                          <th>No. of Days</th>
+                          <th>No. of 5-Years Visa</th>
+                          <th>Visa Validity</th>
+                          <th>Total Days past 1 year</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>07 AUG 2023</td>
+                          <td>20 NOV 2023</td>
+                          <td>105</td>
+                          <td>DA7926897</td>
+                          <td><span class="badge bg-success">Valid</span></td>
+                          <td>105</td>
+                          <th>
+                            <div class="d-flex gap-2">
+                              <button class="btn-edit">
+                                <i class="bx bxs-edit fs-5"></i>
+                              </button>
+                              <button class="btn-delete">
+                                <i class="bx bx-trash fs-5"></i>
+                              </button>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>07 AUG 2023</td>
+                          <td>20 NOV 2023</td>
+                          <td>105</td>
+                          <td>DA7926897</td>
+                          <td><span class="badge bg-success">Valid</span></td>
+                          <td>105</td>
+                          <th>
+                            <div class="d-flex gap-2">
+                              <button class="btn-edit">
+                                <i class="bx bxs-edit fs-5"></i>
+                              </button>
+                              <button class="btn-delete">
+                                <i class="bx bx-trash fs-5"></i>
+                              </button>
+                            </div>
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
