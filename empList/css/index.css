@@ -53,7 +53,7 @@ p {
 .navigation {
   width: 250px;
   height: 100vh;
-  background-color: var(--bg);
+  border-right: 2px solid #dedede;
   z-index: 2;
 }
 .content {
@@ -74,12 +74,19 @@ nav li:hover {
 nav li.active {
   background-color: var(--secondary);
 }
-.content .topbar {
+table tbody tr td {
+  vertical-align: middle;
+}
+table thead tr {
+  background-color: var(--main);
+}
+/* .content .topbar {
   height: 55px;
 }
 .content .main {
   height: calc(100vh - 55px);
-}
+} */
+
 .back a span,
 .back a i {
   color: #555 !important;
@@ -90,127 +97,114 @@ nav li.active {
 .back a:hover i {
   color: var(--tertiary) !important;
 }
-.main .left {
-  width: 500px;
-  height: 100%;
-  font-size: 14px !important;
+.main .table-titles {
+  position: relative;
 }
-.btn-dispatch {
-  background-color: var(--tertiary) !important;
-  color: #fff !important;
-  transition: background-color 0.25s ease-in-out;
-}
-.btn-dispatch:hover {
-  background-color: var(--darkest) !important;
-}
-.btn-clear {
-  border: 1px solid var(--text-color) !important;
-  font-weight: 500;
-}
-.btn-clear:hover {
-  background-color: #a7a7a7 !important;
-  border-color: #a7a7a7 !important;
-}
-
-.right {
-  width: calc(100% - 500px);
-  border: 2px solid #c7c7c7;
-}
-.cards .passport {
-  height: 250px;
-  width: 400px;
-  background-image: url("../images/gradient.svg");
-  background-color: rgba(255, 255, 255, 0.5);
-  background-size: cover;
-}
-.passport .passportDetail label,
-.visa .visaDetail label {
+.main .table-titles::after {
+  content: "";
   position: absolute;
-  top: -0px;
+  bottom: 0;
   left: 0;
-  font-size: 10px;
-  font-weight: 500;
-}
-.passport .passportDetail span,
-.visa .visaDetail span {
-  font-weight: 500;
-}
-.passportDetail,
-.visaDetail {
-  padding: 10px 0 0 0;
-}
-.passport .imgContainer,
-.visa .imgContainer {
-  width: 120px;
-  height: 130px;
-}
-.passport .imgContainer img,
-.visa .imgContainer img {
   width: 100%;
-  height: auto;
+  height: 5px; /* Adjust as needed */
+  box-shadow: inset 0px -5px 4px -5px rgba(0, 0, 0, 0.5);
 }
-.cards .visa {
-  height: 250px;
-  width: 400px;
-  background-image: url("../images/gradientvisa.svg");
-  background-color: rgba(255, 255, 255, 0.5);
-  background-size: cover;
-}
-.status {
-  bottom: 10%;
-  left: 0;
-  text-align: center;
-}
-.status span {
-  font-size: 100px;
-  font-weight: 700;
-  opacity: 0.2;
-  line-height: 50px;
-  color: #53b85d;
-}
-.status span.invalid {
-  color: var(--red-color);
-}
-.dispatch-hist table thead th {
-  text-transform: uppercase;
-  font-size: 12px !important;
-  text-wrap: nowrap;
-}
-.dispatch-hist table tbody td {
-  font-size: 14px;
-  vertical-align: middle;
-}
-.dispatch-hist table tbody tr:hover {
-  background-color: #e6e6e6;
-}
-.btn-edit,
-.btn-delete {
-  border: none;
-  background-color: transparent;
-}
-.btn-edit:hover {
-  color: var(--yellow-color) !important;
-}
-.btn-delete:hover {
-  color: var(--red-color) !important;
-}
-.totalThisYear {
-  border-radius: 8px;
-  background-color: #f5d8c9;
-}
-.totalThisYear .label {
-  font-size: 14px;
-
-  text-transform: uppercase;
-}
-.totalThisYear .count {
-  font-size: 36px;
+.main .table-titles .title {
+  padding: 10px 30px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.35);
   font-weight: 600;
+  transition: color 0.25s linear;
 }
-.dispatch-hist .top .title {
-  font-size: 20px;
-  font-weight: 500;
+.main .table-titles .title:hover {
+  color: var(--secondary);
 }
-.prog-cont small {
-  color: var(--red-color);
+.main .table-titles .title.active {
+  color: var(--tertiary);
+  border-bottom: 3px solid var(--tertiary);
+  z-index: 10;
+  font-weight: 700;
+}
+
+.main .tables {
+  height: calc(100% - 47px);
+}
+.main .tables thead tr {
+  box-shadow: 0px 4px 4px -4px rgba(0, 0, 0, 0.2) !important;
+}
+.main .tables thead tr th {
+  background-color: inherit;
+  font-size: 12px !important;
+  text-transform: uppercase;
+}
+
+.main .tables tbody tr:hover {
+  background-color: #ededed;
+}
+
+.search i {
+  top: 0;
+  left: 0;
+}
+.search input {
+  padding-left: 35px;
+}
+.filters .group {
+  width: 350px;
+}
+.table-cont {
+  height: calc(100vh - 350px);
+}
+table tbody tr td:last-of-type {
+  text-align: end;
+  width: 50px;
+}
+table tbody tr td i {
+  cursor: pointer;
+  padding: 10px;
+}
+table tbody tr td i:hover {
+  background-color: var(--tertiary);
+  border-radius: 3px;
+}
+.table-cont {
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+  background-color: #fff;
+  width: 100%;
+  height: calc(100% - 102px);
+}
+
+.table-one {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: all 0.5s ease-out;
+}
+
+.table-two {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  transition: all 0.5s ease-out;
+}
+
+.table-cont.active {
+  opacity: 1;
+}
+
+.table-two.active {
+  left: 0;
+}
+
+.table-two.active ~ .table-one {
+  right: 100%;
+}
+
+.table-one.active {
+  right: 0;
+}
+
+.table-one.active ~ .table-two {
+  left: 100%;
 }

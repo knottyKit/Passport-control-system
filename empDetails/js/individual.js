@@ -32,7 +32,7 @@ $(document).on("click", ".table-titles .title.second", function () {
   $(".table-titles .title.first, .table-one").removeClass("active");
 });
 $(document).on("click", ".seeMore", function () {
-  window.location.href = "../empDetails/";
+  window.location.href = "path/to/your/page.html";
 });
 //#endregion
 
