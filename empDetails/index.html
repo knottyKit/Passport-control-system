@@ -41,7 +41,7 @@
   <!-- #region modal -->
   <div
     class="modal fade"
-    id="changeCoreTime"
+    id="updatePass"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
@@ -52,7 +52,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Change Core Time
+            Update Passport
           </h1>
           <button
             type="button"
@@ -61,10 +61,53 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body"></div>
+        <div class="modal-body">
+          <div class="row mb-3">
+            <label for="upPassNo" class="col-4 col-form-label"
+              >Passport No.</label
+            >
+            <div class="col-8">
+              <input type="text" class="form-control" id="upPassNo" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="upPassBday" class="col-4 col-form-label"
+              >Birth date</label
+            >
+            <div class="col-8">
+              <input type="date" class="form-control" id="upPassBday" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="upPassIssue" class="col-4 col-form-label"
+              >Date Issue</label
+            >
+            <div class="col-8">
+              <input type="date" class="form-control" id="upPassIssue" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="upPassExp" class="col-4 col-form-label"
+              >Valid Until</label
+            >
+            <div class="col-8">
+              <input type="date" class="form-control" id="upPassExp" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="upPassExp" class="col-4 col-form-label"
+              >Attachment</label
+            >
+            <div class="col-8">
+              <input type="date" class="form-control" id="upPassExp" />
+            </div>
+          </div>
+        </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-O" id="totOnly">Change</button>
+          <button type="button" class="btn btn-update" id="btn-updatePass">
+            Update
+          </button>
         </div>
       </div>
     </div>
@@ -75,8 +118,16 @@
   <body>
     <div class="home-content position-relative d-flex">
       <div class="navigation">
-        <div class="title p-3">
+        <div
+          class="title p-3 d-flex justify-content-between align-items-center"
+        >
           <h5 class="fw-semibold text-center">Passport Control System</h5>
+          <div
+            id="closeNav"
+            class="justify-content-center align-items-center m-0"
+          >
+            <i class="bx bx-x fs-3"></i>
+          </div>
         </div>
         <nav>
           <ul class="list-unstyled d-grid gap-2">
@@ -88,7 +139,7 @@
                 </div>
               </li></a
             >
-            <a href="#"
+            <a href="../empList/"
               ><li class="active">
                 <div class="d-flex align-items-center gap-2">
                   <i class="bx bxs-group fs-5"></i>
@@ -113,17 +164,156 @@
         >
           <h5 class="user m-0">Hello, Joshua</h5>
         </div> -->
-        <div class="pageTitle w-100 px-3 py-4">
+        <div class="pageTitle w-100 gap-3 px-3 py-4 d-flex">
+          <div id="menu">
+            <i class="bx bx-menu-alt-left fs-3"></i>
+          </div>
           <h1 class="fw-bolder m-0">Employee Details</h1>
         </div>
-        <div class="w-100 d-flex px-3 back ">
-          <a href="../empList/" class="d-flex align-items-center">
-            <i class="bx bx-arrow-back fs-5"></i>
-            <span class="ps-2">Go back to Employee List</span>
-          </a>
-        </div class="w-100">
+
         <div class="main w-100">
-          
+          <div class="w-100 d-flex px-3 back">
+            <a href="../empList/" class="d-flex align-items-center">
+              <i class="bx bx-arrow-back fs-5"></i>
+              <span class="ps-2">Go back to Employee List</span>
+            </a>
+          </div>
+          <div class="p-3 d-flex">
+            <div class="left">left</div>
+            <div class="right d-flex flex-column gap-3">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Dispatch Status</h5>
+                  <h5>
+                    <div class="card-text badge bg-primary">For Dispatch</div>
+                  </h5>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Latest Passport</h5>
+
+                  <div class="card-content">
+                    <div class="row">
+                      <label for="passStatus" class="col-4 col-form-label"
+                        >Validity</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="badge bg-success">Valid</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="passNo" class="col-4 col-form-label"
+                        >Passport no.</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="passNo">P6241898A</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="passBday" class="col-4 col-form-label"
+                        >Birth date</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="passBday">1983/12/24</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="passIssue" class="col-4 col-form-label"
+                        >Date issue</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="passIssue">3/1/2018</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="passExp" class="col-4 col-form-label"
+                        >Valid until</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="passExp">2/29/2028</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="editThis"
+                  data-bs-target="#updatePass"
+                  data-bs-toggle="modal"
+                >
+                  <i class="bx bx-refresh"></i>
+                  <h1>Update Passport</h1>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Latest Japan Visa</h5>
+
+                  <div class="card-content">
+                    <div class="row">
+                      <label for="visaStatus" class="col-4 col-form-label"
+                        >Validity</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="badge bg-danger" id="visaStatus"
+                          >Expired</span
+                        >
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="visaDuration" class="col-4 col-form-label"
+                        >Duration</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="visaDuration">5 Years</span>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <label for="visaNo" class="col-4 col-form-label"
+                        >Visa no.</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="visaNo">P6241898A</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="visaBday" class="col-4 col-form-label"
+                        >Birth date</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="visaBday">1983/12/24</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="visaIssue" class="col-4 col-form-label"
+                        >Date Issue</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="visaIssue">2/29/2028</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label for="visaExp" class="col-4 col-form-label"
+                        >Valid until</label
+                      >
+                      <div class="col-8 d-flex align-items-center">
+                        <span class="" id="visaExp">2/29/2028</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="editThis"
+                  data-bs-target="#updateVisa"
+                  data-bs-toggle="modal"
+                >
+                  <i class="bx bx-refresh"></i>
+                  <h1>Update Visa</h1>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

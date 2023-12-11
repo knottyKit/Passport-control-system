@@ -34,6 +34,18 @@ $(document).on("click", ".table-titles .title.second", function () {
 $(document).on("click", ".seeMore", function () {
   window.location.href = "path/to/your/page.html";
 });
+$(document).on("click", "#menu", function () {
+  $(".navigation").addClass("open");
+});
+$(document).on("click", "#closeNav", function () {
+  $(".navigation").removeClass("open");
+});
+$(document).on("mouseenter", ".editThis", function () {
+  $(this).addClass("hov");
+});
+$(document).on("mouseleave", ".editThis", function () {
+  $(this).removeClass("hov");
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -56,8 +68,12 @@ function checkLogin() {
 function mainHeight() {
   var title = $(".pageTitle").css("height");
 
-  $(".main").css("height", `calc(100vh - ${title}`);
-  console.log(title);
+  if ($(window).width() > 768) {
+    $(".main").css("height", `calc(100vh - ${title}`);
+    console.log(title);
+  } else {
+    $(".main").css("height", `100%`);
+  }
 }
 
 //#endregion
