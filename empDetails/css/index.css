@@ -137,6 +137,45 @@ table thead tr {
 .btn-update:hover {
   background-color: #518255 !important;
 }
+#dispatchStatus {
+  font-weight: 700 !important;
+}
+.left .pic {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #cdcdcd;
+  border-radius: 6px;
+}
+.left .personal {
+  width: calc(100% - 200px);
+  justify-content: end;
+}
+.left .pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-size: cover;
+  background-position: center;
+}
+.left .top {
+  height: 200px;
+}
+.personal .empId {
+  font-size: 14px;
+  color: #757575;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.personal .empName {
+  font-size: 70px !important;
+  line-height: 80px;
+}
+@media (max-width: 991px) {
+  .kaliwa,
+  .kanan {
+    width: 100% !important;
+  }
+}
 
 /* SMALLSCREEN NAVIGATION */
 #closeNav,

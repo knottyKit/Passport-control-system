@@ -48,7 +48,7 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -61,52 +61,242 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
-          <div class="row mb-3">
-            <label for="upPassNo" class="col-4 col-form-label"
-              >Passport No.</label
-            >
-            <div class="col-8">
-              <input type="text" class="form-control" id="upPassNo" />
+        <div class="modal-body d-flex gap-3 flex-lg-row flex-column">
+          <div style="width: 350px" class="kaliwa">
+            <div class="row mb-2">
+              <label for="upPassNo" class="col-4 col-form-label"
+                >Passport No.</label
+              >
+              <div class="col-8">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="upPassNo"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="upPassBday" class="col-4 col-form-label"
+                >Birth date</label
+              >
+              <div class="col-8">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  id="upPassBday"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="upPassIssue" class="col-4 col-form-label"
+                >Date Issue</label
+              >
+              <div class="col-8">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  id="upPassIssue"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="upPassExp" class="col-4 col-form-label"
+                >Valid Until</label
+              >
+              <div class="col-8">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  id="upPassExp"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row attach d-none">
+              <label for="upPassAttach" class="col-4 col-form-label"
+                >Attachment</label
+              >
+              <div class="col-8">
+                <input
+                  type="file"
+                  class="form-control form-control-sm"
+                  id="upPassAttach"
+                  disabled
+                />
+              </div>
             </div>
           </div>
-          <div class="row mb-3">
-            <label for="upPassBday" class="col-4 col-form-label"
-              >Birth date</label
-            >
-            <div class="col-8">
-              <input type="date" class="form-control" id="upPassBday" />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="upPassIssue" class="col-4 col-form-label"
-              >Date Issue</label
-            >
-            <div class="col-8">
-              <input type="date" class="form-control" id="upPassIssue" />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="upPassExp" class="col-4 col-form-label"
-              >Valid Until</label
-            >
-            <div class="col-8">
-              <input type="date" class="form-control" id="upPassExp" />
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="upPassExp" class="col-4 col-form-label"
-              >Attachment</label
-            >
-            <div class="col-8">
-              <input type="date" class="form-control" id="upPassExp" />
+          <div
+            class="kanan"
+            style="
+              width: calc(100% - 350px);
+              background-color: whitesmoke;
+              border-radius: 6px;
+            "
+          >
+            <label class="p-2">Attachment</label>
+            <div style="height: 300px; width: 100%">
+              <div
+                class="d-flex w-100 h-100 flex-column gap-3 justify-content-center align-items-center d-none"
+                style="opacity: 0.75"
+                id="noAttach"
+              >
+                <i class="bx bxs-inbox" style="font-size: 80px"></i>
+                <span>No attachment found.</span>
+              </div>
+              <div class="w-100 h-100">
+                <!-- Example of embedding a PDF using an iframe -->
+                <iframe
+                  src=""
+                  width="100%"
+                  height="100%"
+                  id="passAttachView"
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
+          <button type="button" class="btn btn-cancel btn-secondary">
+            Cancel
+          </button>
           <button type="button" class="btn btn-update" id="btn-updatePass">
-            Update
+            Update Passport
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="updateVisa"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Visa</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body d-flex gap-3 flex-lg-row flex-column">
+          <div style="width: 350px" class="kaliwa">
+            <div class="row mb-2">
+              <label for="upVisaNo" class="col-4 col-form-label"
+                >Visa No.</label
+              >
+              <div class="col-8">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="upVisaNo"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="upVisaBday" class="col-4 col-form-label"
+                >Birth date</label
+              >
+              <div class="col-8">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  id="upVisaBday"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="upVisaIssue" class="col-4 col-form-label">
+                Date Issue
+              </label>
+              <div class="col-8">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  id="upVisaIssue"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="upVisaExp" class="col-4 col-form-label"
+                >Valid Until</label
+              >
+              <div class="col-8">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  id="upVisaExp"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="row attach d-none">
+              <label for="upVisaAttach" class="col-4 col-form-label"
+                >Change Attachment</label
+              >
+              <div class="col-8">
+                <input
+                  type="file"
+                  class="form-control form-control-sm"
+                  id="upVisaAttach"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="kanan"
+            style="
+              width: calc(100% - 350px);
+              background-color: whitesmoke;
+              border-radius: 6px;
+            "
+          >
+            <label class="p-2">Attachment</label>
+            <div style="height: 300px; width: 100%">
+              <div
+                class="d-flex w-100 h-100 flex-column gap-3 justify-content-center align-items-center d-none"
+                style="opacity: 0.75"
+                id="noAttach"
+              >
+                <i class="bx bxs-inbox" style="font-size: 80px"></i>
+                <span>No attachment found.</span>
+              </div>
+              <div class="w-100 h-100">
+                <!-- Example of embedding a PDF using an iframe -->
+                <iframe
+                  src=""
+                  width="100%"
+                  height="100%"
+                  id="visaAttachView"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel btn-secondary">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-update" id="btn-updateVisa">
+            Update Visa
           </button>
         </div>
       </div>
@@ -172,21 +362,71 @@
         </div>
 
         <div class="main w-100">
-          <div class="w-100 d-flex px-3 back">
+          <div class="w-100 d-flex px-3 back pb-5">
             <a href="../empList/" class="d-flex align-items-center">
               <i class="bx bx-arrow-back fs-5"></i>
               <span class="ps-2">Go back to Employee List</span>
             </a>
           </div>
-          <div class="p-3 d-flex">
-            <div class="left">left</div>
+          <div class="p-3 d-flex gap-3">
+            <div class="left d-flex gap-3 flex-column">
+              <div class="top d-flex gap-3">
+                <div class="pic">
+                  <img src="./images/empPic.jpg" alt="" />
+                </div>
+                <div class="personal d-flex flex-column">
+                  <div class="empId">
+                    Employee Id. <span id="empId">487</span>
+                  </div>
+
+                  <div class="empName">
+                    <div class="surname text-uppercase fw-bold">coquia,</div>
+                    <div class="givenname">Joshua Mari</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mid d-flex">
+                <div
+                  class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3 w-100"
+                >
+                  <div class="label">Total Days of Dispatch this Year</div>
+                  <div>
+                    <div class="count">90 days</div>
+
+                    <div class="prog-cont">
+                      <div class="progress mb-1" role="progressbar">
+                        <div
+                          class="progress-bar progress-bar-striped bg-danger"
+                          style="width: 120%"
+                        ></div>
+                      </div>
+                      <small class=""
+                        ><i
+                          class="bx bx-error-circle"
+                          style="vertical-align: middle"
+                        ></i
+                        ><span class="ps-1"
+                          >Warning: Total dispatch days already exceeded 183
+                          days for this year.</span
+                        ></small
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="right d-flex flex-column gap-3">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Dispatch Status</h5>
-                  <h5>
-                    <div class="card-text badge bg-primary">For Dispatch</div>
-                  </h5>
+                  <select class="form-select fs-5" id="dispatchStatus">
+                    <option value="0" class="text-success fw-medium fs-6">
+                      For Dispatch
+                    </option>
+                    <option value="1" class="text-danger fw-medium fs-6">
+                      Non Dispatch
+                    </option>
+                  </select>
                 </div>
               </div>
               <div class="card">
