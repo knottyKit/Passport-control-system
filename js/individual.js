@@ -24,6 +24,7 @@ $(document).ready(function () {
       alert(`${error}`);
     });
 });
+
 $(document).on("change", "#idYear", function () {
   getDispatchlist()
     .then((dList) => {
@@ -32,6 +33,14 @@ $(document).on("change", "#idYear", function () {
     .catch((error) => {
       alert(`${error}`);
     });
+});
+$(document).on("click", "#menu", function () {
+  $(".navigation").addClass("open");
+  $("body").addClass("overflow-hidden");
+});
+$(document).on("click", "#closeNav", function () {
+  $(".navigation").removeClass("open");
+  $("body").removeClass("overflow-hidden");
 });
 //#endregion
 
@@ -157,4 +166,5 @@ function fillVisa(evlist) {
     });
   }
 }
+
 //#endregion
