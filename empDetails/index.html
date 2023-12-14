@@ -303,6 +303,61 @@
     </div>
   </div>
 
+  <div
+    class="modal fade"
+    id="changeDispatchStatus"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Change Dispatch Status
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2">
+            Please select dispatch status for
+            <span id="disModalEmpName" class="fw-semibold"
+              >Joshua Mari Coquia</span
+            >.
+          </p>
+          <select class="form-select" id="dispatchStatus">
+            <option value="0" class="text-success fw-medium">
+              For Dispatch
+            </option>
+            <option value="1" class="text-danger fw-medium">
+              Non Dispatch
+            </option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel btn-secondary">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-update fw-medium"
+            id="btn-saveDisStat"
+          >
+            Save Dispatch Status
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- #endregion modal-->
 
   <body>
@@ -354,7 +409,7 @@
         >
           <h5 class="user m-0">Hello, Joshua</h5>
         </div> -->
-        <div class="pageTitle w-100 gap-3 px-3 py-4 d-flex">
+        <div class="pageTitle w-100 gap-3 d-flex">
           <div id="menu">
             <i class="bx bx-menu-alt-left fs-3"></i>
           </div>
@@ -362,19 +417,33 @@
         </div>
 
         <div class="main w-100">
-          <div class="w-100 d-flex px-3 back pb-5">
+          <div class="w-100 d-flex px-3 back">
             <a href="../empList/" class="d-flex align-items-center">
               <i class="bx bx-arrow-back fs-5"></i>
               <span class="ps-2">Go back to Employee List</span>
             </a>
           </div>
-          <div class="p-3 d-flex gap-3">
-            <div class="left d-flex gap-3 flex-column">
+          <div
+            class="p-3 d-flex gap-3 contents"
+            style="height: calc(100% - 72px)"
+          >
+            <div class="left d-flex gap-4 flex-column h-100">
               <div class="top d-flex gap-3">
                 <div class="pic">
                   <img src="./images/empPic.jpg" alt="" />
                 </div>
+
                 <div class="personal d-flex flex-column">
+                  <div class="disStat d-flex gap-2 align-items-center">
+                    <h4 class="m-0">
+                      <span class="badge bg-success">For Dispatch</span>
+                    </h4>
+                    <i
+                      class="bx bxs-edit fs-5"
+                      data-bs-toggle="modal"
+                      data-bs-target="#changeDispatchStatus"
+                    ></i>
+                  </div>
                   <div class="empId">
                     Employee Id. <span id="empId">487</span>
                   </div>
@@ -389,18 +458,20 @@
                 <div
                   class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3 w-100"
                 >
-                  <div class="label">Total Days of Dispatch this Year</div>
+                  <div class="label fw-medium">
+                    Total Days of Dispatch this Year
+                  </div>
                   <div>
                     <div class="count">90 days</div>
 
                     <div class="prog-cont">
                       <div class="progress mb-1" role="progressbar">
                         <div
-                          class="progress-bar progress-bar-striped bg-danger"
-                          style="width: 120%"
+                          class="progress-bar progress-bar-striped bg-success"
+                          style="width: 10%"
                         ></div>
                       </div>
-                      <small class=""
+                      <small class="d-none"
                         ><i
                           class="bx bx-error-circle"
                           style="vertical-align: middle"
@@ -414,21 +485,286 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="right d-flex flex-column gap-3">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Dispatch Status</h5>
-                  <select class="form-select fs-5" id="dispatchStatus">
-                    <option value="0" class="text-success fw-medium fs-6">
-                      For Dispatch
-                    </option>
-                    <option value="1" class="text-danger fw-medium fs-6">
-                      Non Dispatch
-                    </option>
-                  </select>
+              <div class="bot d-flex flex-column">
+                <div
+                  class="d-flex justify-content-between align-items-center header"
+                >
+                  <div class="title">Japan Dispatch History</div>
+                  <div>
+                    <select class="form-select form-select-sm">
+                      <option value="0">All</option>
+                      <option value="1" selected>This Year Only</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="table-cont overflow-auto">
+                  <table class="table">
+                    <thead class="sticky-top">
+                      <tr>
+                        <th>No.</th>
+                        <th>Date to Japan</th>
+                        <th>Date to Philippines</th>
+                        <th>No. of Days</th>
+                        <th>No. of 5-Years Visa</th>
+
+                        <th>Total Days past 1 year</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>07 AUG 2023</td>
+                        <td>20 NOV 2023</td>
+                        <td>105</td>
+                        <td>DA7926897</td>
+
+                        <td>105</td>
+                        <th>
+                          <div class="d-flex gap-2">
+                            <button class="btn-edit" title="Edit Entry">
+                              <i class="bx bxs-edit fs-5"></i>
+                            </button>
+                            <button class="btn-delete" title="Delete Entry">
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
+            <div class="right d-flex gap-3">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Latest Passport</h5>

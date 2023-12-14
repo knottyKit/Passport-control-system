@@ -37,9 +37,11 @@ $(document).on("click", ".seeMore", function () {
 });
 $(document).on("click", "#menu", function () {
   $(".navigation").addClass("open");
+  $("body").addClass("overflow-hidden");
 });
 $(document).on("click", "#closeNav", function () {
   $(".navigation").removeClass("open");
+  $("body").removeClass("overflow-hidden");
 });
 $(document).on("mouseenter", ".editThis", function () {
   $(this).addClass("hov");
@@ -123,13 +125,19 @@ function checkLogin() {
 function mainHeight() {
   var title = $(".pageTitle").css("height");
 
-  if ($(window).width() > 768) {
+  if ($(window).width() > 1456) {
     $(".main").css("height", `calc(100vh - ${title}`);
     console.log(title);
   } else {
-    $(".main").css("height", `100%`);
+    $(".main").css("height", ``);
   }
 }
+// function resizeTable() {
+//   var h1 = parseInt($(".top").css("height"));
+//   var h2 = parseInt($(".mid").css("height"));
+
+//   $(".bot").css("height", h1 + h2);
+// }
 function dispatchStatus() {
   var stat = $("#dispatchStatus").val();
   if (stat == 0) {
