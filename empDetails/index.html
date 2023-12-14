@@ -358,6 +358,52 @@
     </div>
   </div>
 
+  <div
+    class="modal fade"
+    id="deleteEntry"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Delete Entry
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2">
+            Are you sure you want to delete this Japan Dispatch entry
+            <span class="fw-semibold">no. <span id="storeId"></span></span>
+            ?
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel btn-secondary">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger fw-medium"
+            id="btn-deleteEntry"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- #endregion modal-->
 
   <body>
@@ -437,6 +483,7 @@
                   <div class="disStat d-flex gap-2 align-items-center">
                     <h4 class="m-0">
                       <span class="badge bg-success">For Dispatch</span>
+                      <span class="badge bg-danger d-none">Non Dispatch</span>
                     </h4>
                     <i
                       class="bx bxs-edit fs-5"
@@ -505,7 +552,6 @@
                         <th>Date to Japan</th>
                         <th>Date to Philippines</th>
                         <th>No. of Days</th>
-                        <th>No. of 5-Years Visa</th>
 
                         <th>Total Days past 1 year</th>
                         <th></th>
@@ -517,247 +563,92 @@
                         <td>07 AUG 2023</td>
                         <td>20 NOV 2023</td>
                         <td>105</td>
-                        <td>DA7926897</td>
 
                         <td>105</td>
-                        <th>
+                        <td>
                           <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
+                            <!-- <button class="btn-edit" title="Edit Entry">
                               <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
+                            </button> -->
+                            <button
+                              class="btn-delete"
+                              title="Delete Entry"
+                              data-bs-toggle="modal"
+                              data-bs-target="#deleteEntry"
+                            >
                               <i class="bx bx-trash fs-5"></i>
                             </button>
                           </div>
-                        </th>
+                        </td>
                       </tr>
                       <tr>
                         <td>1</td>
                         <td>07 AUG 2023</td>
                         <td>20 NOV 2023</td>
                         <td>105</td>
-                        <td>DA7926897</td>
 
                         <td>105</td>
-                        <th>
+                        <td>
                           <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
+                            <!-- <button class="btn-edit" title="Edit Entry">
                               <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
+                            </button> -->
+                            <button
+                              class="btn-delete"
+                              title="Delete Entry"
+                              data-bs-toggle="modal"
+                              data-bs-target="#deleteEntry"
+                            >
                               <i class="bx bx-trash fs-5"></i>
                             </button>
                           </div>
-                        </th>
+                        </td>
                       </tr>
                       <tr>
-                        <td>1</td>
+                        <td>2</td>
                         <td>07 AUG 2023</td>
                         <td>20 NOV 2023</td>
                         <td>105</td>
-                        <td>DA7926897</td>
 
                         <td>105</td>
-                        <th>
+                        <td>
                           <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
+                            <!-- <button class="btn-edit" title="Edit Entry">
                               <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
+                            </button> -->
+                            <button
+                              class="btn-delete"
+                              title="Delete Entry"
+                              data-bs-toggle="modal"
+                              data-bs-target="#deleteEntry"
+                            >
                               <i class="bx bx-trash fs-5"></i>
                             </button>
                           </div>
-                        </th>
+                        </td>
                       </tr>
                       <tr>
-                        <td>1</td>
+                        <td>31</td>
                         <td>07 AUG 2023</td>
                         <td>20 NOV 2023</td>
                         <td>105</td>
-                        <td>DA7926897</td>
 
                         <td>105</td>
-                        <th>
+                        <td>
                           <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
+                            <!-- <button class="btn-edit" title="Edit Entry">
                               <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
+                            </button> -->
+                            <button
+                              class="btn-delete"
+                              title="Delete Entry"
+                              data-bs-toggle="modal"
+                              data-bs-target="#deleteEntry"
+                            >
                               <i class="bx bx-trash fs-5"></i>
                             </button>
                           </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>07 AUG 2023</td>
-                        <td>20 NOV 2023</td>
-                        <td>105</td>
-                        <td>DA7926897</td>
-
-                        <td>105</td>
-                        <th>
-                          <div class="d-flex gap-2">
-                            <button class="btn-edit" title="Edit Entry">
-                              <i class="bx bxs-edit fs-5"></i>
-                            </button>
-                            <button class="btn-delete" title="Delete Entry">
-                              <i class="bx bx-trash fs-5"></i>
-                            </button>
-                          </div>
-                        </th>
+                        </td>
                       </tr>
                     </tbody>
                   </table>

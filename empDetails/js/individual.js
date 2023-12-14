@@ -103,6 +103,23 @@ $(document).on("click", "#updateVisa .btn-close", function () {
 </button>
   `);
 });
+$(document).on("click", ".btn-delete", function () {
+  var num = $(this).closest("tr").find("td:first-of-type").html();
+  $("#storeId").html(num);
+});
+$(document).on("click", "#btn-deleteEntry", function () {
+  var num = parseInt($("#storeId").html());
+
+  $(".bot table tbody tr")
+    .find("td:first-of-type")
+    .filter(function () {
+      return parseInt($(this).text()) === num;
+    })
+    .closest("tr")
+    .remove();
+
+  $("#deleteEntry .btn-close").click();
+});
 //#endregion
 
 //#region FUNCTIONS
