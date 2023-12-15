@@ -90,13 +90,13 @@ nav li.active {
   width: calc(100% - 480px);
   padding: 30px;
 }
-.left .top {
+.ctaCard {
   height: 400px;
 }
-.left .top .contain {
+.ctaCard .contain {
   background-color: var(--main);
 }
-.left .top .contain .left h1 {
+.ctaCard .contain .left h1 {
   font-size: 48px;
 }
 .left .bottom {
@@ -143,11 +143,11 @@ table tbody tr:hover {
   padding: 30px;
   width: 480px;
 }
-.right .top {
+.alert1 {
   height: 50%;
   background-color: #fff;
 }
-.right .bottom {
+.alert2 {
   height: 50%;
   background-color: #fff;
 }
@@ -169,16 +169,21 @@ table tbody tr:hover {
 .visaExp table tbody tr {
   cursor: pointer;
 }
-.right .bottom .imgCont,
-.right .top .imgCont {
+.alert2,
+.alert1 {
+  height: 100%;
+  width: 100%;
+}
+.alert2 .imgCont,
+.alert1 .imgCont {
   pointer-events: none;
   position: absolute;
   bottom: 0;
   right: -35px;
   width: 50%;
 }
-.right .bottom .imgCont img,
-.right .top .imgCont img {
+.alert2 .imgCont img,
+.alert1 .imgCont img {
   opacity: 0.015;
 }
 
@@ -207,7 +212,7 @@ table tbody tr:hover {
   }
 }
 @media (max-width: 1350px) {
-  .left .top .contain .left h1 {
+  .ctaCard .contain .left h1 {
     font-size: 32px;
   }
 
@@ -221,7 +226,7 @@ table tbody tr:hover {
   }
 }
 @media (max-width: 1570px) {
-  .left .top .contain .left h1 {
+  .ctaCard .contain .left h1 {
     font-size: 38px;
   }
   .cta {
