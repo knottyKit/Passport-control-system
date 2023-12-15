@@ -9,7 +9,6 @@ date_default_timezone_set('Asia/Manila');
 
 #region Initialize Variable
 $empID = 0;
-$emp = array();
 #endregion
 
 #region get data values
@@ -24,15 +23,15 @@ try {
     WHERE emp_number = :empID";
     $empStmt = $connpcs->prepare($empQuery);
     $empStmt->execute([":empID" => "$empID"]);
-    $empDeets = $empStmt->fetchAll();
+    $empDeets = $empStmt->fetch();
 
-    foreach ($empDeets as $val) {
-        $val["pictureLink"] = "path/" . $val["id"] . "/picture.jpg";
-        array_push($emp, $val);
-    }
+    // foreach ($empDeets as $val) {
+    // $val["pictureLink"] = "path/" . $val["id"] . "/picture.jpg";
+    // }
+    $empDeets["pictureLink"] = "./EmployeesFolder/" . $empDeets["id"] . "/picture.jpg";
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 #endregion
 
-echo json_encode($emp);
+echo json_encode($empDeets);

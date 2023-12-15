@@ -1,22 +1,21 @@
 //#region GLOBALS
-switch (document.location.hostname) {
-  case "kdt-ph":
-    rootFolder = "//kdt-ph/";
-    break;
-  case "localhost":
-    rootFolder = "//localhost/";
-    break;
-  default:
-    rootFolder = "//kdt-ph/";
-    break;
-}
-var empDetails = [];
+var empID = 0;
 
 //#endregion
-checkLogin();
 
 //#region BINDS
 $(document).ready(function () {
+  const url_string = window.location;
+  const url = new URL(url_string);
+  empID = url.searchParams.get("id");
+
+  Promise.all([getEmployeeDetails()])
+    .then(([emps]) => {
+      fillDetails(emps);
+    })
+    .catch((error) => {
+      alert(`${error}`);
+    });
   mainHeight();
   dispatchStatus();
 });
@@ -123,22 +122,6 @@ $(document).on("click", "#btn-deleteEntry", function () {
 //#endregion
 
 //#region FUNCTIONS
-
-function checkLogin() {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: "php/check_login.php",
-      success: function (data) {
-        const emp_deets = $.parseJSON(data);
-        if (Object.keys(emp_deets).length < 1) {
-          reject("Not logged in"); // Reject the promise
-        } else {
-          resolve(emp_deets); // Resolve the promise with empDetails
-        }
-      },
-    });
-  });
-}
 function mainHeight() {
   var title = $(".pageTitle").css("height");
 
@@ -164,5 +147,35 @@ function dispatchStatus() {
     $("#dispatchStatus").addClass("text-danger").removeClass("text-success");
   }
 }
-
+function getEmployeeDetails() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: "php/get_emp_details.php",
+      data: {
+        empID: empID,
+      },
+      dataType: "json",
+      success: function (response) {
+        const emps = response;
+        resolve(emps);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+  });
+}
+function fillDetails(empnum) {
+  $("#empId").text(`${empnum.id}`);
+  $(".surname").text(`${empnum.lastname},`);
+  $(".givenname").text(`${empnum.firstname}`);
+  $("#empPic").attr("src", `${empnum.pictureLink}`);
+}
 //#endregion
