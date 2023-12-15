@@ -27,11 +27,11 @@ try {
     $passportDeets = $passportStmt->fetchAll();
 
     foreach ($passportDeets as $val) {
-        $issued = date_create($val["issue"]);
-        $expiry = date_create($val["expiry"]);
+        $expiry = new DateTime($val["expiry"]);
+        $dateNow = new DateTime();
         $val["valid"] = true;
 
-        if ($expiry < $issued) {
+        if ($expiry < $dateNow) {
             $val["valid"] = false;
         }
 

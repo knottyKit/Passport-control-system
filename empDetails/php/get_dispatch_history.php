@@ -27,7 +27,7 @@ if ($allyear == 1) {
 
 #region main function
 try {
-    $dispatchQ = "SELECT dispatch_id as id, dispatch_from as fromDate, dispatch_to as toDate FROM dispatch_list WHERE emp_number = :empID $yearQuery";
+    $dispatchQ = "SELECT dispatch_id as id, dispatch_from as fromDate, dispatch_to as toDate FROM dispatch_list WHERE emp_number = :empID $yearQuery ORDER BY dispatch_from DESC";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":empID" => "$empID"]);
     $dispatchDeets = $dispatchStmt->fetchAll();
