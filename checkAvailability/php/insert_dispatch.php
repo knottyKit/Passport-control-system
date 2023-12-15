@@ -11,16 +11,10 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 $errorMsg = array();
 $empNumber = NULL;
-if (!empty($_POST['empNum'])) {
-    $empNumber = $_POST['empNum'];
+if (!empty($_POST['empID'])) {
+    $empNumber = $_POST['empID'];
 } else {
     $errorMsg['empnum'] = "Employee Number Missing";
-}
-$locID = NULL;
-if (!empty($_POST['locID'])) {
-    $locID = $_POST['locID'];
-} else {
-    $errorMsg['location'] = "Location Missing";
 }
 $dateFrom = date("Y-m-d");
 if (!empty($_POST['dateFrom'])) {
@@ -41,14 +35,14 @@ $newRange = [
 if (checkOverlap($empNumber, $newRange)) {
     $errorMsg['conflict'] = "Dispatch Conflict";
 }
-$insertQ = "INSERT INTO `dispatch_list`(`emp_number`,`location_id`,`dispatch_from`,`dispatch_to`) VALUES (:empNumber,:locID,:dateFrom,:dateTo)";
+$insertQ = "INSERT INTO `dispatch_list`(`emp_number`,`dispatch_from`,`dispatch_to`) VALUES (:empNumber,:dateFrom,:dateTo)";
 $insertStmt = $connpcs->prepare($insertQ);
 #endregion
 
 #region Entries Query
 try {
     if (empty($errorMsg)) {
-        $insertStmt->execute([":empNumber" => $empNumber, ":locID" => $locID, ":dateFrom" => $dateFrom, ":dateTo" => $dateTo]);
+        $insertStmt->execute([":empNumber" => $empNumber, ":dateFrom" => $dateFrom, ":dateTo" => $dateTo]);
     }
 } catch (Exception $e) {
     $errorMsg['catch'] =  "Connection failed: " . $e->getMessage();
@@ -57,4 +51,6 @@ try {
 #endregion
 if (!empty($errorMsg)) {
     echo json_encode(array('errors' => $errorMsg), JSON_PRETTY_PRINT);
+} else {
+    echo json_encode([]);
 }

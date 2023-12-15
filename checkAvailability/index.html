@@ -129,7 +129,7 @@
                 <div class="mb-3 row">
                   <label for="" class="col-sm-3 col-form-label">Group</label>
                   <div class="col-sm-9">
-                    <select name="" class="form-select form-select-sm" id="">
+                    <select name="" class="form-select form-select-sm" id="grpSel">
                       <option value="">SYS</option>
                       <option value="">SYS1</option>
                       <option value="">SYS2</option>
@@ -139,7 +139,7 @@
                 <div class="mb-3 row">
                   <label for="" class="col-sm-3 col-form-label">Name</label>
                   <div class="col-sm-9">
-                    <select name="" class="form-select form-select-sm" id="">
+                    <select name="" class="form-select form-select-sm" id="empSel">
                       <option value="">Collene Medrano</option>
                       <option value="">Kit Medrano</option>
                       <option value="">Kwinkad</option>
@@ -154,8 +154,8 @@
                     <div class="h-100 d-flex align-items-center">
                       <input
                         type="date"
-                        class="form-control form-control-sm"
-                        id=""
+                        class="form-control form-control-sm ddates"
+                        id="startDate"
                       />
                     </div>
                   </div>
@@ -168,8 +168,8 @@
                     <div class="h-100 d-flex align-items-center">
                       <input
                         type="date"
-                        class="form-control form-control-sm"
-                        id=""
+                        class="form-control form-control-sm ddates"
+                        id="endDate"
                       />
                     </div>
                   </div>
@@ -179,7 +179,7 @@
                     >Total days</label
                   >
                   <div class="col-sm-9">
-                    <h5 class="d-flex align-items-center h-100">90 days</h5>
+                    <h5 class="d-flex align-items-center h-100" id="daysCount"></h5>
                   </div>
                 </div>
 
@@ -189,7 +189,7 @@
               </div>
               <div class="d-flex justify-content-end gap-2">
                 <button class="btn btn-clear">Clear</button>
-                <button class="btn btn-dispatch">Apply dispatch</button>
+                <button class="btn btn-dispatch" id="btnApply">Apply dispatch</button>
               </div>
             </div>
             <div class="right rounded-2">
@@ -338,9 +338,9 @@
                 <div
                   class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3"
                 >
-                  <div class="label">Total Days of Dispatch this Year</div>
+                  <div class="label">Estimated Total Days of Dispatch this Year</div>
                   <div>
-                    <div class="count">90 days</div>
+                    <div class="count" id="rangeCount">90 days</div>
                     <!-- <div class="progress" role="progressbar">
                      <div
                        class="progress-bar progress-bar-striped bg-success"
@@ -360,7 +360,7 @@
                           style="vertical-align: middle"
                         ></i
                         ><span class="ps-1"
-                          >Warning: Total dispatch days already exceeded 183
+                          >Warning: Total dispatch days will exceed 183
                           days for this year.</span
                         ></small
                       >
@@ -371,8 +371,8 @@
                   <div class="top d-flex justify-content-between">
                     <div class="title pb-4">Dispatch History to Japan</div>
                     <div>
-                      <select class="form-select form-select-sm">
-                        <option selected>All</option>
+                      <select class="form-select form-select-sm" id="dToggle">
+                        <option value="" selected>All</option>
                         <option value="1">This Year Only</option>
                       </select>
                     </div>
@@ -385,50 +385,50 @@
                           <th>Date to Japan</th>
                           <th>Date to Philippines</th>
                           <th>No. of Days</th>
-                          <th>No. of 5-Years Visa</th>
-                          <th>Visa Validity</th>
                           <th>Total Days past 1 year</th>
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="dList">
                         <tr>
                           <td>1</td>
                           <td>07 AUG 2023</td>
                           <td>20 NOV 2023</td>
                           <td>105</td>
-                          <td>DA7926897</td>
-                          <td><span class="badge bg-success">Valid</span></td>
                           <td>105</td>
-                          <th>
+                          <td>
                             <div class="d-flex gap-2">
-                              <button class="btn-edit">
-                                <i class="bx bxs-edit fs-5"></i>
-                              </button>
-                              <button class="btn-delete">
-                                <i class="bx bx-trash fs-5"></i>
-                              </button>
-                            </div>
-                          </th>
+                            <button
+                              class="btn-delete"
+                              title="Delete Entry"
+                              data-bs-toggle="modal"
+                              data-bs-target="#deleteEntry"
+                            >
+                              <i class="bx bx-trash fs-5"></i>
+                            </button>
+                          </div>
+                          </td>
+                          
+                        </td>
                         </tr>
                         <tr>
                           <td>1</td>
                           <td>07 AUG 2023</td>
                           <td>20 NOV 2023</td>
                           <td>105</td>
-                          <td>DA7926897</td>
-                          <td><span class="badge bg-success">Valid</span></td>
                           <td>105</td>
-                          <th>
+                          <td>
                             <div class="d-flex gap-2">
-                              <button class="btn-edit">
-                                <i class="bx bxs-edit fs-5"></i>
-                              </button>
-                              <button class="btn-delete">
+                              <button
+                                class="btn-delete"
+                                title="Delete Entry"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteEntry"
+                              >
                                 <i class="bx bx-trash fs-5"></i>
                               </button>
                             </div>
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
