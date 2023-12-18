@@ -17,6 +17,14 @@ $(document).ready(function () {
 $(window).on("resize", function () {
   mainHeight();
 });
+$(document).on("click", "#menu", function () {
+  $(".navigation").addClass("open");
+  $("body").addClass("overflow-hidden");
+});
+$(document).on("click", "#closeNav", function () {
+  $(".navigation").removeClass("open");
+  $("body").removeClass("overflow-hidden");
+});
 $(document).on("click", ".table-titles .title.first", function () {
   $(".table-titles .title.second, .table-two").removeClass("active");
   $(this).addClass("active");
@@ -159,7 +167,7 @@ function fillEmployees(emps) {
 function checkEmpty(tbodyID) {
   var tbodySelector = "#" + tbodyID;
   if ($(tbodySelector + " tr").length === 0) {
-    var newRow = '<tr><td colspan="6">No data found</td></tr>';
+    var newRow = `<tr><td colspan="6" class="text-center">No data found</td></tr>`;
     $(tbodySelector).append(newRow);
   }
 }

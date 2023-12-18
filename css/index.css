@@ -87,7 +87,7 @@ nav li.active {
   height: 100vh;
 }
 .main .left {
-  width: calc(100% - 480px);
+  width: calc(100% - 482px);
   padding: 30px;
 }
 .ctaCard {
@@ -212,11 +212,11 @@ table tbody tr:hover {
 }
 @media (max-width: 767px) {
   .pageTitle {
-    padding: 10px !important;
+    padding: 0 !important;
     align-items: center;
   }
   .pageTitle h1 {
-    font-size: 24px;
+    font-size: 24px !important;
   }
   .expirations {
     flex-direction: column;
