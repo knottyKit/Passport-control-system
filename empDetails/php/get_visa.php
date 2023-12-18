@@ -9,7 +9,7 @@ date_default_timezone_set('Asia/Manila');
 
 #region Initialize Variable
 $empID = 0;
-$visa = array();
+$visaDeets = array();
 #endregion
 
 #region get data values
@@ -23,22 +23,19 @@ try {
     $visaQ = "SELECT visa_number as number, visa_issue as issue, visa_expiry as expiry FROM visa_details WHERE emp_number = :empID";
     $visaStmt = $connpcs->prepare($visaQ);
     $visaStmt->execute([":empID" => "$empID"]);
-    $visaDeets = $visaStmt->fetchAll();
-
-    foreach ($visaDeets as $val) {
-        $expiry = new DateTime($val["expiry"]);
+    if ($visaStmt->rowCount() > 0) {
+        $visaDeets = $visaStmt->fetch();
+        $isValid = true;
+        $expiry = new DateTime($visaDeets["expiry"]);
         $dateNow = new DateTime();
-        $val["valid"] = true;
-
         if ($expiry < $dateNow) {
-            $val["valid"] = false;
+            $isValid = false;
         }
-
-        array_push($visa, $val);
+        $visaDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 #endregion
 
-echo json_encode($visa);
+echo json_encode($visaDeets);

@@ -9,7 +9,7 @@ date_default_timezone_set('Asia/Manila');
 
 #region Initialize Variable
 $empID = 0;
-$passport = array();
+$passportDeets = array();
 #endregion
 
 #region get data values
@@ -24,22 +24,19 @@ try {
     WHERE emp_number = :empID";
     $passportStmt = $connpcs->prepare($passportQ);
     $passportStmt->execute([":empID" => "$empID"]);
-    $passportDeets = $passportStmt->fetchAll();
-
-    foreach ($passportDeets as $val) {
-        $expiry = new DateTime($val["expiry"]);
+    if ($passportStmt->rowCount() > 0) {
+        $passportDeets = $passportStmt->fetch();
+        $isValid = true;
+        $expiry = new DateTime($passportDeets["expiry"]);
         $dateNow = new DateTime();
-        $val["valid"] = true;
-
         if ($expiry < $dateNow) {
-            $val["valid"] = false;
+            $isValid = false;
         }
-
-        array_push($passport, $val);
+        $passportDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 #endregion
 
-echo json_encode($passport);
+echo json_encode($passportDeets);

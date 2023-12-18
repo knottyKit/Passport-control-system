@@ -10,7 +10,7 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 $allyear = $empID = 0;
 $year = date("Y");
-$yearQuery = "AND date_added LIKE '%$year%'";
+$yearQuery = "";
 $dispatch = array();
 #endregion
 
@@ -18,14 +18,13 @@ $dispatch = array();
 if (!empty($_POST["empID"])) {
     $empID = $_POST["empID"];
 }
-if (!empty($_POST['allyear'])) {
-    $allyear = $_POST['allyear'];
+if (!empty($_POST['yScope'])) {
+    $allyear = $_POST['yScope'];
 }
 if ($allyear == 1) {
-    $yearQuery = "";
+    $yearQuery = "AND (dispatch_from LIKE '$year-%' OR dispatch_to LIKE '$year-%')";
 }
-
-#region main function
+#region mains
 try {
     $dispatchQ = "SELECT dispatch_id as id, dispatch_from as fromDate, dispatch_to as toDate FROM dispatch_list WHERE emp_number = :empID $yearQuery ORDER BY dispatch_from DESC";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
@@ -38,6 +37,8 @@ try {
 
         $difference = $from->diff($to)->format("%a");
         $val["duration"] = $difference + 1;
+        $pastOne = getPastOneYear($empID, $val["toDate"]);
+        $val["pastOne"] = $pastOne;
         array_push($dispatch, $val);
     }
 } catch (Exception $e) {
@@ -45,4 +46,21 @@ try {
 }
 #endregion
 
+#region FUNCTIONS
+function getPastOneYear($empID, $lastDay)
+{
+    global $connpcs;
+    $firstDay = date('Y-m-d', strtotime($lastDay . '-1 year'));
+    $dispatchQ = "SELECT
+SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year
+FROM `dispatch_list`
+WHERE :startYear BETWEEN `dispatch_from` AND `dispatch_to`
+OR :endYear BETWEEN `dispatch_from` AND `dispatch_to`
+OR `dispatch_from` >= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
+    $dispatchStmt = $connpcs->prepare($dispatchQ);
+    $dispatchStmt->execute([":startYear" => $firstDay, ":endYear" => $lastDay, ":empID" => $empID]);
+    $dispatchCount = $dispatchStmt->fetchColumn();
+    return (int)$dispatchCount;
+}
+#endregion
 echo json_encode($dispatch);
