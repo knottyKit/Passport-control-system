@@ -97,6 +97,9 @@ nav li.active {
   background-color: var(--main);
   padding: 50px;
 }
+.cta .right p {
+  font-size: 1rem;
+}
 .ctaCard .contain .left h1 {
   font-size: 48px;
 }
@@ -112,6 +115,7 @@ nav li.active {
   padding: 20px 40px;
   font-size: 20px;
   transition: background-color 0.3s ease-in-out;
+  white-space: nowrap;
 }
 .btn-checkAvail:hover {
   background-color: var(--darkest);
@@ -189,6 +193,7 @@ table tbody tr:hover {
 .cta {
   height: 100%;
   gap: 50px;
+  flex-direction: column;
 }
 .cta h1 {
   padding-top: 85px;
@@ -212,6 +217,25 @@ table tbody tr:hover {
   }
   .pageTitle h1 {
     font-size: 24px;
+  }
+  .expirations {
+    flex-direction: column;
+    height: 750px !important;
+  }
+}
+@media (max-width: 1024px) {
+  .main .left {
+    padding: 20px;
+  }
+  .cta .rightt p {
+    font-size: 14px !important;
+  }
+  .cta {
+    gap: 50px !important;
+  }
+  .picWave {
+    bottom: -80px !important;
+    left: 10px !important;
   }
 }
 @media (max-width: 1350px) {
@@ -247,10 +271,11 @@ table tbody tr:hover {
   }
   .right {
     width: 100%;
-    height: 300px;
+    height: 100%;
+    padding: 0 20px 20px 20px !important;
   }
   .left .bottom {
-    height: 500px;
+    height: 400px;
   }
   .right {
     padding: 30px;
@@ -268,17 +293,19 @@ table tbody tr:hover {
     padding-top: 0;
   }
   .cta {
-    text-align: center;
-    gap: 30px;
+    gap: 100px;
     flex-direction: row;
   }
   .btn-checkAvail {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 15px 25px;
+    font-size: 18px;
   }
   .picWave {
     bottom: -150px;
     left: 150px;
+  }
+  .picTravel {
+    scale: 55%;
   }
 }
 
