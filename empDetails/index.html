@@ -331,7 +331,11 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel btn-secondary" id="cancelStat">
+          <button
+            type="button"
+            class="btn btn-cancel btn-secondary"
+            id="cancelStat"
+          >
             Cancel
           </button>
           <button
@@ -371,7 +375,9 @@
         <div class="modal-body">
           <p class="mb-2">
             Are you sure you want to delete this Japan Dispatch entry
-            <span class="fw-semibold">no. <span id="storeId" del-id="0"></span></span>
+            <span class="fw-semibold"
+              >no. <span id="storeId" del-id="0"></span
+            ></span>
             ?
           </p>
         </div>
@@ -426,14 +432,14 @@
                 </div>
               </li></a
             >
-            <a href="#"
+            <!-- <a href="#"
               ><li>
                 <div class="d-flex align-items-center gap-2">
                   <i class="bx bx-history fs-5"></i>
                   <p>History Logs</p>
                 </div>
               </li></a
-            >
+            > -->
           </ul>
         </nav>
       </div>
@@ -464,13 +470,15 @@
             <div class="left d-flex gap-4 flex-column h-100">
               <div class="top d-flex gap-3">
                 <div class="pic">
-                  <img src="./images/empPic.jpg" alt="" id="empPic"/>
+                  <img src="./images/empPic.jpg" alt="" id="empPic" />
                 </div>
 
                 <div class="personal d-flex flex-column">
                   <div class="disStat d-flex gap-2 align-items-center">
                     <h4 class="m-0">
-                      <span class="badge bg-success" id="dStat">For Dispatch</span>
+                      <span class="badge bg-success" id="dStat"
+                        >For Dispatch</span
+                      >
                       <!-- <span class="badge bg-danger">Non Dispatch</span> -->
                     </h4>
                     <i
@@ -657,7 +665,8 @@
                       <div class="col-8 d-flex align-items-center">
                         <!-- <span class="badge bg-success" id="passStatus">Valid</span> -->
                         <span class="badge bg-danger" id="passStatus"
-                          >Expired</span>
+                          >Expired</span
+                        >
                       </div>
                     </div>
                     <div class="row">

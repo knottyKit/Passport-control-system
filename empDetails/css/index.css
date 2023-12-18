@@ -275,6 +275,9 @@ table thead tr {
   .back {
     padding-bottom: 20px !important;
   }
+  .bot {
+    height: 300px;
+  }
 }
 @media (max-width: 1050px) {
   .left .empName {
