@@ -53,13 +53,15 @@ p {
 .navigation {
   width: 250px;
   height: 100vh;
-  background-color: var(--bg);
+  border-right: 2px solid #dedede;
   z-index: 2;
 }
 .content {
   width: calc(100% - 250px);
   height: 100vh;
   z-index: 1;
+  background-color: #f2f2f2;
+  overflow: auto;
 }
 nav {
   padding: 64px 16px 16px 16px;
@@ -80,6 +82,9 @@ nav li.active {
 .content .main {
   height: calc(100vh - 55px);
 }
+.pageTitle {
+  padding: 20px;
+}
 .back a span,
 .back a i {
   color: #555 !important;
@@ -91,9 +96,17 @@ nav li.active {
   color: var(--tertiary) !important;
 }
 .main .left {
-  width: 500px;
+  width: 550px;
   height: 100%;
   font-size: 14px !important;
+  padding: 30px;
+}
+.cards {
+  gap: 20px;
+}
+.card {
+  width: 400px;
+  position: relative;
 }
 .btn-dispatch {
   background-color: var(--tertiary) !important;
@@ -113,16 +126,15 @@ nav li.active {
 }
 
 .right {
-  width: calc(100% - 500px);
-  border: 2px solid #c7c7c7;
+  width: calc(100% - 550px);
+  border-left: 2px solid #c7c7c7;
+  border-top: 0;
+  padding: 30px;
 }
-.cards .passport {
-  height: 250px;
-  width: 400px;
-  background-image: url("../images/gradient.svg");
-  background-color: rgba(255, 255, 255, 0.5);
-  background-size: cover;
+.table-cont {
+  height: calc(100% - 54px);
 }
+
 .passport .passportDetail label,
 .visa .visaDetail label {
   position: absolute;
@@ -149,13 +161,7 @@ nav li.active {
   width: 100%;
   height: auto;
 }
-.cards .visa {
-  height: 250px;
-  width: 400px;
-  background-image: url("../images/gradientvisa.svg");
-  background-color: rgba(255, 255, 255, 0.5);
-  background-size: cover;
-}
+
 .status {
   bottom: 10%;
   left: 0;
@@ -170,6 +176,9 @@ nav li.active {
 }
 .status span.invalid {
   color: var(--red-color);
+}
+.dispatch-hist {
+  height: calc(100% - 480px);
 }
 .dispatch-hist table thead th {
   text-transform: uppercase;
@@ -213,4 +222,126 @@ nav li.active {
 }
 .prog-cont small {
   color: var(--red-color);
+}
+
+.editThis {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--tertiary);
+  opacity: 0;
+  flex-direction: column;
+  border-radius: 5px;
+  transition: opacity 0.25s ease-out;
+}
+
+.editThis i {
+  font-size: 150px;
+}
+.editThis h1 {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.editThis.hov {
+  opacity: 0.75;
+  cursor: pointer;
+}
+@media (max-width: 767px) {
+  .pageTitle {
+    padding: 10px !important;
+    align-items: center;
+  }
+  .pageTitle h1 {
+    font-size: 24px;
+  }
+}
+@media (max-width: 842px) {
+  .left {
+    width: 100% !important;
+  }
+}
+@media (max-width: 954px) {
+  .cards {
+    flex-direction: column;
+  }
+  .cards .card {
+    width: 100%;
+  }
+  .main {
+    height: 100% !important;
+  }
+}
+@media (max-width: 1490px) {
+  .view {
+    flex-direction: column;
+  }
+  .right {
+    width: 100%;
+    border-left: 0;
+    border-top: 2px solid #c7c7c7;
+  }
+  .table-cont {
+    height: 300px;
+  }
+}
+
+/* SMALLSCREEN NAVIGATION */
+#closeNav,
+#menu {
+  height: 35px;
+  width: 35px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  opacity: 0.5;
+}
+#closeNav:hover,
+#menu:hover {
+  opacity: 1;
+}
+#closeNav i {
+  transition: transform 0.35s ease;
+}
+#closeNav:hover i {
+  transform: rotate(90deg);
+  color: var(--red-color);
+}
+#menu i {
+  transition: color 0.35s ease;
+}
+#menu:hover i {
+  color: var(--tertiary);
+}
+
+#menu,
+#closeNav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .content {
+    height: 100%;
+    width: 100vw;
+  }
+  .navigation {
+    position: absolute;
+    left: -100%;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    background-color: #fff;
+    transition: all 0.25s ease-out;
+  }
+  .navigation.open {
+    left: 0;
+    opacity: 1;
+  }
+  #menu,
+  #closeNav {
+    display: block;
+  }
 }

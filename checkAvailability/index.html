@@ -75,8 +75,14 @@
   <body>
     <div class="home-content position-relative d-flex">
       <div class="navigation">
-        <div class="title p-3">
+        <div class="title p-3 d-flex justify-content-between align-items-center">
           <h5 class="fw-semibold text-center">Passport Control System</h5>
+          <div
+            id="closeNav"
+            class="justify-content-center align-items-center m-0"
+          >
+            <i class="bx bx-x fs-3"></i>
+          </div>
         </div>
         <nav>
           <ul class="list-unstyled d-grid gap-2">
@@ -96,35 +102,39 @@
                 </div>
               </li></a
             >
-            <a href="#"
+            <!-- <a href="#"
               ><li>
                 <div class="d-flex align-items-center gap-2">
                   <i class="bx bx-history fs-5"></i>
                   <p>History Logs</p>
                 </div>
               </li></a
-            >
+            > -->
           </ul>
         </nav>
       </div>
       <div class="content">
-        <div
+        <!-- <div
           class="topbar shadow-sm d-flex justify-content-end align-items-center px-3"
         >
           <h5 class="user m-0">Hello, Joshua</h5>
+        </div> -->
+        <div class="pageTitle w-100 gap-3 d-flex">
+          <div id="menu">
+            <i class="bx bx-menu-alt-left fs-3"></i>
+          </div>
+          <h1 class="fw-semibold m-0">Apply for Dispatch</h1>
         </div>
         <div class="main w-100">
-          <div class="p-3 back">
-            <a href="../" class="d-flex gap-2 align-items-center">
+          <div class="w-100 d-flex px-3 back">
+            <a href="../" class="d-flex align-items-center">
               <i class="bx bx-arrow-back fs-5"></i>
-              <span>Back to dashboard</span>
+              <span class="ps-2">Go back to Dashboard</span>
             </a>
           </div>
-          <div class="d-flex gap-5 px-5 pb-5" style="height: calc(100% - 56px)">
+          <div class="d-flex view" style="height: calc(100% - 56px)">
             <div class="left">
-              <div class="title pb-5">
-                <h1>Apply for Dispatch</h1>
-              </div>
+             
               <div class="">
                 <div class="mb-3 row">
                   <label for="" class="col-sm-3 col-form-label">Group</label>
@@ -143,6 +153,16 @@
                       <option value="">Collene Medrano</option>
                       <option value="">Kit Medrano</option>
                       <option value="">Kwinkad</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="" class="col-sm-3 col-form-label">Location</label>
+                  <div class="col-sm-9">
+                    <select name="" class="form-select form-select-sm" id="empSel">
+                      <option value="0" hidden >Kobe</option>
+                      <option value="">Koba</option>
+                      
                     </select>
                   </div>
                 </div>
@@ -192,13 +212,145 @@
                 <button class="btn btn-dispatch" id="btnApply">Apply dispatch</button>
               </div>
             </div>
-            <div class="right rounded-2">
+            <div class="right ">
               <!-- <div class="title px-4 py-2">
                 <h5>Employee Details</h5>
               </div> -->
-              <div class="d-flex flex-column gap-4 p-4 pt-0">
-                <div class="cards d-flex p-3">
-                  <div
+              <div class="d-flex flex-column gap-4 h-100 ">
+                <div class="cards d-flex">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Latest Passport</h5>
+    
+                      <div class="card-content">
+                        <div class="pass d-none">
+                          <div class="row">
+                            <label for="passStatus" class="col-5 col-form-label"
+                              >Validity</label
+                            >
+                            <div class="col-7 d-flex align-items-center">
+                              <span class="badge bg-success">Valid</span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <label for="passNo" class="col-5 col-form-label"
+                              >Passport no.</label
+                            >
+                            <div class="col-7 d-flex align-items-center">
+                              <span class="" id="passNo">P6241898A</span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <label for="passBday" class="col-5 col-form-label"
+                              >Birth date</label
+                            >
+                            <div class="col-7 d-flex align-items-center">
+                              <span class="" id="passBday">1983/12/24</span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <label for="passIssue" class="col-5 col-form-label"
+                              >Date issue</label
+                            >
+                            <div class="col-7 d-flex align-items-center">
+                              <span class="" id="passIssue">3/1/2018</span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <label for="passExp" class="col-5 col-form-label"
+                              >Valid until</label
+                            >
+                            <div class="col-7 d-flex align-items-center">
+                              <span class="" id="passExp">2/29/2028</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="emptyState-pass  w-100 p-3 d-flex justify-content-center align-items-center flex-column" style="opacity: .25;">
+                          <img src="../images/passport.png" alt="" style="width: 100px;">
+                          <span class="fw-semibold p-3">No Passport Found</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="editThis"
+                      data-bs-target="#updatePass"
+                      data-bs-toggle="modal"
+                    >
+                      <i class="bx bx-refresh"></i>
+                      <h1>Update Passport</h1>
+                    </div>
+                  </div>
+                 
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Latest Japan Visa</h5>
+    
+                      <div class="card-content">
+                        <div class="row">
+                          <label for="visaStatus" class="col-5 col-form-label"
+                            >Validity</label
+                          >
+                          <div class="col-7 d-flex align-items-center">
+                            <span class="badge bg-danger" id="visaStatus"
+                              >Expired</span
+                            >
+                          </div>
+                        </div>
+                        <div class="row">
+                          <label for="visaDuration" class="col-5 col-form-label"
+                            >Duration</label
+                          >
+                          <div class="col-7 d-flex align-items-center">
+                            <span class="" id="visaDuration">5 Years</span>
+                          </div>
+                        </div>
+    
+                        <div class="row">
+                          <label for="visaNo" class="col-5 col-form-label"
+                            >Visa no.</label
+                          >
+                          <div class="col-7 d-flex align-items-center">
+                            <span class="" id="visaNo">P6241898A</span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <label for="visaBday" class="col-5 col-form-label"
+                            >Birth date</label
+                          >
+                          <div class="col-7 d-flex align-items-center">
+                            <span class="" id="visaBday">1983/12/24</span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <label for="visaIssue" class="col-5 col-form-label"
+                            >Date Issue</label
+                          >
+                          <div class="col-7 d-flex align-items-center">
+                            <span class="" id="visaIssue">2/29/2028</span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <label for="visaExp" class="col-5 col-form-label"
+                            >Valid until</label
+                          >
+                          <div class="col-7 d-flex align-items-center">
+                            <span class="" id="visaExp">2/29/2028</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="editThis"
+                      data-bs-target="#updateVisa"
+                      data-bs-toggle="modal"
+                    >
+                      <i class="bx bx-refresh"></i>
+                      <h1>Update Visa</h1>
+                    </div>
+                  </div>
+                  
+                  <!-- <div
                     class="col-lg-6 d-flex justify-content-center align-items-center flex-column"
                   >
                     <div>Current Passport</div>
@@ -264,8 +416,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
+                  </div> -->
+                  <!-- <div
                     class="col-lg-6 d-flex justify-content-center flex-column align-items-center"
                   >
                     <div class="text-center">Current Japan Visa</div>
@@ -333,7 +485,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div
                   class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3"
@@ -382,16 +534,19 @@
                       <thead>
                         <tr>
                           <th>No.</th>
+                          <th>Location</th>
                           <th>Date to Japan</th>
                           <th>Date to Philippines</th>
                           <th>No. of Days</th>
                           <th>Total Days past 1 year</th>
+                          
                           <th></th>
                         </tr>
                       </thead>
                       <tbody id="dList">
                         <tr>
                           <td>1</td>
+                          <td>Kobe</td>
                           <td>07 AUG 2023</td>
                           <td>20 NOV 2023</td>
                           <td>105</td>
@@ -411,25 +566,7 @@
                           
                         </td>
                         </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>07 AUG 2023</td>
-                          <td>20 NOV 2023</td>
-                          <td>105</td>
-                          <td>105</td>
-                          <td>
-                            <div class="d-flex gap-2">
-                              <button
-                                class="btn-delete"
-                                title="Delete Entry"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteEntry"
-                              >
-                                <i class="bx bx-trash fs-5"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
+                        
                       </tbody>
                     </table>
                   </div>

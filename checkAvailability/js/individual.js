@@ -23,6 +23,21 @@ $(document).ready(function () {
     .catch((error) => {
       alert(`${error}`);
     });
+  mainHeight();
+});
+$(document).on("click", "#menu", function () {
+  $(".navigation").addClass("open");
+  $("body").addClass("overflow-hidden");
+});
+$(document).on("click", "#closeNav", function () {
+  $(".navigation").removeClass("open");
+  $("body").removeClass("overflow-hidden");
+});
+$(document).on("mouseenter", ".editThis", function () {
+  $(this).addClass("hov");
+});
+$(document).on("mouseleave", ".editThis", function () {
+  $(this).removeClass("hov");
 });
 $(document).on("change", "#grpSel", function () {
   getEmployees().then((emps) => {
@@ -62,6 +77,9 @@ $(document).on("change", "#dToggle", function () {
 $(document).on("click", "#btnApply", function () {
   insertDispatch();
 });
+$(document).on("click", ".btn-clear", function () {
+  clearInput();
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -89,7 +107,7 @@ function getGroups() {
 }
 function fillGroups(grps) {
   var grpSelect = $("#grpSel");
-  grpSelect.html("<option>Select Group</option>");
+  grpSelect.html("<option value='0'>Select Group</option>");
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.id)
@@ -127,7 +145,7 @@ function getEmployees() {
 }
 function fillEmployees(emps) {
   var empSelect = $("#empSel");
-  empSelect.html("<option hidden>Select Employee</option>");
+  empSelect.html("<option value='0' hidden>Select Employee</option>");
   $.each(emps, function (index, item) {
     var option = $("<option>")
       // .attr("value", item.id)
@@ -262,7 +280,9 @@ function fillHistory(dlist) {
   var tableBody = $("#dList");
   tableBody.empty();
   if (dlist.length === 0) {
-    var noDataRow = $("<tr><td colspan='6'>No data found</td></tr>");
+    var noDataRow = $(
+      "<tr><td colspan='6' class='text-center'>No data found</td></tr>"
+    );
     tableBody.append(noDataRow);
   } else {
     $.each(dlist, function (index, item) {
@@ -364,5 +384,20 @@ function insertDispatch() {
       }
     },
   });
+}
+function clearInput() {
+  $("#grpSel, #empSel, #locSel").val(0);
+  $("#startDate, #endDate").val("");
+  $("#daysCount").text("");
+}
+function mainHeight() {
+  var title = $(".pageTitle").css("height");
+
+  if ($(window).width() > 1456) {
+    $(".main").css("height", `calc(100vh - ${title}`);
+    console.log(title);
+  } else {
+    $(".main").css("height", ``);
+  }
 }
 //#endregion
