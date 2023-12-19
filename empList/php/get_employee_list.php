@@ -34,26 +34,43 @@ try {
     ON ed.emp_number = pd.emp_number LEFT JOIN visa_details as vd ON ed.emp_number = vd.emp_number WHERE $groupQuery";
     $empStmt = $connpcs->prepare($employeesQuery);
     $empStmt->execute([]);
-    $employeeDeets = $empStmt->fetchAll();
-
-    if (!empty($_POST["searchkey"])) {
-        $searchkey = $_POST["searchkey"];
-
-        foreach ($employeeDeets as $val) {
-            $lastname = strtolower($val["lastname"]);
-            $firstname = strtolower($val["firstname"]);
-            $empID = $val["empID"];
-
-            if (strpos($lastname, $searchkey) !== false) {
-                array_push($employees, $val);
-            } else if (strpos($firstname, $searchkey) !== false) {
-                array_push($employees, $val);
-            } else if (strpos($empID, $searchkey) !== false) {
-                array_push($employees, $val);
+    if ($empStmt->rowCount() > 0) {
+        $employeeDeets = $empStmt->fetchAll();
+        foreach ($employeeDeets as &$val) {
+            if ($val["passportExpiry"] !== null) {
+                $pass = strtotime($val["passportExpiry"]);
+                $val["passportExpiry"] = date("d M Y", $pass);
+            } else {
+                $val["passportExpiry"] = "None";
+            }
+            if ($val["visaExpiry"] !== null) {
+                $visa = strtotime($val["visaExpiry"]);
+                $val["visaExpiry"] = date("d M Y", $visa);
+            } else {
+                $val["visaExpiry"] = "None";
             }
         }
-    } else {
-        $employees = $employeeDeets;
+
+
+        if (!empty($_POST["searchkey"])) {
+            $searchkey = $_POST["searchkey"];
+
+            foreach ($employeeDeets as $val) {
+                $lastname = strtolower($val["lastname"]);
+                $firstname = strtolower($val["firstname"]);
+                $empID = $val["empID"];
+
+                if (strpos($lastname, $searchkey) !== false) {
+                    array_push($employees, $val);
+                } else if (strpos($firstname, $searchkey) !== false) {
+                    array_push($employees, $val);
+                } else if (strpos($empID, $searchkey) !== false) {
+                    array_push($employees, $val);
+                }
+            }
+        } else {
+            $employees = $employeeDeets;
+        }
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();

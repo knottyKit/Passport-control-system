@@ -29,17 +29,29 @@ try {
     $dispatchQ = "SELECT dispatch_id as id, dispatch_from as fromDate, dispatch_to as toDate FROM dispatch_list WHERE emp_number = :empID $yearQuery ORDER BY dispatch_from DESC";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":empID" => "$empID"]);
-    $dispatchDeets = $dispatchStmt->fetchAll();
+    if ($dispatchStmt->rowCount() > 0) {
+        $dispatchDeets = $dispatchStmt->fetchAll();
 
-    foreach ($dispatchDeets as $val) {
-        $from = date_create($val["fromDate"]);
-        $to = date_create($val["toDate"]);
+        foreach ($dispatchDeets as $val) {
+            $from = date_create($val["fromDate"]);
+            $to = date_create($val["toDate"]);
 
-        $difference = $from->diff($to)->format("%a");
-        $val["duration"] = $difference + 1;
-        $pastOne = getPastOneYear($empID, $val["toDate"]);
-        $val["pastOne"] = $pastOne;
-        array_push($dispatch, $val);
+            $difference = $from->diff($to)->format("%a");
+            $val["duration"] = $difference + 1;
+            $pastOne = getPastOneYear($empID, $val["toDate"]);
+            $val["pastOne"] = $pastOne;
+
+            if ($val["fromDate"] !== null) {
+                $pass = strtotime($val["fromDate"]);
+                $val["fromDate"] = date("d M Y", $pass);
+            }
+            if ($val["toDate"] !== null) {
+                $visa = strtotime($val["toDate"]);
+                $val["toDate"] = date("d M Y", $visa);
+            }
+
+            array_push($dispatch, $val);
+        }
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
@@ -51,12 +63,8 @@ function getPastOneYear($empID, $lastDay)
 {
     global $connpcs;
     $firstDay = date('Y-m-d', strtotime($lastDay . '-1 year'));
-    $dispatchQ = "SELECT
-SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year
-FROM `dispatch_list`
-WHERE :startYear BETWEEN `dispatch_from` AND `dispatch_to`
-OR :endYear BETWEEN `dispatch_from` AND `dispatch_to`
-OR `dispatch_from` >= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
+    $dispatchQ = "SELECT SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year FROM `dispatch_list`
+    WHERE `dispatch_from` >= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":startYear" => $firstDay, ":endYear" => $lastDay, ":empID" => $empID]);
     $dispatchCount = $dispatchStmt->fetchColumn();

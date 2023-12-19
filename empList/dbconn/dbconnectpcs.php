@@ -1,12 +1,11 @@
 <?php
 $config = [
-  'host' => 'localhost',
-  'port' => 3306,
+  'host' => 'kdtw593',
   'dbname' => 'pcosdb',
   'charset' => 'utf8mb4'
 ];
-$username = 'root';
-$password = '';
+$username = 'kdt';
+$password = 'none';
 $dsn = 'mysql:' . http_build_query($config, '', ';');
 try {
   $connpcs = new PDO($dsn, $username, $password, [
