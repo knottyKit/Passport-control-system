@@ -402,7 +402,7 @@ function fillHistory(dlist) {
   tableBody.empty();
   if (dlist.length === 0) {
     var noDataRow = $(
-      "<tr><td colspan='6' class='text-center'>No data found</td></tr>"
+      "<tr><td colspan='7' class='text-center'>No data found</td></tr>"
     );
     tableBody.append(noDataRow);
   } else {
