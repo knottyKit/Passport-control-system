@@ -11,15 +11,17 @@
 //     break;
 // }
 var dispatch_days = 0;
+var to_add = 0;
 const full = 183;
 //#endregion
 
 //#region BINDS
 $(document).ready(function () {
-  Promise.all([getGroups(), getEmployees()])
-    .then(([grps, emps]) => {
+  Promise.all([getGroups(), getEmployees(), getLocations()])
+    .then(([grps, emps, locs]) => {
       fillGroups(grps);
       fillEmployees(emps);
+      fillLocations(locs);
     })
     .catch((error) => {
       alert(`${error}`);
@@ -46,7 +48,37 @@ $(document).on("change", "#grpSel", function () {
   });
 });
 $(document).on("change", ".ddates", function () {
-  countDays();
+  var startD = $("#startDate").val();
+  var endD = $("#endDate").val();
+
+  if (!startD || !endD) {
+    return;
+  }
+  var startDate = new Date(startD);
+  var endDate = new Date(endD);
+  if (endDate < startDate) {
+    alert("End date must not be earlier than start date.");
+    $("#endDate").val("");
+    to_add = 0;
+    countTotal();
+    $("#daysCount").text("");
+    return;
+  }
+  // var timeDifference = endDate - startDate;
+  // var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
+  // if (daysDifference === 1) {
+  //   $("#daysCount").text(" 1 day.");
+  // } else {
+  //   $("#daysCount").text(`${daysDifference} days`);
+  // }
+  countDays(startD, endD)
+    .then((cd) => {
+      displayDays(cd);
+      countTotal();
+    })
+    .catch((error) => {
+      alert(`${error}`);
+    });
 });
 $(document).on("change", "#empSel", function () {
   Promise.all([
@@ -171,21 +203,32 @@ function fillEmployees(emps) {
     empSelect.append(option);
   });
 }
-function countDays() {
-  var startD = $("#startDate").val();
-  var endD = $("#endDate").val();
-  if (!startD || !endD) {
-    return;
-  }
-  var startDate = new Date(startD);
-  var endDate = new Date(endD);
+function countDays(strt, end) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: "php/check_add_duration.php",
+      data: {
+        dateFrom: strt,
+        dateTo: end,
+      },
+      dataType: "json",
+      success: function (response) {
+        const countDays = response;
+        resolve(countDays);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+  });
 
-  if (endDate < startDate) {
-    alert("End date must not be earlier than start date.");
-    $("#endDate").val("");
-    $("#daysCount").text("");
-    return;
-  }
   var timeDifference = endDate - startDate;
   var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
 
@@ -196,14 +239,23 @@ function countDays() {
   }
   countTotal();
 }
+function displayDays(cdays) {
+  if (cdays.difference === 1) {
+    $("#daysCount").text(" 1 day.");
+  } else {
+    $("#daysCount").text(`${cdays.difference} days`);
+  }
+  to_add = cdays.toAdd;
+}
 function getPassport() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
   const sDate = $("#startDate").val();
   const eDate = $("#endDate").val();
-  if (empID === undefined) {
-    return;
-  }
+
   return new Promise((resolve, reject) => {
+    if (empID === undefined) {
+      resolve([]);
+    }
     $.ajax({
       type: "POST",
       url: "php/get_passport.php",
@@ -260,10 +312,10 @@ function getVisa() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
   const sDate = $("#startDate").val();
   const eDate = $("#endDate").val();
-  if (empID === undefined) {
-    return;
-  }
   return new Promise((resolve, reject) => {
+    if (empID === undefined) {
+      resolve([]);
+    }
     $.ajax({
       type: "POST",
       url: "php/get_visa.php",
@@ -317,10 +369,10 @@ function fillVisa(vsa) {
 function getDispatchHistory() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
   const yScope = $("#dToggle").val();
-  if (empID === undefined) {
-    return;
-  }
   return new Promise((resolve, reject) => {
+    if (empID === undefined) {
+      resolve([]);
+    }
     $.ajax({
       type: "POST",
       url: "php/get_dispatch_history.php",
@@ -357,6 +409,7 @@ function fillHistory(dlist) {
     $.each(dlist, function (index, item) {
       var row = $(`<tr d-id=${item.id}>`);
       row.append(`<td>${index + 1}</td>`);
+      row.append(`<td>${item.location}</td>`);
       row.append(`<td>${item.from}</td>`);
       row.append(`<td>${item.to}</td>`);
       row.append(`<td>${item.duration}</td>`);
@@ -377,10 +430,10 @@ function fillHistory(dlist) {
 }
 function getDispatchDays() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
-  if (empID === undefined) {
-    return;
-  }
   return new Promise((resolve, reject) => {
+    if (empID === undefined) {
+      resolve(0);
+    }
     $.ajax({
       type: "POST",
       url: "php/check_duration.php",
@@ -404,12 +457,8 @@ function getDispatchDays() {
   });
 }
 function countTotal() {
-  const daysCount = !$("#daysCount").text()
-    ? 0
-    : parseInt($("#daysCount").text(), 10);
+  const daysCount = parseInt(to_add, 10);
   const dispDays = parseInt(dispatch_days, 10);
-  // return daysCount + dispDays;
-  // console.log(daysCount + dispDays);
   var countText = "";
   const dd = daysCount + dispDays;
   if (dd == 1) {
@@ -463,6 +512,7 @@ function insertDispatch() {
             $("#startDate").val("");
             $("#endDate").val("");
             $("#daysCount").text("");
+            to_add = 0;
             countTotal();
           })
           .catch((error) => {
@@ -484,6 +534,7 @@ function insertDispatch() {
 function clearInput() {
   $("#grpSel, #empSel, #locSel").val(0);
   $("#startDate, #endDate").val("");
+  to_add = 0;
   $("#daysCount").text("");
   $("#empSel").change();
 }
@@ -501,7 +552,7 @@ function getLocations() {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
-      url: "php/get_locations.php",
+      url: "php/get_location.php",
       dataType: "json",
       success: function (response) {
         const locs = response;

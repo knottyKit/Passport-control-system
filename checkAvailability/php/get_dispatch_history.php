@@ -20,13 +20,13 @@ $yearScope = NULL;
 $yrStmt = '';
 if (isset($_POST['yScope']) && json_decode($_POST['yScope'])) {
     $yearScope = date("Y");
-    $yrStmt = " AND (dispatch_from LIKE '$yearScope-%' OR dispatch_to LIKE '$yearScope-%')";
+    $yrStmt = " AND (dl.dispatch_from LIKE '$yearScope-%' OR dl.dispatch_to LIKE '$yearScope-%')";
 }
 #endregion
 
 #region main query
 try {
-    $dQ = "SELECT dispatch_id,dispatch_from,dispatch_to  FROM `dispatch_list` WHERE emp_number = :empID $yrStmt ORDER BY dispatch_from DESC";
+    $dQ = "SELECT dl.dispatch_id,dl.dispatch_from,dl.dispatch_to,ll.location_name  FROM `dispatch_list` AS dl JOIN `location_list` AS ll ON dl.location_id=ll.location_id WHERE dl.emp_number = :empID $yrStmt ORDER BY dl.dispatch_from DESC";
     $dStmt = $connpcs->prepare($dQ);
     $dStmt->execute([":empID" => $empID]);
     if ($dStmt->rowCount() > 0) {
@@ -36,6 +36,7 @@ try {
             $id = $disp['dispatch_id'];
             $from = $disp['dispatch_from'];
             $to = $disp['dispatch_to'];
+            $loc = $disp['location_name'];
             $duration = getDuration($from, $to);
             $pastOneYear = getPastOneYear($empID, $to);
             $output += ["id" => $id];
@@ -43,6 +44,7 @@ try {
             $output += ["to" => $to];
             $output += ["duration" => $duration];
             $output += ["pastOne" => $pastOneYear];
+            $output += ["location" => $loc];
             array_push($dispatch, $output);
         }
     }
