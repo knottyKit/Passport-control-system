@@ -33,10 +33,13 @@ try {
         $dispatchDeets = $dispatchStmt->fetchAll();
 
         foreach ($dispatchDeets as $val) {
-            $from = date_create($val["fromDate"]);
-            $to = date_create($val["toDate"]);
+            $from = new DateTime($val["fromDate"]);
+            $to = new DateTime($val["toDate"]);
 
-            $difference = $from->diff($to)->format("%a");
+            echo json_encode($from);
+            echo json_encode($to);
+
+            $difference = $from->diff($to)->days;
             $val["duration"] = $difference + 1;
             $pastOne = getPastOneYear($empID, $val["toDate"]);
             $val["pastOne"] = $pastOne;

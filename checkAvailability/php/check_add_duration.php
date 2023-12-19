@@ -10,20 +10,23 @@ date_default_timezone_set('Asia/Manila');
 
 $yearNow = date("Y");
 $dateFrom = $dateTo = date("Y", 0 - 0 - 0000);
+$dFrom = $dTo = 0 - 0 - 0000;
 if (!empty($_POST["dateFrom"])) {
+    $dFrom = $_POST["dateFrom"];
     $dateFrom = date("Y", strtotime($_POST["dateFrom"]));
 }
 if (!empty($_POST["dateTo"])) {
+    $dTo = $_POST["dateTo"];
     $dateTo = date("Y", strtotime($_POST["dateTo"]));
 }
 
-if ($dateFrom != $yearNow && $dateTo == $yearNow) {
+if ($dateFrom != $yearNow && $dateTo == $yearNow && $dFrom <= $dTo) {
     $startYear = $yearNow . "-01-01";
     $endYear = $_POST["dateTo"];
-} else if ($dateFrom == $yearNow && $dateTo == $yearNow) {
+} else if ($dateFrom == $yearNow && $dateTo == $yearNow && $dFrom <= $dTo) {
     $startYear = $_POST["dateFrom"];
     $endYear = $_POST["dateTo"];
-} else if ($dateFrom == $yearNow && $dateTo != $yearNow) {
+} else if ($dateFrom == $yearNow && $dateTo != $yearNow && $dFrom <= $dTo) {
     $startYear = $_POST["dateFrom"];
     $endYear = $yearNow . "-12-31";
 } else {
