@@ -89,6 +89,14 @@ $(document).on("click", ".btn-delete", function () {
   $("#selectedEmp").html(name);
   $("#storeId").html(num);
 });
+$(document).on("click", ".editThis", function () {
+  const empID = $("#empSel").find("option:selected").attr("emp-id");
+  if (!empID) {
+    return;
+  } else {
+    window.location.href = `../empDetails?id=${empID}`;
+  }
+});
 //#endregion
 
 //#region FUNCTIONS

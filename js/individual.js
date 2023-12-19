@@ -133,8 +133,8 @@ function fillPassport(eplist) {
   } else {
     $.each(eplist, function (index, item) {
       var row = $("<tr>");
-      var untilText = item.until === 1 ? "1 Month" : item.until + " Months";
-      var isShort = item.until < 10 ? "short" : "";
+      var untilText = formatDays(item.until);
+      var isShort = item.until < 300 ? "short" : "";
       row.append(`<td>${item.name}</td>`);
       row.append(`<td class="expire ${isShort}">${untilText}</td>`);
       tableBody.append(row);
@@ -172,12 +172,27 @@ function fillVisa(evlist) {
   } else {
     $.each(evlist, function (index, item) {
       var row = $("<tr>");
-      var untilText = item.until === 1 ? "1 Month" : item.until + " Months";
-      var isShort = item.until < 7 ? "short" : "";
+      var untilText = formatDays(item.until);
+      var isShort = item.until < 210 ? "short" : "";
       row.append(`<td>${item.name}</td>`);
       row.append(`<td class="expire ${isShort}">${untilText}</td>`);
       tableBody.append(row);
     });
+  }
+}
+function formatDays(numberOfDays) {
+  if (numberOfDays === 0) {
+    return "Expired";
+  } else if (numberOfDays >= 30) {
+    const months = Math.floor(numberOfDays / 30);
+
+    if (months === 1) {
+      return `${months} Month`;
+    } else {
+      return `${months} Months`;
+    }
+  } else {
+    return `${numberOfDays} days`;
   }
 }
 
