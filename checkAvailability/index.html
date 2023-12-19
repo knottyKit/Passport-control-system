@@ -240,7 +240,7 @@
                       <h5 class="card-title">Latest Passport</h5>
     
                       <div class="card-content">
-                        <div class="pass d-none">
+                        <div id="passDeets" class="pass d-none">
                           <div class="row">
                             <label for="passStatus" class="col-5 col-form-label"
                               >Validity</label
@@ -282,7 +282,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="emptyState-pass  w-100 p-3 d-flex justify-content-center align-items-center flex-column" style="opacity: .25;">
+                        <div id="passEmpty" class="emptyState-pass  w-100 p-3 d-flex justify-content-center align-items-center flex-column" style="opacity: .25;">
                           <img src="../images/passport.png" alt="" style="width: 100px;">
                           <span class="fw-semibold p-3">No Passport Found</span>
                         </div>
@@ -304,7 +304,7 @@
                       <h5 class="card-title">Latest Japan Visa</h5>
     
                       <div class="card-content">
-                        <div class="vis">
+                        <div id="visaDeets" class="vis d-none">
                           <div class="row">
                             <label for="visaStatus" class="col-5 col-form-label"
                               >Validity</label
@@ -343,9 +343,7 @@
                             </div>
                           </div>
                         </div>
-                        <div
-                      class="emptyState-visa d-none  w-100 p-3 d-flex justify-content-center align-items-center flex-column"
-                    >
+                        <div id="visaEmpty" class="emptyState-visa  w-100 p-3 d-flex justify-content-center align-items-center flex-column">
                       <img
                         src="../images/visa.png"
                         alt=""
@@ -371,7 +369,7 @@
                 >
                   <div class="label">Estimated Total Days of Dispatch this Year</div>
                   <div>
-                    <div class="count" id="rangeCount">90 days</div>
+                    <div class="count" id="rangeCount">0 days</div>
                     <!-- <div class="progress" role="progressbar">
                      <div
                        class="progress-bar progress-bar-striped bg-success"
@@ -381,11 +379,12 @@
                     <div class="prog-cont">
                       <div class="progress mb-1" role="progressbar">
                         <div
+                          id="progBar"
                           class="progress-bar progress-bar-striped bg-danger"
-                          style="width: 120%"
+                          style="width: 0%"
                         ></div>
                       </div>
-                      <small class=""
+                      <small id="daysWarning" class="d-none"
                         ><i
                           class="bx bx-error-circle"
                           style="vertical-align: middle"

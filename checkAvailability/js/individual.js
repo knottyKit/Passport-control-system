@@ -11,6 +11,7 @@
 //     break;
 // }
 var dispatch_days = 0;
+const full = 183;
 //#endregion
 
 //#region BINDS
@@ -55,8 +56,8 @@ $(document).on("change", "#empSel", function () {
     getDispatchDays(),
   ])
     .then(([pass, vsa, dlst, dd]) => {
-      console.log(pass);
-      console.log(vsa);
+      fillPassport(pass);
+      fillVisa(vsa);
       dispatch_days = dd;
       fillHistory(dlst);
       countTotal();
@@ -78,6 +79,7 @@ $(document).on("click", "#btnApply", function () {
   insertDispatch();
 });
 $(document).on("click", ".btn-clear", function () {
+  dispatch_days = 0;
   clearInput();
 });
 $(document).on("click", ".btn-delete", function () {
@@ -219,6 +221,33 @@ function getPassport() {
     });
   });
 }
+function fillPassport(pport) {
+  if (Object.keys(pport).length > 0) {
+    const pnum = pport.number;
+    const pbday = pport.bday;
+    const pissue = pport.issue;
+    const pexpiry = pport.expiry;
+    const pvalid = pport.valid;
+    $("#passNo").text(pnum);
+    $("#passBday").text(pbday);
+    $("#passIssue").text(pissue);
+    $("#passExp").text(pexpiry);
+    if (pvalid) {
+      $("#passStatus").removeClass("bg-danger");
+      $("#passStatus").addClass("bg-success");
+      $("#passStatus").text("Valid");
+    } else {
+      $("#passStatus").removeClass("bg-success");
+      $("#passStatus").addClass("bg-danger");
+      $("#passStatus").text("Expired");
+    }
+    $("#passDeets").removeClass("d-none");
+    $("#passEmpty").addClass("d-none");
+  } else {
+    $("#passDeets").addClass("d-none");
+    $("#passEmpty").removeClass("d-none");
+  }
+}
 function getVisa() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
   const sDate = $("#startDate").val();
@@ -251,6 +280,31 @@ function getVisa() {
       },
     });
   });
+}
+function fillVisa(vsa) {
+  if (Object.keys(vsa).length > 0) {
+    const vnum = vsa.number;
+    const vissue = vsa.issue;
+    const vexpiry = vsa.expiry;
+    const vvalid = vsa.valid;
+    $("#visaNo").text(vnum);
+    $("#visaIssue").text(vissue);
+    $("#visaExp").text(vexpiry);
+    if (vvalid) {
+      $("#visaStatus").removeClass("bg-danger");
+      $("#visaStatus").addClass("bg-success");
+      $("#visaStatus").text("Valid");
+    } else {
+      $("#visaStatus").removeClass("bg-success");
+      $("#visaStatus").addClass("bg-danger");
+      $("#visaStatus").text("Expired");
+    }
+    $("#visaDeets").removeClass("d-none");
+    $("#visaEmpty").addClass("d-none");
+  } else {
+    $("#visaDeets").addClass("d-none");
+    $("#visaEmpty").removeClass("d-none");
+  }
 }
 function getDispatchHistory() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
@@ -347,7 +401,34 @@ function countTotal() {
     : parseInt($("#daysCount").text(), 10);
   const dispDays = parseInt(dispatch_days, 10);
   // return daysCount + dispDays;
-  console.log(daysCount + dispDays);
+  // console.log(daysCount + dispDays);
+  var countText = "";
+  const dd = daysCount + dispDays;
+  if (dd == 1) {
+    countText = `1 day`;
+  } else {
+    countText = `${dd} days`;
+  }
+  $("#rangeCount").text(countText);
+  setBar(dd);
+  colorBar(dd);
+}
+function setBar(dd) {
+  const wd = (dd / full) * 100;
+  $("#progBar").css("width", `${wd}%`);
+}
+function colorBar(dd) {
+  $("#daysWarning").addClass("d-none");
+  if (dd >= full) {
+    $("#progBar").addClass("bg-danger").removeClass("bg-success bg-warning");
+    if (dd > full) {
+      $("#daysWarning").removeClass("d-none");
+    }
+  } else if (dd >= 150 && dd < full) {
+    $("#progBar").addClass("bg-warning").removeClass("bg-success bg-danger");
+  } else {
+    $("#progBar").addClass("bg-success").removeClass("bg-warning bg-danger");
+  }
 }
 function insertDispatch() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
@@ -396,6 +477,7 @@ function clearInput() {
   $("#grpSel, #empSel, #locSel").val(0);
   $("#startDate, #endDate").val("");
   $("#daysCount").text("");
+  $("#empSel").change();
 }
 function mainHeight() {
   var title = $(".pageTitle").css("height");
@@ -406,5 +488,38 @@ function mainHeight() {
   } else {
     $(".main").css("height", ``);
   }
+}
+function getLocations() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/get_locations.php",
+      dataType: "json",
+      success: function (response) {
+        const locs = response;
+        resolve(locs);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+  });
+}
+function fillLocations(locs) {
+  var locSelect = $("#locSel");
+  locSelect.html("<option value='0'>Select Location</option>");
+  $.each(locs, function (index, item) {
+    var option = $("<option>")
+      .attr("value", item.id)
+      .text(item.name)
+      .attr("loc-id", item.id);
+    locSelect.append(option);
+  });
 }
 //#endregion
