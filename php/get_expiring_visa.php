@@ -10,7 +10,9 @@ date_default_timezone_set('Asia/Manila');
 
 #region Initialize Variable
 $expiringList = array();
-$expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiring_in FROM `visa_details` AS vd JOIN `employee_details` AS ed ON vd.emp_number=ed.emp_number WHERE vd.visa_expiry>=CURDATE() AND  vd.visa_expiry <= DATE_ADD(CURDATE(), INTERVAL 7 MONTH) AND ed.emp_dispatch = 1 AND vd.visa_expiry=(SELECT MAX(visa_expiry) FROM visa_details WHERE emp_number=vd.emp_number)";
+$expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiring_in FROM `visa_details` AS vd JOIN 
+`employee_details` AS ed ON vd.emp_number=ed.emp_number WHERE vd.visa_expiry>=CURDATE() AND  vd.visa_expiry <= DATE_ADD(CURDATE(), INTERVAL 7 MONTH) AND ed.emp_dispatch = 1 
+OR vd.visa_expiry < CURDATE()";
 $expireStmt = $connpcs->prepare($expireQ);
 #endregion
 
@@ -21,10 +23,12 @@ try {
     foreach ($expireArr as $exp) {
         $output = array();
         $name = $exp['ename'];
-        $untildays = (int)$exp['expiring_in'];
-        $until = round($untildays / 30);
-        $output += ["name" => $name];
-        $output += ["until" => $until];
+        $until = (int)$exp['expiring_in'];
+        if ($until < 0) {
+            $until = 0;
+        }
+        $output["name"] = $name;
+        $output["until"] = $until;
         array_push($expiringList, $output);
     }
 } catch (Exception $e) {
