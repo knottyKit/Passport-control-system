@@ -79,11 +79,25 @@ function fillDispatchList(dlist) {
     tableBody.append(noDataRow);
   } else {
     $.each(dlist, function (index, item) {
+      var passClass = "bg-success";
+      var passVal = "Valid";
+      var visaClass = "bg-success";
+      var visaVal = "Valid";
+      if (!item.passValid) {
+        passClass = "bg-danger";
+        passVal = "Expired";
+      }
+      if (!item.visaValid) {
+        visaClass = "bg-danger";
+        visaVal = "Expired";
+      }
       var row = $("<tr>");
       row.append(`<td>${item.name}</td>`);
       row.append(`<td>${item.location}</td>`);
       row.append(`<td>${item.from}</td>`);
       row.append(`<td>${item.to}</td>`);
+      row.append(`<td><span class="badge ${passClass}">${passVal}</span></td>`);
+      row.append(`<td><span class="badge ${visaClass}">${visaVal}</span></td>`);
       tableBody.append(row);
     });
   }
