@@ -28,8 +28,10 @@ try {
         $output = array();
         $name = $disp['ename'];
         $location = $disp['location_name'];
-        $from = $disp['dispatch_from'];
-        $to = $disp['dispatch_to'];
+        $from = strtotime($disp['dispatch_from']);
+        $from = date("d M Y", $from);
+        $to = strtotime($disp['dispatch_to']);
+        $to = date("d M Y", $to);
         $passExp = $disp['passport_expiry'];
         $visaExp = $disp['visa_expiry'];
         if ($passExp && (strtotime($passExp) >= strtotime($to))) {

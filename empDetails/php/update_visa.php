@@ -29,9 +29,18 @@ if (!empty($_POST["expiry"])) {
 
 #region main function
 try {
-    $updateQ = "UPDATE visa_details SET visa_number = :number, visa_issue = :issued, visa_expiry = :expiry WHERE emp_number = :empID";
+    $checkQ = "SELECT COUNT(*) FROM visa_details WHERE emp_number = :empID";
+    $checkStmt = $connpcs->prepare($checkQ);
+    $checkStmt->execute([":empID" => "$empID"]);
+    $checkCount = $checkStmt->fetchColumn();
+    if ($checkCount == 0) {
+        $updateQ = "INSERT INTO `visa_details`(`emp_number`, `visa_number`, `visa_issue`, `visa_expiry`) 
+        VALUES (:empID, :numberV, :issued, :expiry)";
+    } else {
+        $updateQ = "UPDATE visa_details SET visa_number = :numberV, visa_issue = :issued, visa_expiry = :expiry WHERE emp_number = :empID";
+    }
     $updateStmt = $connpcs->prepare($updateQ);
-    $updateStmt->execute([":number" => "$number", ":issued" => "$issued", ":expiry" => "$expiry", ":empID" => $empID]);
+    $updateStmt->execute([":numberV" => "$number", ":issued" => "$issued", ":expiry" => "$expiry", ":empID" => $empID]);
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
