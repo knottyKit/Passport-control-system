@@ -236,23 +236,30 @@ function fillPassport(pport) {
   passportInput(pport);
 }
 function passportDisplay(pport) {
-  const pnum = pport.number;
-  const pbday = pport.bday;
-  const pissue = pport.issue;
-  const pexpiry = pport.expiry;
-  const pvalid = pport.valid;
-  $("#passNo").text(pnum);
-  $("#passBday").text(pbday);
-  $("#passIssue").text(pissue);
-  $("#passExp").text(pexpiry);
-  if (pvalid) {
-    $("#passStatus").removeClass("bg-danger");
-    $("#passStatus").addClass("bg-success");
-    $("#passStatus").text("Valid");
+  if (Object.keys(pport).length > 0) {
+    const pnum = pport.number;
+    const pbday = pport.bday;
+    const pissue = pport.issue;
+    const pexpiry = pport.expiry;
+    const pvalid = pport.valid;
+    $("#passNo").text(pnum);
+    $("#passBday").text(pbday);
+    $("#passIssue").text(pissue);
+    $("#passExp").text(pexpiry);
+    if (pvalid) {
+      $("#passStatus").removeClass("bg-danger");
+      $("#passStatus").addClass("bg-success");
+      $("#passStatus").text("Valid");
+    } else {
+      $("#passStatus").removeClass("bg-success");
+      $("#passStatus").addClass("bg-danger");
+      $("#passStatus").text("Expired");
+    }
+    $("#passDeets").removeClass("d-none");
+    $("#passEmpty").addClass("d-none");
   } else {
-    $("#passStatus").removeClass("bg-success");
-    $("#passStatus").addClass("bg-danger");
-    $("#passStatus").text("Expired");
+    $("#passDeets").addClass("d-none");
+    $("#passEmpty").removeClass("d-none");
   }
 }
 function passportInput(pport) {
@@ -295,21 +302,28 @@ function fillVisa(vsa) {
   visaInput(vsa);
 }
 function visaDisplay(vsa) {
-  const vnum = vsa.number;
-  const vissue = vsa.issue;
-  const vexpiry = vsa.expiry;
-  const vvalid = vsa.valid;
-  $("#visaNo").text(vnum);
-  $("#visaIssue").text(vissue);
-  $("#visaExp").text(vexpiry);
-  if (vvalid) {
-    $("#visaStatus").removeClass("bg-danger");
-    $("#visaStatus").addClass("bg-success");
-    $("#visaStatus").text("Valid");
+  if (Object.keys(vsa).length > 0) {
+    const vnum = vsa.number;
+    const vissue = vsa.issue;
+    const vexpiry = vsa.expiry;
+    const vvalid = vsa.valid;
+    $("#visaNo").text(vnum);
+    $("#visaIssue").text(vissue);
+    $("#visaExp").text(vexpiry);
+    if (vvalid) {
+      $("#visaStatus").removeClass("bg-danger");
+      $("#visaStatus").addClass("bg-success");
+      $("#visaStatus").text("Valid");
+    } else {
+      $("#visaStatus").removeClass("bg-success");
+      $("#visaStatus").addClass("bg-danger");
+      $("#visaStatus").text("Expired");
+    }
+    $("#visaDeets").removeClass("d-none");
+    $("#visaEmpty").addClass("d-none");
   } else {
-    $("#visaStatus").removeClass("bg-success");
-    $("#visaStatus").addClass("bg-danger");
-    $("#visaStatus").text("Expired");
+    $("#visaDeets").addClass("d-none");
+    $("#visaEmpty").removeClass("d-none");
   }
 }
 function visaInput(vsa) {
