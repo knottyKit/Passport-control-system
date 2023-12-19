@@ -658,48 +658,60 @@
                   <h5 class="card-title">Latest Passport</h5>
 
                   <div class="card-content">
-                    <div class="row">
-                      <label for="passStatus" class="col-4 col-form-label"
-                        >Validity</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <!-- <span class="badge bg-success" id="passStatus">Valid</span> -->
-                        <span class="badge bg-danger" id="passStatus"
-                          >Expired</span
+                    <div class="pass d-none">
+                      <div class="row">
+                        <label for="passStatus" class="col-4 col-form-label"
+                          >Validity</label
                         >
+                        <div class="col-8 d-flex align-items-center">
+                          <!-- <span class="badge bg-success" id="passStatus">Valid</span> -->
+                          <span class="badge bg-danger" id="passStatus"
+                            >Expired</span
+                          >
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label for="passNo" class="col-4 col-form-label"
+                          >Passport no.</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="passNo"></span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label for="passBday" class="col-4 col-form-label"
+                          >Birth date</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="passBday"></span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label for="passIssue" class="col-4 col-form-label"
+                          >Date issue</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="passIssue"></span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label for="passExp" class="col-4 col-form-label"
+                          >Valid until</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="passExp"></span>
+                        </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <label for="passNo" class="col-4 col-form-label"
-                        >Passport no.</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="passNo"></span>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <label for="passBday" class="col-4 col-form-label"
-                        >Birth date</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="passBday"></span>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <label for="passIssue" class="col-4 col-form-label"
-                        >Date issue</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="passIssue"></span>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <label for="passExp" class="col-4 col-form-label"
-                        >Valid until</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="passExp"></span>
-                      </div>
+                    <div
+                      class="emptyState-pass w-100 p-3 d-flex justify-content-center align-items-center flex-column"
+                    >
+                      <img
+                        src="../images/passport.png"
+                        alt=""
+                        style="width: 100px"
+                      />
+                      <span class="fw-semibold p-3">No Passport found.</span>
                     </div>
                   </div>
                 </div>
@@ -717,41 +729,53 @@
                   <h5 class="card-title">Latest Japan Visa</h5>
 
                   <div class="card-content">
-                    <div class="row">
-                      <label for="visaStatus" class="col-4 col-form-label"
-                        >Validity</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="badge bg-danger" id="visaStatus"
-                          >Expired</span
+                    <div class="vis">
+                      <div class="row">
+                        <label for="visaStatus" class="col-4 col-form-label"
+                          >Validity</label
                         >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="badge bg-danger" id="visaStatus"
+                            >Expired</span
+                          >
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="row">
-                      <label for="visaNo" class="col-4 col-form-label"
-                        >Visa no.</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="visaNo"></span>
+                      <div class="row">
+                        <label for="visaNo" class="col-4 col-form-label"
+                          >Visa no.</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="visaNo"></span>
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="row">
-                      <label for="visaIssue" class="col-4 col-form-label"
-                        >Date Issue</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="visaIssue"></span>
+                      <div class="row">
+                        <label for="visaIssue" class="col-4 col-form-label"
+                          >Date Issue</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="visaIssue"></span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label for="visaExp" class="col-4 col-form-label"
+                          >Valid until</label
+                        >
+                        <div class="col-8 d-flex align-items-center">
+                          <span class="" id="visaExp"></span>
+                        </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <label for="visaExp" class="col-4 col-form-label"
-                        >Valid until</label
-                      >
-                      <div class="col-8 d-flex align-items-center">
-                        <span class="" id="visaExp"></span>
-                      </div>
+                    <div
+                      class="emptyState-visa d-none w-100 p-3 d-flex justify-content-center align-items-center flex-column"
+                    >
+                      <img
+                        src="../images/visa.png"
+                        alt=""
+                        style="width: 100px"
+                      />
+                      <span class="fw-semibold p-3">No Visa found.</span>
                     </div>
                   </div>
                 </div>

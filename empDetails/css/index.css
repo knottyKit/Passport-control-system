@@ -244,6 +244,10 @@ table thead tr {
 .bot .header {
   padding-bottom: 14px;
 }
+.emptyState-pass,
+.emptyState-visa {
+  opacity: 0.25;
+}
 @media (min-width: 1149px) and (max-width: 1456px) {
   .right {
     flex-direction: row !important;
