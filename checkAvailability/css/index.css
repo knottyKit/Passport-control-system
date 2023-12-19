@@ -249,6 +249,10 @@ nav li.active {
   opacity: 0.75;
   cursor: pointer;
 }
+.emptyState-pass,
+.emptyState-visa {
+  opacity: 0.25;
+}
 @media (max-width: 767px) {
   .pageTitle {
     padding: 10px !important;
