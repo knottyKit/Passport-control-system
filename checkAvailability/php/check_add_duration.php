@@ -8,6 +8,8 @@ require_once '../dbconn/dbconnectpcs.php';
 date_default_timezone_set('Asia/Manila');
 #endregion
 
+$difference = $trueDiff = 0;
+$toPrint = array();
 $yearNow = date("Y");
 $dateFrom = $dateTo = date("Y", 0 - 0 - 0000);
 $dFrom = $dTo = 0 - 0 - 0000;
@@ -36,6 +38,18 @@ if ($dateFrom != $yearNow && $dateTo == $yearNow && $dFrom <= $dTo) {
 $startYear = new DateTime($startYear);
 $endYear = new DateTime($endYear);
 
-$difference = $startYear->diff($endYear);
+if ($dFrom <= $dTo) {
+    $trueStart = new DateTime($_POST["dateFrom"]);
+    $trueEnd = new DateTime($_POST["dateTo"]);
 
-echo $difference->days;
+    $trueDiff = $trueStart->diff($trueEnd)->days;
+    $difference = $startYear->diff($endYear)->days;
+
+    $toPrint["toAdd"] = $difference + 1;
+    $toPrint["difference"] = $trueDiff + 1;
+} else {
+    $toPrint["toAdd"] = 0;
+    $toPrint["difference"] = 0;
+}
+
+echo json_encode($toPrint);
