@@ -41,7 +41,7 @@
   <!-- #region modal -->
   <div
     class="modal fade"
-    id="changeCoreTime"
+    id="deleteEntry"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
@@ -52,7 +52,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Change Core Time
+            Delete Entry
           </h1>
           <button
             type="button"
@@ -61,10 +61,27 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body"></div>
+        <div class="modal-body">
+          <p class="mb-2">
+            Are you sure you want to delete <span class="fw-semibold" id="selectedEmp"></span>'s Japan Dispatch entry
+            <span class="fw-semibold"
+              >no. <span id="storeId" del-id="0"></span
+            ></span>
+            ?
+          </p>
+        </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-O" id="totOnly">Change</button>
+          <button type="button" class="btn btn-cancel btn-secondary">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger fw-medium"
+            id="btn-deleteEntry"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -350,142 +367,6 @@
                     </div>
                   </div>
                   
-                  <!-- <div
-                    class="col-lg-6 d-flex justify-content-center align-items-center flex-column"
-                  >
-                    <div>Current Passport</div>
-                    <div
-                      class="passport position-relative rounded-3 p-3 d-flex gap-3"
-                    >
-                      <div class="position-absolute status">
-                        <span class="text-uppercase">Valid</span>
-                      </div>
-                      <div class="imgContainer">
-                        <img src="./images/empPic.jpg" alt="Employee picture" />
-                      </div>
-                      <div class="">
-                        <div class="passportDetail position-relative">
-                          <label for="passSurname">Surname</label>
-                          <span class="text-uppercase" id="passSurname"
-                            >Coquia</span
-                          >
-                        </div>
-                        <div class="passportDetail position-relative">
-                          <label for="passGivenName">Given Name</label>
-                          <span class="text-uppercase" id="passGivenName"
-                            >Joshua</span
-                          >
-                        </div>
-                        <div class="passportDetail position-relative">
-                          <label for="passMiddleName">Middle Name</label>
-                          <span class="text-uppercase" id="passMiddleName"
-                            >Padua</span
-                          >
-                        </div>
-                        <div class="passportDetail position-relative">
-                          <label for="passNationality">Nationality Name</label>
-                          <span class="text-uppercase" id="passNationality"
-                            >Filipino</span
-                          >
-                        </div>
-                        <div class="passportDetail position-relative">
-                          <label for="passBday">Date of Birth</label>
-                          <span class="text-uppercase" id="passBday"
-                            >15 AUG 1999</span
-                          >
-                        </div>
-                        <div class="passportDetail position-relative">
-                          <label for="passNo">Passport No.</label>
-                          <span class="text-uppercase" id="passNo"
-                            >P0592436B</span
-                          >
-                        </div>
-                      </div>
-                      <div class="">
-                        <div class="passportDetail position-relative">
-                          <label for="passIssue">Date of Issue</label>
-                          <span class="text-uppercase" id="passIssue"
-                            >08 FEB 2019</span
-                          >
-                        </div>
-                        <div class="passportDetail position-relative">
-                          <label for="passExp">Valid Until</label>
-                          <span class="text-uppercase" id="passExp"
-                            >07 FEB 2029</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-                  <!-- <div
-                    class="col-lg-6 d-flex justify-content-center flex-column align-items-center"
-                  >
-                    <div class="text-center">Current Japan Visa</div>
-                    <div
-                      class="visa rounded-3 position-relative p-3 d-flex gap-3"
-                    >
-                      <div class="position-absolute status">
-                        <span class="text-uppercase invalid">inValid</span>
-                      </div>
-                      <div class="imgContainer">
-                        <img src="./images/empPic.jpg" alt="Employee picture" />
-                      </div>
-                      <div class="">
-                        <div class="visaDetail position-relative">
-                          <label for="visaNo">Visa No.</label>
-                          <span class="text-uppercase" id="visaNo"
-                            >DA7926897</span
-                          >
-                        </div>
-                        <div class="visaDetail position-relative">
-                          <label for="visaDuration">For stay(s) of</label>
-                          <span class="text-uppercase" id="visaNationality"
-                            >5 years</span
-                          >
-                        </div>
-
-                        <div class="visaDetail position-relative">
-                          <label for="visaSurname">Surname</label>
-                          <span class="text-uppercase" id="visaSurname"
-                            >Coquia</span
-                          >
-                        </div>
-                        <div class="visaDetail position-relative">
-                          <label for="visaGivenName">Given Name</label>
-                          <span class="text-uppercase" id="visaGivenName"
-                            >Joshua</span
-                          >
-                        </div>
-                        <div class="visaDetail position-relative">
-                          <label for="visaMiddleName">Middle Name</label>
-                          <span class="text-uppercase" id="visaMiddleName"
-                            >Padua</span
-                          >
-                        </div>
-
-                        <div class="visaDetail position-relative">
-                          <label for="visaNo">Passport No.</label>
-                          <span class="text-uppercase" id="visaNo"
-                            >P0592436B</span
-                          >
-                        </div>
-                      </div>
-                      <div class="">
-                        <div class="visaDetail position-relative">
-                          <label for="visaIssue">Date of Issue</label>
-                          <span class="text-uppercase" id="visaIssue"
-                            >08 FEB 2019</span
-                          >
-                        </div>
-                        <div class="visaDetail position-relative">
-                          <label for="visaExp">Valid Until</label>
-                          <span class="text-uppercase" id="visaExp"
-                            >07 FEB 2024</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
                 </div>
                 <div
                   class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3"
@@ -559,7 +440,7 @@
                               data-bs-toggle="modal"
                               data-bs-target="#deleteEntry"
                             >
-                              <i class="bx bx-trash fs-5"></i>
+                              <i class="bx bx-trash fs-5" ></i>
                             </button>
                           </div>
                           </td>

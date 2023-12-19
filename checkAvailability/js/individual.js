@@ -80,6 +80,13 @@ $(document).on("click", "#btnApply", function () {
 $(document).on("click", ".btn-clear", function () {
   clearInput();
 });
+$(document).on("click", ".btn-delete", function () {
+  var name = $("#empSel option:selected").text();
+  var num = $(this).closest("tr").find("td:first-of-type").text();
+
+  $("#selectedEmp").html(name);
+  $("#storeId").html(num);
+});
 //#endregion
 
 //#region FUNCTIONS
