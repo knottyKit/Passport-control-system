@@ -28,6 +28,10 @@ $(document).ready(function () {
     });
   mainHeight();
 });
+$(window).resize(function () {
+  mainHeight();
+});
+
 $(document).on("click", "#menu", function () {
   $(".navigation").addClass("open");
   $("body").addClass("overflow-hidden");
@@ -36,12 +40,12 @@ $(document).on("click", "#closeNav", function () {
   $(".navigation").removeClass("open");
   $("body").removeClass("overflow-hidden");
 });
-$(document).on("mouseenter", ".editThis", function () {
-  $(this).addClass("hov");
-});
-$(document).on("mouseleave", ".editThis", function () {
-  $(this).removeClass("hov");
-});
+// $(document).on("mouseenter", ".editThis", function () {
+//   $(this).addClass("hov");
+// });
+// $(document).on("mouseleave", ".editThis", function () {
+//   $(this).removeClass("hov");
+// });
 $(document).on("change", "#grpSel", function () {
   getEmployees().then((emps) => {
     fillEmployees(emps);
@@ -97,6 +101,15 @@ $(document).on("change", "#empSel", function () {
     .catch((error) => {
       alert(`${error}`);
     });
+  if ($(this).val() === 0) {
+    $("#empDetails__name").text("");
+    $(".emptyState").removeClass("d-none");
+    $(".withContent").addClass("d-none");
+  } else {
+    $("#empDetails__name").text($("#empSel option:selected").text());
+    $(".emptyState").addClass("d-none");
+    $(".withContent").removeClass("d-none");
+  }
 });
 $(document).on("change", "#dToggle", function () {
   getDispatchHistory()
@@ -113,6 +126,8 @@ $(document).on("click", "#btnApply", function () {
 $(document).on("click", ".btn-clear", function () {
   dispatch_days = 0;
   clearInput();
+  $(".emptyState").removeClass("d-none");
+  $(".withContent").addClass("d-none");
 });
 $(document).on("click", ".btn-delete", function () {
   var name = $("#empSel option:selected").text();
@@ -121,7 +136,7 @@ $(document).on("click", ".btn-delete", function () {
   $("#selectedEmp").html(name);
   $("#storeId").html(num);
 });
-$(document).on("click", ".editThis", function () {
+$(document).on("click", "#updateEmp", function () {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
   if (!empID) {
     return;
@@ -129,6 +144,7 @@ $(document).on("click", ".editThis", function () {
     window.location.href = `../empDetails?id=${empID}`;
   }
 });
+
 //#endregion
 
 //#region FUNCTIONS

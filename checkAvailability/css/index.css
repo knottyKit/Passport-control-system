@@ -104,10 +104,23 @@ nav li.active {
 .cards {
   gap: 20px;
 }
-.card {
-  width: 400px;
+.card:not(:nth-of-type(3)) {
+  min-width: 300px;
+  width: 400px !important;
   position: relative;
+  border: 0 !important;
+  border-radius: 8px !important;
 }
+.card:nth-of-type(3) {
+  min-width: 215px;
+  background-color: var(--main);
+  position: relative;
+  border: 0 !important;
+  border-radius: 8px !important;
+}
+/* .card:nth-of-type(3) .card-content h5 {
+  font-size: 30px;
+} */
 .btn-dispatch {
   background-color: var(--tertiary) !important;
   color: #fff !important;
@@ -129,7 +142,7 @@ nav li.active {
   width: calc(100% - 550px);
   border-left: 2px solid #c7c7c7;
   border-top: 0;
-  padding: 30px;
+  padding: 0 30px;
 }
 .table-cont {
   height: calc(100% - 54px);
@@ -205,7 +218,7 @@ nav li.active {
 }
 .totalThisYear {
   border-radius: 8px;
-  background-color: #f5d8c9;
+  background-color: #fff;
 }
 .totalThisYear .label {
   font-size: 14px;
@@ -224,7 +237,7 @@ nav li.active {
   color: var(--red-color);
 }
 
-.editThis {
+/* .editThis {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -248,10 +261,37 @@ nav li.active {
 .editThis.hov {
   opacity: 0.75;
   cursor: pointer;
-}
+} */
 .emptyState-pass,
 .emptyState-visa {
   opacity: 0.25;
+}
+.empDetails span {
+  font-size: 14px !important;
+}
+.empDetails h5 {
+  font-size: 30px;
+}
+.btn-updateEmp {
+  background-color: var(--tertiary) !important;
+  color: #fff !important;
+}
+.btn-updateEmp:hover {
+  background-color: var(--darkest) !important;
+  color: #fff !important;
+}
+.empDetails div:first-of-type {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.emptyState i {
+  font-size: 300px;
+}
+.emptyState i,
+.emptyState .title,
+.emptyState .text {
+  opacity: 0.55;
 }
 @media (max-width: 767px) {
   .pageTitle {
@@ -270,12 +310,32 @@ nav li.active {
 @media (max-width: 954px) {
   .cards {
     flex-direction: column;
+    align-items: center;
   }
   .cards .card {
     width: 100%;
   }
   .main {
     height: 100% !important;
+  }
+  .emptyState i {
+    font-size: 80px !important;
+  }
+  body {
+    background-color: #f2f2f2 !important;
+  }
+}
+@media (max-width: 1030px) {
+  .empDetails {
+    flex-direction: column;
+  }
+  .empDetails div:first-of-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .emptyState i {
+    font-size: 100px !important;
   }
 }
 @media (max-width: 1490px) {
@@ -286,9 +346,13 @@ nav li.active {
     width: 100%;
     border-left: 0;
     border-top: 2px solid #c7c7c7;
+    padding: 30px;
   }
   .table-cont {
     height: 300px;
+  }
+  .emptyState i {
+    font-size: 200px;
   }
 }
 

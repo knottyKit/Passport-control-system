@@ -63,7 +63,9 @@
         </div>
         <div class="modal-body">
           <p class="mb-2">
-            Are you sure you want to delete <span class="fw-semibold" id="selectedEmp"></span>'s Japan Dispatch entry
+            Are you sure you want to delete
+            <span class="fw-semibold" id="selectedEmp"></span>'s Japan Dispatch
+            entry
             <span class="fw-semibold"
               >no. <span id="storeId" del-id="0"></span
             ></span>
@@ -92,7 +94,9 @@
   <body>
     <div class="home-content position-relative d-flex">
       <div class="navigation">
-        <div class="title p-3 d-flex justify-content-between align-items-center">
+        <div
+          class="title p-3 d-flex justify-content-between align-items-center"
+        >
           <h5 class="fw-semibold text-center">Passport Control System</h5>
           <div
             id="closeNav"
@@ -140,7 +144,7 @@
           <div id="menu">
             <i class="bx bx-menu-alt-left fs-3"></i>
           </div>
-          <h1 class="fw-semibold m-0">Apply for Dispatch</h1>
+          <h1 class="fw-semibold m-0">Employee Dispatch Management</h1>
         </div>
         <div class="main w-100">
           <div class="w-100 d-flex px-3 back">
@@ -151,12 +155,15 @@
           </div>
           <div class="d-flex view" style="height: calc(100% - 56px)">
             <div class="left">
-             
               <div class="">
                 <div class="mb-3 row">
                   <label for="" class="col-sm-3 col-form-label">Group</label>
                   <div class="col-sm-9">
-                    <select name="" class="form-select form-select-sm" id="grpSel">
+                    <select
+                      name=""
+                      class="form-select form-select-sm"
+                      id="grpSel"
+                    >
                       <option value="">SYS</option>
                       <option value="">SYS1</option>
                       <option value="">SYS2</option>
@@ -166,7 +173,11 @@
                 <div class="mb-3 row">
                   <label for="" class="col-sm-3 col-form-label">Name</label>
                   <div class="col-sm-9">
-                    <select name="" class="form-select form-select-sm" id="empSel">
+                    <select
+                      name=""
+                      class="form-select form-select-sm"
+                      id="empSel"
+                    >
                       <option value="">Collene Medrano</option>
                       <option value="">Kit Medrano</option>
                       <option value="">Kwinkad</option>
@@ -176,10 +187,13 @@
                 <div class="mb-3 row">
                   <label for="" class="col-sm-3 col-form-label">Location</label>
                   <div class="col-sm-9">
-                    <select name="" class="form-select form-select-sm" id="locSel">
-                      <option value="0" hidden >Kobe</option>
+                    <select
+                      name=""
+                      class="form-select form-select-sm"
+                      id="locSel"
+                    >
+                      <option value="0" hidden>Kobe</option>
                       <option value="">Koba</option>
-                      
                     </select>
                   </div>
                 </div>
@@ -216,7 +230,10 @@
                     >Total days</label
                   >
                   <div class="col-sm-9">
-                    <h5 class="d-flex align-items-center h-100" id="daysCount"></h5>
+                    <h5
+                      class="d-flex align-items-center h-100"
+                      id="daysCount"
+                    ></h5>
                   </div>
                 </div>
 
@@ -226,19 +243,37 @@
               </div>
               <div class="d-flex justify-content-end gap-2">
                 <button class="btn btn-clear">Clear</button>
-                <button class="btn btn-dispatch" id="btnApply">Apply dispatch</button>
+                <button class="btn btn-dispatch" id="btnApply">
+                  Add dispatch entry
+                </button>
               </div>
             </div>
-            <div class="right ">
-              <!-- <div class="title px-4 py-2">
-                <h5>Employee Details</h5>
-              </div> -->
-              <div class="d-flex flex-column gap-4 h-100 ">
+            <div class="right">
+              <div class="d-flex withContent d-none flex-column gap-4 h-100">
+                <div
+                  class="empDetails d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <span for="">Employee No. 487</span>
+
+                    <h5 id="empDetails__name">Employee Name</h5>
+                  </div>
+
+                  <div>
+                    <button
+                      class="btn btn-updateEmp d-flex align-items-center gap-1"
+                      id="updateEmp"
+                    >
+                      <i class="bx bxs-edit"></i>
+                      <span>Update Employee Details</span>
+                    </button>
+                  </div>
+                </div>
                 <div class="cards d-flex">
-                  <div class="card">
+                  <div class="card shadow-sm">
                     <div class="card-body">
                       <h5 class="card-title">Latest Passport</h5>
-    
+
                       <div class="card-content">
                         <div id="passDeets" class="pass d-none">
                           <div class="row">
@@ -282,27 +317,26 @@
                             </div>
                           </div>
                         </div>
-                        <div id="passEmpty" class="emptyState-pass  w-100 p-3 d-flex justify-content-center align-items-center flex-column" style="opacity: .25;">
-                          <img src="../images/passport.png" alt="" style="width: 100px;">
+                        <div
+                          id="passEmpty"
+                          class="emptyState-pass w-100 p-3 d-flex justify-content-center align-items-center flex-column"
+                          style="opacity: 0.25"
+                        >
+                          <img
+                            src="../images/passport.png"
+                            alt=""
+                            style="width: 100px"
+                          />
                           <span class="fw-semibold p-3">No Passport Found</span>
                         </div>
                       </div>
                     </div>
-
-                    <div
-                      class="editThis"
-                      data-bs-target="#updatePass"
-                      data-bs-toggle="modal"
-                    >
-                      <i class="bx bx-refresh"></i>
-                      <h1>Update Passport</h1>
-                    </div>
                   </div>
-                 
-                  <div class="card">
+
+                  <div class="card shadow-sm">
                     <div class="card-body">
                       <h5 class="card-title">Latest Japan Visa</h5>
-    
+
                       <div class="card-content">
                         <div id="visaDeets" class="vis d-none">
                           <div class="row">
@@ -315,8 +349,7 @@
                               >
                             </div>
                           </div>
-                          
-                          
+
                           <div class="row">
                             <label for="visaNo" class="col-5 col-form-label"
                               >Visa no.</label
@@ -325,7 +358,7 @@
                               <span class="" id="visaNo">P6241898A</span>
                             </div>
                           </div>
-                          
+
                           <div class="row">
                             <label for="visaIssue" class="col-5 col-form-label"
                               >Date Issue</label
@@ -343,31 +376,34 @@
                             </div>
                           </div>
                         </div>
-                        <div id="visaEmpty" class="emptyState-visa  w-100 p-3 d-flex justify-content-center align-items-center flex-column">
-                      <img
-                        src="../images/visa.png"
-                        alt=""
-                        style="width: 100px"
-                      />
-                      <span class="fw-semibold p-3">No Visa found</span>
-                    </div>
+                        <div
+                          id="visaEmpty"
+                          class="emptyState-visa w-100 p-3 d-flex justify-content-center align-items-center flex-column"
+                        >
+                          <img
+                            src="../images/visa.png"
+                            alt=""
+                            style="width: 100px"
+                          />
+                          <span class="fw-semibold p-3">No Visa found</span>
+                        </div>
                       </div>
                     </div>
-                    <div
-                      class="editThis"
-                      data-bs-target="#updateVisa"
-                      data-bs-toggle="modal"
-                    >
-                      <i class="bx bx-refresh"></i>
-                      <h1>Update Visa</h1>
-                    </div>
                   </div>
-                  
+                  <!-- <div class="card shadow-sm">
+                    <div class="card-body">
+                      <div class="card-content">
+                        <h5>Update employee requirements</h5>
+                      </div>
+                    </div>
+                  </div> -->
                 </div>
                 <div
                   class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3"
                 >
-                  <div class="label">Estimated Total Days of Dispatch this Year</div>
+                  <div class="label">
+                    Estimated Total Days of Dispatch this Year
+                  </div>
                   <div>
                     <div class="count" id="rangeCount">0 days</div>
                     <!-- <div class="progress" role="progressbar">
@@ -390,8 +426,8 @@
                           style="vertical-align: middle"
                         ></i
                         ><span class="ps-1"
-                          >Warning: Total dispatch days will exceed 183
-                          days for this year.</span
+                          >Warning: Total dispatch days will exceed 183 days for
+                          this year.</span
                         ></small
                       >
                     </div>
@@ -417,13 +453,13 @@
                           <th>Date to Philippines</th>
                           <th>No. of Days</th>
                           <th>Total Days past 1 year</th>
-                          
+
                           <th></th>
                         </tr>
                       </thead>
                       <tbody id="dList">
                         <tr>
-                          <td colspan="7" class='text-center'>No data found</td>
+                          <td colspan="7" class="text-center">No data found</td>
                         </tr>
                         <!-- <tr>
                           <td>1</td>
@@ -447,10 +483,18 @@
                           
                         </td>
                         </tr> -->
-                        
                       </tbody>
                     </table>
                   </div>
+                </div>
+              </div>
+              <div
+                class="emptyState h-100 d-flex justify-content-center align-items-center flex-column gap-2 pb-5"
+              >
+                <i class="bx bxs-user-rectangle"></i>
+                <div class="title fw-semibold fs-5">No details to view</div>
+                <div class="text">
+                  Please select an employee to view details.
                 </div>
               </div>
             </div>
