@@ -43,6 +43,17 @@ try {
     }
     $updateStmt = $connpcs->prepare($updateQ);
     $updateStmt->execute([":birthdate" => "$birthdate", ":numberP" => "$number", ":issued" => "$issued", ":expiry" => "$expiry", ":empID" => "$empID"]);
+
+    if (!empty($_FILES["fileValue"])) {
+        $fileVName = $_FILES['fileValue']['name'];
+        $fileTemp = $_FILES['fileValue']['tmp_name'];
+
+        $folderName = "./EmployeesFolder/" . $empID . "/passport.pdf";
+
+        if (!rename($fileTemp, $folderName)) {
+            $message = array("message" => "Uploading file failed!");
+        }
+    }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }

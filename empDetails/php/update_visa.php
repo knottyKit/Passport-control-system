@@ -41,6 +41,17 @@ try {
     }
     $updateStmt = $connpcs->prepare($updateQ);
     $updateStmt->execute([":numberV" => "$number", ":issued" => "$issued", ":expiry" => "$expiry", ":empID" => $empID]);
+
+    if (!empty($_FILES["fileValue"])) {
+        $fileVName = $_FILES['fileValue']['name'];
+        $fileTemp = $_FILES['fileValue']['tmp_name'];
+
+        $folderName = "./EmployeesFolder/" . $empID . "/visa.pdf";
+
+        if (!rename($fileTemp, $folderName)) {
+            $message = array("message" => "Uploading file failed!");
+        }
+    }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }

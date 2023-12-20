@@ -32,6 +32,8 @@ try {
         if ($expiry < $dateNow) {
             $isValid = false;
         }
+
+        $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.jpg";
         $passportDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {

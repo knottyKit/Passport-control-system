@@ -31,6 +31,8 @@ try {
         if ($expiry < $dateNow) {
             $isValid = false;
         }
+
+        $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.jpg";
         $visaDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {
