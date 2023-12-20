@@ -106,6 +106,8 @@ $(document).on("change", "#empSel", function () {
     $(".emptyState").removeClass("d-none");
     $(".withContent").addClass("d-none");
   } else {
+    const empID = $("#empSel").find("option:selected").attr("emp-id");
+    $("#empDetails__id").text(empID);
     $("#empDetails__name").text($("#empSel option:selected").text());
     $(".emptyState").addClass("d-none");
     $(".withContent").removeClass("d-none");
@@ -505,13 +507,19 @@ function colorBar(dd) {
 }
 function insertDispatch() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
+  const locID = $("#locSel").find("option:selected").attr("loc-id");
   const startD = $("#startDate").val();
   const endD = $("#endDate").val();
+  if (!empID || !locID || !startD || !endD) {
+    console.log("complete required fields");
+    return;
+  }
   $.ajax({
     type: "POST",
     url: "php/insert_dispatch.php",
     data: {
       empID: empID,
+      locID: locID,
       dateFrom: startD,
       dateTo: endD,
     },

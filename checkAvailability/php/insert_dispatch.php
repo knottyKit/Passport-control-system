@@ -35,14 +35,20 @@ $newRange = [
 if (checkOverlap($empNumber, $newRange)) {
     $errorMsg['conflict'] = "Dispatch Conflict";
 }
-$insertQ = "INSERT INTO `dispatch_list`(`emp_number`,`dispatch_from`,`dispatch_to`) VALUES (:empNumber,:dateFrom,:dateTo)";
+$locID = 0;
+if (!empty($_POST['locID'])) {
+    $locID = $_POST['locID'];
+} else {
+    $errorMsg['location'] = "Location Missing";
+}
+$insertQ = "INSERT INTO `dispatch_list`(`emp_number`,`dispatch_from`,`dispatch_to`,`location_id`) VALUES (:empNumber,:dateFrom,:dateTo,:locID)";
 $insertStmt = $connpcs->prepare($insertQ);
 #endregion
 
 #region Entries Query
 try {
     if (empty($errorMsg)) {
-        $insertStmt->execute([":empNumber" => $empNumber, ":dateFrom" => $dateFrom, ":dateTo" => $dateTo]);
+        $insertStmt->execute([":empNumber" => $empNumber, ":dateFrom" => $dateFrom, ":dateTo" => $dateTo, ":locID" => $locID]);
     }
 } catch (Exception $e) {
     $errorMsg['catch'] =  "Connection failed: " . $e->getMessage();

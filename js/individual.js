@@ -89,11 +89,11 @@ function fillDispatchList(dlist) {
       var visaVal = "Valid";
       if (!item.passValid) {
         passClass = "bg-danger";
-        passVal = "Expired";
+        passVal = "Invalid";
       }
       if (!item.visaValid) {
         visaClass = "bg-danger";
-        visaVal = "Expired";
+        visaVal = "Invalid";
       }
       var row = $("<tr>");
       row.append(`<td>${item.name}</td>`);
