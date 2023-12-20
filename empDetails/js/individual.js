@@ -69,7 +69,7 @@ $(document).on("change", "#dispatchStatus", function () {
 });
 $(document).on("click", "#btn-updateVisa", function () {
   $("#updateVisa").find("input").removeAttr("disabled");
-  $(this).closest(".modal").find(".attach").removeClass("d-none");
+  // $(this).closest(".modal").find(".attach").removeClass("d-none");
   $(this).closest(".modal-footer").html(`
   <button type="button" class="btn btn-secondary"  id="cancelEditVisa">
             Cancel
@@ -81,7 +81,7 @@ $(document).on("click", "#btn-updateVisa", function () {
 });
 $(document).on("click", "#btn-updatePass", function () {
   $("#updatePass").find("input").removeAttr("disabled");
-  $(this).closest(".modal").find(".attach").removeClass("d-none");
+  // $(this).closest(".modal").find(".attach").removeClass("d-none");
   $(this).closest(".modal-footer").html(`
   <button type="button" class="btn btn-secondary" id="cancelEditPass">
             Cancel
@@ -137,6 +137,36 @@ $(document).on("click", "#cancelEditPass", function () {
 });
 $(document).on("click", "#cancelEditVisa", function () {
   resetVisaInput();
+});
+$(document).on("change", ".ddates.pass", function () {
+  var startD = $("#upPassIssue").val();
+  var endD = $("#upPassExp").val();
+
+  if (!startD || !endD) {
+    return;
+  }
+  var startDate = new Date(startD);
+  var endDate = new Date(endD);
+  if (endDate < startDate) {
+    alert("End date must not be earlier than start date.");
+    $("#upPassExp").val("");
+    return;
+  }
+});
+$(document).on("change", ".ddates.vsa", function () {
+  var startD = $("#upVisaIssue").val();
+  var endD = $("#upVisaExp").val();
+
+  if (!startD || !endD) {
+    return;
+  }
+  var startDate = new Date(startD);
+  var endDate = new Date(endD);
+  if (endDate < startDate) {
+    alert("End date must not be earlier than start date.");
+    $("#upVisaExp").val("");
+    return;
+  }
 });
 //#endregion
 
@@ -366,12 +396,13 @@ function fillHistory(dlist) {
   var tableBody = $("#dList");
   tableBody.empty();
   if (dlist.length === 0) {
-    var noDataRow = $("<tr><td colspan='6'>No data found</td></tr>");
+    var noDataRow = $("<tr><td colspan='7'>No data found</td></tr>");
     tableBody.append(noDataRow);
   } else {
     $.each(dlist, function (index, item) {
       var row = $(`<tr d-id=${item.id}>`);
       row.append(`<td>${index + 1}</td>`);
+      row.append(`<td>${item.locationName}</td>`);
       row.append(`<td>${item.fromDate}</td>`);
       row.append(`<td>${item.toDate}</td>`);
       row.append(`<td>${item.duration}</td>`);
