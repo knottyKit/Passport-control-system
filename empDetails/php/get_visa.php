@@ -32,7 +32,7 @@ try {
             $isValid = false;
         }
 
-        $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.jpg";
+        $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.pdf";
         $visaDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {

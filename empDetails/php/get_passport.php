@@ -33,7 +33,7 @@ try {
             $isValid = false;
         }
 
-        $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.jpg";
+        $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.pdf";
         $passportDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {
