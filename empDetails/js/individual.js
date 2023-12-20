@@ -592,6 +592,15 @@ function savePass() {
   const passIssue = $("#upPassIssue").val();
   const passExp = $("#upPassExp").val();
   const fPath = $("#upPassAttach")[0].files[0];
+  const upload = $("#upPassAttach").val();
+  const extension = upload.slice(((upload.lastIndexOf(".") - 1) >>> 0) + 2);
+  if (fPath) {
+    if (extension !== "pdf") {
+      alert("Please attach PDF files only");
+      $("#upPassAttach").val("");
+      return;
+    }
+  }
 
   if (!passNo) {
     $("#upPassNo").addClass("border border-danger");
@@ -607,7 +616,7 @@ function savePass() {
   }
 
   if (!passNo || !passBday || !passIssue || !passExp) {
-    console.log("may empty");
+    // console.log("may empty");
     return;
   }
   var fd = new FormData();
@@ -670,7 +679,15 @@ function saveVisa() {
   const visaIssue = $("#upVisaIssue").val();
   const visaExp = $("#upVisaExp").val();
   const fPath = $("#upVisaAttach")[0].files[0];
-
+  const upload = $("#upVisaAttach").val();
+  const extension = upload.slice(((upload.lastIndexOf(".") - 1) >>> 0) + 2);
+  if (fPath) {
+    if (extension !== "pdf") {
+      alert("Please attach PDF files only");
+      $("#upVisaAttach").val("");
+      return;
+    }
+  }
   if (!visaNo) {
     $("#upVisaNo").addClass("border border-danger");
   }
@@ -682,7 +699,7 @@ function saveVisa() {
   }
 
   if (!visaNo || !visaIssue || !visaExp) {
-    console.log("may empty");
+    // console.log("may empty");
     return;
   }
   var fd = new FormData();
