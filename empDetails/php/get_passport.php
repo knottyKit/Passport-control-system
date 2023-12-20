@@ -33,9 +33,9 @@ try {
             $isValid = false;
         }
 
-        $passportLink = "./EmployeesFolder/" . $empID . "/passport.pdf";
+        $passportLink = "../EmployeesFolder/" . $empID . "/passport.pdf";
         if (file_exists($passportLink)) {
-            $passportDeets["passportLink"] = $passportLink;
+            $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.pdf";
         }
         $passportDeets['valid'] = $isValid;
     }

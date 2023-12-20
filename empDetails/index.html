@@ -115,7 +115,7 @@
                 />
               </div>
             </div>
-            <!-- <div class="row attach d-none">
+            <div class="row attach d-none">
               <label for="upPassAttach" class="col-4 col-form-label"
                 >Attachment</label
               >
@@ -127,7 +127,7 @@
                   disabled
                 />
               </div>
-            </div> -->
+            </div>
           </div>
           <div
             class="kanan"
@@ -137,17 +137,17 @@
               border-radius: 6px;
             "
           >
-            <label class="p-2">Attachment</label>
+            <label id="pAttach" class="p-2">Attachment</label>
             <div style="height: 300px; width: 100%">
               <div
                 class="d-flex w-100 h-100 flex-column gap-3 justify-content-center align-items-center d-none"
                 style="opacity: 0.75"
-                id="noAttach"
+                id="noAttachPass"
               >
                 <i class="bx bxs-inbox" style="font-size: 80px"></i>
                 <span>No attachment found.</span>
               </div>
-              <div class="w-100 h-100">
+              <div id="wAttachPass" class="w-100 h-100">
                 <!-- Example of embedding a PDF using an iframe -->
                 <iframe
                   src=""
@@ -234,7 +234,7 @@
                 />
               </div>
             </div>
-            <!-- <div class="row attach d-none">
+            <div class="row attach d-none">
               <label for="upVisaAttach" class="col-4 col-form-label"
                 >Change Attachment</label
               >
@@ -246,7 +246,7 @@
                   disabled
                 />
               </div>
-            </div> -->
+            </div>
           </div>
           <div
             class="kanan"
@@ -256,17 +256,17 @@
               border-radius: 6px;
             "
           >
-            <label class="p-2">Attachment</label>
+            <label id="vAttach" class="p-2">Attachment</label>
             <div style="height: 300px; width: 100%">
               <div
                 class="d-flex w-100 h-100 flex-column gap-3 justify-content-center align-items-center d-none"
                 style="opacity: 0.75"
-                id="noAttach"
+                id="noAttachVisa"
               >
                 <i class="bx bxs-inbox" style="font-size: 80px"></i>
                 <span>No attachment found.</span>
               </div>
-              <div class="w-100 h-100">
+              <div id="wAttachVisa" class="w-100 h-100">
                 <!-- Example of embedding a PDF using an iframe -->
                 <iframe
                   src=""
@@ -485,6 +485,7 @@
                       class="bx bxs-edit fs-5"
                       data-bs-toggle="modal"
                       data-bs-target="#changeDispatchStatus"
+                      title="Change dispatch status"
                     ></i>
                   </div>
                   <div class="empId">
@@ -704,7 +705,10 @@
                         </div>
                       </div>
                     </div>
-                    <div id="passEmpty" class="emptyState-pass w-100 p-3 d-flex justify-content-center align-items-center flex-column">
+                    <div
+                      id="passEmpty"
+                      class="emptyState-pass w-100 p-3 d-flex justify-content-center align-items-center flex-column"
+                    >
                       <img
                         src="../images/passport.png"
                         alt=""
@@ -766,7 +770,10 @@
                         </div>
                       </div>
                     </div>
-                    <div id="visaEmpty" class="emptyState-visa w-100 p-3 d-flex justify-content-center align-items-center flex-column">
+                    <div
+                      id="visaEmpty"
+                      class="emptyState-visa w-100 p-3 d-flex justify-content-center align-items-center flex-column"
+                    >
                       <img
                         src="../images/visa.png"
                         alt=""

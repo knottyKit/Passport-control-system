@@ -69,7 +69,7 @@ $(document).on("change", "#dispatchStatus", function () {
 });
 $(document).on("click", "#btn-updateVisa", function () {
   $("#updateVisa").find("input").removeAttr("disabled");
-  // $(this).closest(".modal").find(".attach").removeClass("d-none");
+  $(this).closest(".modal").find(".attach").removeClass("d-none");
   $(this).closest(".modal-footer").html(`
   <button type="button" class="btn btn-secondary"  id="cancelEditVisa">
             Cancel
@@ -81,7 +81,7 @@ $(document).on("click", "#btn-updateVisa", function () {
 });
 $(document).on("click", "#btn-updatePass", function () {
   $("#updatePass").find("input").removeAttr("disabled");
-  // $(this).closest(".modal").find(".attach").removeClass("d-none");
+  $(this).closest(".modal").find(".attach").removeClass("d-none");
   $(this).closest(".modal-footer").html(`
   <button type="button" class="btn btn-secondary" id="cancelEditPass">
             Cancel
@@ -297,10 +297,23 @@ function passportInput(pport) {
   const pbday = pport.bday;
   const pissue = pport.issue;
   const pexpiry = pport.expiry;
+  const attach = pport.passportLink;
   $("#upPassNo").val(pnum);
   $("#upPassBday").val(pbday);
   $("#upPassIssue").val(pissue);
   $("#upPassExp").val(pexpiry);
+  if (attach) {
+    $("#wAttachPass").removeClass("d-none");
+    $("#noAttachPass").addClass("d-none");
+    $("#pAttach").html(
+      `Click <a href="${attach}" target="_blank" style="color:var(--tertiary) !important;" class="fw-semibold">here</a> to view`
+    );
+    $("#passAttachView").attr("src", attach);
+  } else {
+    $("#noAttachPass").removeClass("d-none");
+    $("#wAttachPass").addClass("d-none");
+    $("#pAttach").html(`Attachment`);
+  }
 }
 function getVisa() {
   return new Promise((resolve, reject) => {
@@ -360,9 +373,22 @@ function visaInput(vsa) {
   const vnum = vsa.number;
   const vissue = vsa.issue;
   const vexpiry = vsa.expiry;
+  const attach = vsa.visaLink;
   $("#upVisaNo").val(vnum);
   $("#upVisaIssue").val(vissue);
   $("#upVisaExp").val(vexpiry);
+  if (attach) {
+    $("#wAttachVisa").removeClass("d-none");
+    $("#noAttachVisa").addClass("d-none");
+    $("#vAttach").html(
+      `Click <a href="${attach}" target="_blank" style="color:var(--tertiary) !important;" class="fw-semibold">here</a> to view`
+    );
+    $("#visaAttachView").attr("src", attach);
+  } else {
+    $("#noAttachVisa").removeClass("d-none");
+    $("#wAttachVisa").addClass("d-none");
+    $("#vAttach").html(`Attachment`);
+  }
 }
 function getDispatchHistory() {
   const yScope = parseInt($("#dToggle").val());
@@ -396,7 +422,9 @@ function fillHistory(dlist) {
   var tableBody = $("#dList");
   tableBody.empty();
   if (dlist.length === 0) {
-    var noDataRow = $("<tr><td colspan='7'>No data found</td></tr>");
+    var noDataRow = $(
+      `<tr><td colspan='7' class="text-center">No data found</td></tr>`
+    );
     tableBody.append(noDataRow);
   } else {
     $.each(dlist, function (index, item) {
@@ -539,26 +567,32 @@ function savePass() {
   const passBday = $("#upPassBday").val();
   const passIssue = $("#upPassIssue").val();
   const passExp = $("#upPassExp").val();
+  const fPath = $("#upPassAttach")[0].files[0];
+
   if (!passNo || !passBday || !passIssue || !passExp) {
     console.log("may empty");
     return;
   }
+  var fd = new FormData();
+  fd.append("fileValue", fPath);
+  fd.append("empID", empID);
+  fd.append("number", passNo);
+  fd.append("birthdate", passBday);
+  fd.append("issued", passIssue);
+  fd.append("expiry", passExp);
   $.ajax({
     type: "POST",
     url: "php/update_passport.php",
-    data: {
-      empID: empID,
-      number: passNo,
-      birthdate: passBday,
-      issued: passIssue,
-      expiry: passExp,
-    },
+    data: fd,
+    contentType: false,
+    cache: false,
+    processData: false,
     success: function (response) {
       getPassport()
         .then((pport) => {
           userPass = pport;
           fillPassport(userPass);
-          $("#updatePass .btn-close").click();
+          // $("#updatePass .btn-close").click();
         })
         .catch((error) => {
           alert(`${error}`);
@@ -594,25 +628,30 @@ function saveVisa() {
   const visaNo = $("#upVisaNo").val();
   const visaIssue = $("#upVisaIssue").val();
   const visaExp = $("#upVisaExp").val();
+  const fPath = $("#upVisaAttach")[0].files[0];
   if (!visaNo || !visaIssue || !visaExp) {
     console.log("may empty");
     return;
   }
+  var fd = new FormData();
+  fd.append("fileValue", fPath);
+  fd.append("empID", empID);
+  fd.append("number", visaNo);
+  fd.append("issued", visaIssue);
+  fd.append("expiry", visaExp);
   $.ajax({
     type: "POST",
     url: "php/update_visa.php",
-    data: {
-      empID: empID,
-      number: visaNo,
-      issued: visaIssue,
-      expiry: visaExp,
-    },
+    data: fd,
+    contentType: false,
+    cache: false,
+    processData: false,
     success: function (response) {
       getVisa()
         .then((vsa) => {
           userVisa = vsa;
           fillVisa(userVisa);
-          $("#updateVisa .btn-close").click();
+          // $("#updateVisa .btn-close").click();
         })
         .catch((error) => {
           alert(`${error}`);
