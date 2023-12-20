@@ -50,6 +50,9 @@ try {
 
         $folderName = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID . "/passport.pdf";
 
+        if (file_exists($folderName)) {
+            unlink($folderName);
+        }
         if (!rename($fileTemp, $folderName)) {
             $message = array("message" => "Uploading file failed!");
         }

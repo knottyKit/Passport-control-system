@@ -46,8 +46,11 @@ try {
         $fileVName = $_FILES['fileValue']['name'];
         $fileTemp = $_FILES['fileValue']['tmp_name'];
 
-        $folderName = "../EmployeesFolder/" . $empID . "/visa.pdf";
+        $folderName = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID . "/visa.pdf";
 
+        if (file_exists($folderName)) {
+            unlink($folderName);
+        }
         if (!copy($fileTemp, $folderName)) {
             $message = array("message" => "Uploading file failed!");
         }
