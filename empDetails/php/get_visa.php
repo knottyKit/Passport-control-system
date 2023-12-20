@@ -32,9 +32,9 @@ try {
             $isValid = false;
         }
 
-        $visaLink = "./EmployeesFolder/" . $empID . "/visa.pdf";
+        $visaLink = "../EmployeesFolder/" . $empID . "/visa.pdf";
         if (file_exists($visaLink)) {
-            $visaDeets["visaLink"] = $visaLink;
+            $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.pdf";
         }
 
         $visaDeets['valid'] = $isValid;
