@@ -46,9 +46,9 @@ try {
         $fileVName = $_FILES['fileValue']['name'];
         $fileTemp = $_FILES['fileValue']['tmp_name'];
 
-        $folderName = "./EmployeesFolder/" . $empID . "/visa.pdf";
+        $folderName = "../EmployeesFolder/" . $empID . "/visa.pdf";
 
-        if (!rename($fileTemp, $folderName)) {
+        if (!copy($fileTemp, $folderName)) {
             $message = array("message" => "Uploading file failed!");
         }
     }

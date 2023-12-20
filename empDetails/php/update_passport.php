@@ -48,7 +48,7 @@ try {
         $fileVName = $_FILES['fileValue']['name'];
         $fileTemp = $_FILES['fileValue']['tmp_name'];
 
-        $folderName = "./EmployeesFolder/" . $empID . "/passport.pdf";
+        $folderName = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID . "/passport.pdf";
 
         if (!rename($fileTemp, $folderName)) {
             $message = array("message" => "Uploading file failed!");
