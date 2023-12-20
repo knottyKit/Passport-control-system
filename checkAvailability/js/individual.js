@@ -425,9 +425,9 @@ function fillHistory(dlist) {
     $.each(dlist, function (index, item) {
       var row = $(`<tr d-id=${item.id}>`);
       row.append(`<td>${index + 1}</td>`);
-      row.append(`<td>${item.location}</td>`);
-      row.append(`<td>${item.from}</td>`);
-      row.append(`<td>${item.to}</td>`);
+      row.append(`<td>${item.locationName}</td>`);
+      row.append(`<td>${item.fromDate}</td>`);
+      row.append(`<td>${item.toDate}</td>`);
       row.append(`<td>${item.duration}</td>`);
       row.append(`<td>${item.pastOne}</td>`);
       row.append(`<td>                            <div class="d-flex gap-2">

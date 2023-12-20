@@ -17,19 +17,56 @@ if (!empty($_POST['empID'])) {
 $startYear = date("Y-01-01");
 $endYear = date("Y-12-31");
 
-$dispatchQ = "SELECT SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year FROM `dispatch_list` WHERE `dispatch_from` 
->= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
+$dispatchQ = "SELECT dispatch_id, dispatch_from, dispatch_to FROM `dispatch_list` WHERE emp_number = :empID AND 
+((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR (`dispatch_to` <= :endYear AND `dispatch_to` >= :startYear))";
 $dispatchStmt = $connpcs->prepare($dispatchQ);
 #endregion
 
 #region Entries Query
 try {
     $dispatchStmt->execute([":startYear" => $startYear, ":endYear" => $endYear, ":empID" => $empNum]);
-    $dispatchCount = (int)$dispatchStmt->fetchColumn();
+    if ($dispatchStmt->rowCount() > 0) {
+        $dispatchDeets = $dispatchStmt->fetchAll();
+
+        foreach ($dispatchDeets as $val) {
+            $dateFrom = $val["dispatch_from"];
+            $dateTo = $val["dispatch_to"];
+            $daysDiff = getDuration($dateFrom, $dateTo);
+
+            $dispatchCount += $daysDiff + 1;
+        }
+    }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
     $errorMsg['catch'] =  "Connection failed: " . $e->getMessage();
 }
-
 #endregion
+
 echo $dispatchCount;
+
+function getDuration($dateFrom, $dateTo)
+{
+    $yearNow = date("Y");
+    $dateFromYear = date("Y", strtotime($dateFrom));
+    $dateToYear = date("Y", strtotime($dateTo));
+
+    if ($dateFromYear != $yearNow && $dateToYear == $yearNow) {
+        $startYear = $yearNow . "-01-01";
+        $endYear = $dateTo;
+    } else if ($dateFromYear == $yearNow && $dateToYear == $yearNow) {
+        $startYear = $dateFrom;
+        $endYear = $dateTo;
+    } else if ($dateFromYear == $yearNow && $dateToYear != $yearNow) {
+        $startYear = $dateFrom;
+        $endYear = $yearNow . "-12-31";
+    } else {
+        $startYear = $yearNow . "-12-31";
+        $endYear = $yearNow . "-12-31";
+    }
+    $startYear = new DateTime($startYear);
+    $endYear = new DateTime($endYear);
+
+    $difference = $startYear->diff($endYear);
+
+    return $difference->days;
+}

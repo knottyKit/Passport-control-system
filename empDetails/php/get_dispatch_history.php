@@ -22,11 +22,12 @@ if (!empty($_POST['yScope'])) {
     $allyear = $_POST['yScope'];
 }
 if ($allyear == 1) {
-    $yearQuery = "AND (dispatch_from LIKE '$year-%' OR dispatch_to LIKE '$year-%')";
+    $yearQuery = "AND (dl.dispatch_from LIKE '$year-%' OR dl.dispatch_to LIKE '$year-%')";
 }
 #region mains
 try {
-    $dispatchQ = "SELECT dispatch_id as id, dispatch_from as fromDate, dispatch_to as toDate FROM dispatch_list WHERE emp_number = :empID $yearQuery ORDER BY dispatch_from DESC";
+    $dispatchQ = "SELECT dl.dispatch_id as id, dl.dispatch_from as fromDate, dl.dispatch_to as toDate, ll.location_name as locationName FROM dispatch_list as dl LEFT JOIN 
+    location_list as ll ON dl.location_id = ll.location_id WHERE dl.emp_number = :empID $yearQuery ORDER BY dl.dispatch_from DESC";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":empID" => "$empID"]);
     if ($dispatchStmt->rowCount() > 0) {
