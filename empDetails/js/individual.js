@@ -168,6 +168,30 @@ $(document).on("change", ".ddates.vsa", function () {
     return;
   }
 });
+$(document).on("click", "#upPassNo", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upPassBday", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upPassIssue", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upPassexp", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upPassBday", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upVisaNo", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upVisaIssue", function () {
+  $(this).removeClass("border border-danger");
+});
+$(document).on("click", "#upVisaExp", function () {
+  $(this).removeClass("border border-danger");
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -569,6 +593,19 @@ function savePass() {
   const passExp = $("#upPassExp").val();
   const fPath = $("#upPassAttach")[0].files[0];
 
+  if (!passNo) {
+    $("#upPassNo").addClass("border border-danger");
+  }
+  if (!passBday) {
+    $("#upPassBday").addClass("border border-danger");
+  }
+  if (!passIssue) {
+    $("#upPassIssue").addClass("border border-danger");
+  }
+  if (!passExp) {
+    $("#upPassExp").addClass("border border-danger");
+  }
+
   if (!passNo || !passBday || !passIssue || !passExp) {
     console.log("may empty");
     return;
@@ -592,6 +629,7 @@ function savePass() {
         .then((pport) => {
           userPass = pport;
           fillPassport(userPass);
+          resetPassInput();
           // $("#updatePass .btn-close").click();
         })
         .catch((error) => {
@@ -615,6 +653,9 @@ function resetPassInput() {
   $("#upPassBday").attr("disabled", true);
   $("#upPassIssue").attr("disabled", true);
   $("#upPassExp").attr("disabled", true);
+  $("#upPassExp, #upPassIssue, #upPassBday, #upPassNo ").removeClass(
+    "border border-danger"
+  );
   $("#updatePass .btn-close").closest(".modal").find(".modal-footer").html(`
   <button type="button" class="btn btn-cancel btn-secondary">
   Cancel
@@ -629,6 +670,17 @@ function saveVisa() {
   const visaIssue = $("#upVisaIssue").val();
   const visaExp = $("#upVisaExp").val();
   const fPath = $("#upVisaAttach")[0].files[0];
+
+  if (!visaNo) {
+    $("#upVisaNo").addClass("border border-danger");
+  }
+  if (!visaIssue) {
+    $("#upVisaIssue").addClass("border border-danger");
+  }
+  if (!visaExp) {
+    $("#upVisaExp").addClass("border border-danger");
+  }
+
   if (!visaNo || !visaIssue || !visaExp) {
     console.log("may empty");
     return;
@@ -651,6 +703,7 @@ function saveVisa() {
         .then((vsa) => {
           userVisa = vsa;
           fillVisa(userVisa);
+          resetVisaInput();
           // $("#updateVisa .btn-close").click();
         })
         .catch((error) => {
@@ -673,6 +726,7 @@ function resetVisaInput() {
   $("#upVisaNo").attr("disabled", true);
   $("#upVisaIssue").attr("disabled", true);
   $("#upVisaExp").attr("disabled", true);
+  $("#upVisaNo, #upVisaIssue, #upVisaExp").removeClass("border border-danger");
   $("#updateVisa .btn-close").closest(".modal").find(".modal-footer").html(`
   <button type="button" class="btn btn-cancel btn-secondary">
   Cancel
