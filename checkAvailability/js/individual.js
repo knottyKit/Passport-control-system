@@ -131,12 +131,22 @@ $(document).on("click", ".btn-clear", function () {
   $(".emptyState").removeClass("d-none");
   $(".withContent").addClass("d-none");
 });
-$(document).on("click", ".btn-delete", function () {
-  var name = $("#empSel option:selected").text();
-  var num = $(this).closest("tr").find("td:first-of-type").text();
+// $(document).on("click", ".btn-delete", function () {
+//   var name = $("#empSel option:selected").text();
+//   var num = $(this).closest("tr").find("td:first-of-type").text();
 
-  $("#selectedEmp").html(name);
+//   $("#selectedEmp").html(name);
+//   $("#storeId").html(num);
+// });
+$(document).on("click", ".btn-delete", function () {
+  var num = $(this).closest("tr").find("td:first-of-type").html();
+
+  var trID = $(this).closest("tr").attr("d-id");
   $("#storeId").html(num);
+  $("#storeId").attr("del-id", trID);
+});
+$(document).on("click", "#btn-deleteEntry", function () {
+  deleteDispatch();
 });
 $(document).on("click", "#updateEmp", function () {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
@@ -603,6 +613,37 @@ function fillLocations(locs) {
       .text(item.name)
       .attr("loc-id", item.id);
     locSelect.append(option);
+  });
+}
+function deleteDispatch() {
+  const delID = $("#storeId").attr("del-id");
+  $.ajax({
+    type: "POST",
+    url: "php/delete_dispatch_history.php",
+    data: {
+      dispatchID: delID,
+    },
+    success: function (response) {
+      Promise.all([getDispatchHistory(), getDispatchDays()])
+        .then(([dlst, dd]) => {
+          fillHistory(dlst);
+          dispatch_days = dd;
+          countTotal();
+          $("#deleteEntry .btn-close").click();
+        })
+        .catch((error) => {
+          alert(`${error}`);
+        });
+    },
+    error: function (xhr, status, error) {
+      if (xhr.status === 404) {
+        reject("Not Found Error: The requested resource was not found.");
+      } else if (xhr.status === 500) {
+        reject("Internal Server Error: There was a server error.");
+      } else {
+        reject("An unspecified error occurreds.");
+      }
+    },
   });
 }
 //#endregion
