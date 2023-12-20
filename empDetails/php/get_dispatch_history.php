@@ -36,8 +36,8 @@ try {
             $from = new DateTime($val["fromDate"]);
             $to = new DateTime($val["toDate"]);
 
-            echo json_encode($from);
-            echo json_encode($to);
+            // echo json_encode($from);
+            // echo json_encode($to);
 
             $difference = $from->diff($to)->days;
             $val["duration"] = $difference + 1;
