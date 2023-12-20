@@ -42,6 +42,10 @@ $(document).on("click", "#closeNav", function () {
   $(".navigation").removeClass("open");
   $("body").removeClass("overflow-hidden");
 });
+$(document).on("click", ".rowEmp", function () {
+  var empID = $(this).attr("emp-id");
+  window.location.href = `./empDetails?id=${empID}`;
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -132,7 +136,7 @@ function fillPassport(eplist) {
     tableBody.append(noDataRow);
   } else {
     $.each(eplist, function (index, item) {
-      var row = $("<tr>");
+      var row = $(`<tr class="rowEmp" emp-id="${item.id}">`);
       var untilText = formatDays(item.until);
       var isShort = item.until < 300 ? "short" : "";
       row.append(`<td>${item.name}</td>`);
@@ -171,7 +175,7 @@ function fillVisa(evlist) {
     tableBody.append(noDataRow);
   } else {
     $.each(evlist, function (index, item) {
-      var row = $("<tr>");
+      var row = $(`<tr class="rowEmp" emp-id="${item.id}">`);
       var untilText = formatDays(item.until);
       var isShort = item.until < 210 ? "short" : "";
       row.append(`<td>${item.name}</td>`);
