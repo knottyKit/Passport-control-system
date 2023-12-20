@@ -32,7 +32,11 @@ try {
             $isValid = false;
         }
 
-        $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.pdf";
+        $visaLink = "./EmployeesFolder/" . $empID . "/visa.pdf";
+        if (file_exists($visaLink)) {
+            $visaDeets["visaLink"] = $visaLink;
+        }
+
         $visaDeets['valid'] = $isValid;
     }
 } catch (Exception $e) {
