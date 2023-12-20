@@ -8,71 +8,67 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-
+$allyear = $empID = 0;
+$year = date("Y");
+$yearQuery = "";
 $dispatch = array();
-$empID = NULL;
-if (!empty($_POST['empID'])) {
-    $empID = (int)$_POST['empID'];
-} else {
-    die(json_encode($pass));
-}
-$yearScope = NULL;
-$yrStmt = '';
-if (isset($_POST['yScope']) && json_decode($_POST['yScope'])) {
-    $yearScope = date("Y");
-    $yrStmt = " AND (dl.dispatch_from LIKE '$yearScope-%' OR dl.dispatch_to LIKE '$yearScope-%')";
-}
 #endregion
 
-#region main query
+#region get values
+if (!empty($_POST["empID"])) {
+    $empID = $_POST["empID"];
+}
+if (!empty($_POST['yScope'])) {
+    $allyear = $_POST['yScope'];
+}
+if ($allyear == 1) {
+    $yearQuery = "AND (dl.dispatch_from LIKE '$year-%' OR dl.dispatch_to LIKE '$year-%')";
+}
+#region mains
 try {
-    $dQ = "SELECT dl.dispatch_id,dl.dispatch_from,dl.dispatch_to,ll.location_name  FROM `dispatch_list` AS dl JOIN `location_list` AS ll ON dl.location_id=ll.location_id WHERE dl.emp_number = :empID $yrStmt ORDER BY dl.dispatch_from DESC";
-    $dStmt = $connpcs->prepare($dQ);
-    $dStmt->execute([":empID" => $empID]);
-    if ($dStmt->rowCount() > 0) {
-        $darr = $dStmt->fetchAll();
-        foreach ($darr as $disp) {
-            $output = array();
-            $id = $disp['dispatch_id'];
-            $from = $disp['dispatch_from'];
-            $to = $disp['dispatch_to'];
-            $loc = $disp['location_name'];
-            $duration = getDuration($from, $to);
-            $pastOneYear = getPastOneYear($empID, $to);
-            $output += ["id" => $id];
-            $output += ["from" => $from];
-            $output += ["to" => $to];
-            $output += ["duration" => $duration];
-            $output += ["pastOne" => $pastOneYear];
-            $output += ["location" => $loc];
-            array_push($dispatch, $output);
+    $dispatchQ = "SELECT dl.dispatch_id as id, dl.dispatch_from as fromDate, dl.dispatch_to as toDate, ll.location_name as locationName FROM dispatch_list as dl LEFT JOIN 
+    location_list as ll ON dl.location_id = ll.location_id WHERE dl.emp_number = :empID $yearQuery ORDER BY dl.dispatch_from DESC";
+    $dispatchStmt = $connpcs->prepare($dispatchQ);
+    $dispatchStmt->execute([":empID" => "$empID"]);
+    if ($dispatchStmt->rowCount() > 0) {
+        $dispatchDeets = $dispatchStmt->fetchAll();
+
+        foreach ($dispatchDeets as $val) {
+            $from = new DateTime($val["fromDate"]);
+            $to = new DateTime($val["toDate"]);
+
+            // echo json_encode($from);
+            // echo json_encode($to);
+
+            $difference = $from->diff($to)->days;
+            $val["duration"] = $difference + 1;
+            $pastOne = getPastOneYear($empID, $val["toDate"]);
+            $val["pastOne"] = $pastOne;
+
+            if ($val["fromDate"] !== null) {
+                $pass = strtotime($val["fromDate"]);
+                $val["fromDate"] = date("d M Y", $pass);
+            }
+            if ($val["toDate"] !== null) {
+                $visa = strtotime($val["toDate"]);
+                $val["toDate"] = date("d M Y", $visa);
+            }
+
+            array_push($dispatch, $val);
         }
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
-
 #endregion
 
 #region FUNCTIONS
-function getDuration($start, $end)
-{
-    $timestampStart = strtotime($start);
-    $timestampEnd = strtotime($end);
-    $days_difference = floor(($timestampEnd - $timestampStart) / (60 * 60 * 24)) + 1;
-
-    return $days_difference;
-}
 function getPastOneYear($empID, $lastDay)
 {
     global $connpcs;
     $firstDay = date('Y-m-d', strtotime($lastDay . '-1 year'));
-    $dispatchQ = "SELECT
-SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year
-FROM `dispatch_list`
-WHERE :startYear BETWEEN `dispatch_from` AND `dispatch_to`
-OR :endYear BETWEEN `dispatch_from` AND `dispatch_to`
-OR `dispatch_from` >= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
+    $dispatchQ = "SELECT SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year FROM `dispatch_list`
+    WHERE `dispatch_from` >= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":startYear" => $firstDay, ":endYear" => $lastDay, ":empID" => $empID]);
     $dispatchCount = $dispatchStmt->fetchColumn();

@@ -33,17 +33,16 @@ try {
             $dateTo = $val["dispatch_to"];
             $daysDiff = getDuration($dateFrom, $dateTo);
 
-            $dispatchCount += $daysDiff;
+            $dispatchCount += $daysDiff + 1;
         }
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
     $errorMsg['catch'] =  "Connection failed: " . $e->getMessage();
 }
-
 #endregion
-echo $dispatchCount + 1;
 
+echo $dispatchCount;
 
 function getDuration($dateFrom, $dateTo)
 {
