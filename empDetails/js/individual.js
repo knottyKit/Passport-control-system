@@ -539,6 +539,10 @@ function savePass() {
   const passBday = $("#upPassBday").val();
   const passIssue = $("#upPassIssue").val();
   const passExp = $("#upPassExp").val();
+  if (!passNo || !passBday || !passIssue || !passExp) {
+    console.log("may empty");
+    return;
+  }
   $.ajax({
     type: "POST",
     url: "php/update_passport.php",
@@ -590,6 +594,10 @@ function saveVisa() {
   const visaNo = $("#upVisaNo").val();
   const visaIssue = $("#upVisaIssue").val();
   const visaExp = $("#upVisaExp").val();
+  if (!visaNo || !visaIssue || !visaExp) {
+    console.log("may empty");
+    return;
+  }
   $.ajax({
     type: "POST",
     url: "php/update_visa.php",

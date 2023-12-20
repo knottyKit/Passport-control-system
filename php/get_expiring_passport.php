@@ -12,7 +12,7 @@ date_default_timezone_set('Asia/Manila');
 $expiringList = array();
 $expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiring_in,ed.emp_number FROM `passport_details` AS pd 
 JOIN `employee_details` AS ed ON pd.emp_number=ed.emp_number WHERE pd.passport_expiry>=CURDATE() AND  pd.passport_expiry <= DATE_ADD(CURDATE(), INTERVAL 10 MONTH) 
-AND ed.emp_dispatch = 1 OR pd.passport_expiry < CURDATE()";
+AND ed.emp_dispatch = 1 OR pd.passport_expiry < CURDATE() ORDER BY CASE WHEN pd.passport_expiry>=CURDATE() THEN 1 ELSE pd.passport_expiry END";
 $expireStmt = $connpcs->prepare($expireQ);
 #endregion
 
