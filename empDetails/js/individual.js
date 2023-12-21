@@ -64,15 +64,18 @@ var empDetails = [];
 //     alert(`${error} ha`);
 //     window.location.href = `${rootFolder}/KDTPortalLogin`;
 //   });
+const url_string = window.location;
+const url = new URL(url_string);
+if (url.searchParams.get("id")) {
+  empID = url.searchParams.get("id");
+} else {
+  window.location.href = "/PCS/";
+}
 
 checkAccess()
   .then((acc) => {
     if (acc) {
       $(document).ready(function () {
-        const url_string = window.location;
-        const url = new URL(url_string);
-        empID = url.searchParams.get("id");
-
         Promise.all([
           getEmployeeDetails(),
           getPassport(),
