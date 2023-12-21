@@ -35,7 +35,8 @@ try {
 
         $passportLink = "../EmployeesFolder/" . $empID . "/passport.pdf";
         if (file_exists($passportLink)) {
-            $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.pdf";
+            $version = date("YmdHis");
+            $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.pdf?version=" . $version;
         }
         $passportDeets['valid'] = $isValid;
     }
