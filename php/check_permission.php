@@ -34,7 +34,7 @@ try {
     $userQ = "SELECT COUNT(*) FROM user_permissions WHERE permission_id = 36 AND fldEmployeeNum = :empID";
     $userStmt = $connkdt->prepare($userQ);
     $userStmt->execute([":empID" => "$empID"]);
-    $userCount = $userStmt->fetchColumn($userStmt);
+    $userCount = $userStmt->fetchColumn();
     if ($userCount > 0) {
         $toPrint = true;
     }
