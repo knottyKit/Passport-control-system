@@ -23,7 +23,7 @@ foreach ($ajaxArr as $element) {
             break;
         case "css":
             $version = date("YmdHis", filemtime("../$element"));
-            $addString .= "<link rel='stylesheet' type='text/css' href='/PCS/$element?v=$version'>";
+            $addString .= "<link rel='stylesheet' type='text/css' href='$element?v=$version'>";
             break;
     }
 }
