@@ -43,4 +43,4 @@ try {
 }
 #endregion
 
-echo $toPrint;
+echo json_encode($toPrint);
