@@ -43,4 +43,4 @@ try {
 }
 #endregion
 
-echo json_encode($toPrint);
+echo json_encode($userCount);

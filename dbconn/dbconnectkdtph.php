@@ -1,6 +1,6 @@
 <?php
 $config = [
-  'host' => 'kdt-ph',
+  'host' => 'localhost',
   'dbname' => 'kdtphdb',
   'charset' => 'utf8mb4'
 ];
