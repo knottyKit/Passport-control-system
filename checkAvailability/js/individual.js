@@ -1,33 +1,53 @@
 //#region GLOBALS
-// switch (document.location.hostname) {
-//   case "kdt-ph":
-//     rootFolder = "//kdt-ph/";
-//     break;
-//   case "localhost":
-//     rootFolder = "//localhost/";
-//     break;
-//   default:
-//     rootFolder = "//kdt-ph/";
-//     break;
-// }
+switch (document.location.hostname) {
+  case "kdt-ph":
+    rootFolder = "//kdt-ph/";
+    break;
+  case "localhost":
+    rootFolder = "//localhost/";
+    break;
+  default:
+    rootFolder = "//kdt-ph/";
+    break;
+}
 var dispatch_days = 0;
 var to_add = 0;
 const full = 183;
+var empDetails = [];
 //#endregion
-
+checkLogin()
+  .then((emp_deets) => {
+    empDetails = emp_deets;
+    checkAccess()
+      .then((acc) => {
+        if (acc) {
+          $(document).ready(function () {
+            Promise.all([getGroups(), getEmployees(), getLocations()])
+              .then(([grps, emps, locs]) => {
+                fillGroups(grps);
+                fillEmployees(emps);
+                fillLocations(locs);
+              })
+              .catch((error) => {
+                alert(`${error}`);
+              });
+            mainHeight();
+          });
+        } else {
+          alert("Access denied");
+          window.location.href = "../";
+        }
+      })
+      .catch((error) => {
+        alert(`${error}`);
+      });
+  })
+  .catch((error) => {
+    alert(error);
+    window.location.href = `${rootFolder}/KDTPortalLogin`;
+  });
 //#region BINDS
-$(document).ready(function () {
-  Promise.all([getGroups(), getEmployees(), getLocations()])
-    .then(([grps, emps, locs]) => {
-      fillGroups(grps);
-      fillEmployees(emps);
-      fillLocations(locs);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-  mainHeight();
-});
+
 $(window).resize(function () {
   mainHeight();
 });
@@ -644,6 +664,57 @@ function deleteDispatch() {
         reject("An unspecified error occurreds.");
       }
     },
+  });
+}
+function checkLogin() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/check_login.php",
+      dataType: "json",
+      success: function (data) {
+        const emp_deets = data;
+        if (Object.keys(emp_deets).length < 1) {
+          reject("Not logged in"); // Reject the promise
+        } else {
+          resolve(emp_deets); // Resolve the promise with empDetails
+        }
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurreds.");
+        }
+      },
+    });
+  });
+}
+function checkAccess() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: "php/check_permission.php",
+      data: {
+        empNum: empDetails["empNum"],
+      },
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
   });
 }
 //#endregion
