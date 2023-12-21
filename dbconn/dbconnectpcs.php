@@ -1,6 +1,6 @@
 <?php
 $config = [
-  'host' => 'kdt-admin',
+  'host' => 'kdt-ph',
   'dbname' => 'pcosdb',
   'charset' => 'utf8mb4'
 ];
