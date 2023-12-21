@@ -2,7 +2,6 @@
 #region DB Connect
 require_once '../dbconn/dbconnectpcs.php';
 #endregion
-
 #region set timezone
 date_default_timezone_set('Asia/Manila');
 #endregion
@@ -35,7 +34,8 @@ try {
 
         $passportLink = "../EmployeesFolder/" . $empID . "/passport.pdf";
         if (file_exists($passportLink)) {
-            $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.pdf";
+            $version = date("YmdHis");
+            $passportDeets["passportLink"] = "./EmployeesFolder/" . $empID . "/passport.pdf?version=" . $version;
         }
         $passportDeets['valid'] = $isValid;
     }

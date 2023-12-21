@@ -28,7 +28,8 @@ try {
     // foreach ($empDeets as $val) {
     // $val["pictureLink"] = "path/" . $val["id"] . "/picture.jpg";
     // }
-    $empDeets["pictureLink"] = "./EmployeesFolder/" . $empDeets["id"] . "/picture.jpg";
+    $version = date("YmdHis");
+    $empDeets["pictureLink"] = "./EmployeesFolder/" . $empDeets["id"] . "/picture.jpg?version=" . $version;
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }

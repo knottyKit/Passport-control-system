@@ -34,7 +34,8 @@ try {
 
         $visaLink = "../EmployeesFolder/" . $empID . "/visa.pdf";
         if (file_exists($visaLink)) {
-            $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.pdf";
+            $version = date("YmdHis");
+            $visaDeets["visaLink"] = "./EmployeesFolder/" . $empID . "/visa.pdf?version=" . $version;
         }
 
         $visaDeets['valid'] = $isValid;
