@@ -17,53 +17,7 @@ const full = 183;
 var empDetails = [];
 // var dispatch_days = 0;
 //#endregion
-// checkLogin()
-//   .then((emp_deets) => {
-//     empDetails = emp_deets;
-//     checkAccess()
-//       .then((acc) => {
-//         if (acc) {
-//           $(document).ready(function () {
-//             const url_string = window.location;
-//             const url = new URL(url_string);
-//             empID = url.searchParams.get("id");
 
-//             Promise.all([
-//               getEmployeeDetails(),
-//               getPassport(),
-//               getVisa(),
-//               getDispatchHistory(),
-//               getDispatchDays(),
-//             ])
-//               .then(([emps, pport, vsa, dlst, dd]) => {
-//                 userPass = pport;
-//                 userVisa = vsa;
-//                 fillDetails(emps);
-//                 fillPassport(userPass);
-//                 fillVisa(userVisa);
-//                 fillHistory(dlst);
-//                 displayDays(dd);
-//                 // dispatch_days = dd;
-//               })
-//               .catch((error) => {
-//                 alert(`${error}`);
-//               });
-//             mainHeight();
-//             dispatchStatus();
-//           });
-//         } else {
-//           alert("Access denied");
-//           window.location.href = "../";
-//         }
-//       })
-//       .catch((error) => {
-//         alert(`${error}`);
-//       });
-//   })
-//   .catch((error) => {
-//     alert(`${error} ha`);
-//     window.location.href = `${rootFolder}/KDTPortalLogin`;
-//   });
 const url_string = window.location;
 const url = new URL(url_string);
 if (url.searchParams.get("id")) {
@@ -212,36 +166,36 @@ $(document).on("click", "#cancelEditPass", function () {
 $(document).on("click", "#cancelEditVisa", function () {
   resetVisaInput();
 });
-$(document).on("change", ".ddates.pass", function () {
-  var startD = $("#upPassIssue").val();
-  var endD = $("#upPassExp").val();
+// $(document).on("change", ".ddates.pass", function () {
+//   var startD = $("#upPassIssue").val();
+//   var endD = $("#upPassExp").val();
 
-  if (!startD || !endD) {
-    return;
-  }
-  var startDate = new Date(startD);
-  var endDate = new Date(endD);
-  if (endDate < startDate) {
-    alert("End date must not be earlier than start date.");
-    $("#upPassExp").val("");
-    return;
-  }
-});
-$(document).on("change", ".ddates.vsa", function () {
-  var startD = $("#upVisaIssue").val();
-  var endD = $("#upVisaExp").val();
+//   if (!startD || !endD) {
+//     return;
+//   }
+//   var startDate = new Date(startD);
+//   var endDate = new Date(endD);
+//   if (endDate < startDate) {
+//     alert("End date must not be earlier than start date.");
+//     $("#upPassExp").val("");
+//     return;
+//   }
+// });
+// $(document).on("change", ".ddates.vsa", function () {
+//   var startD = $("#upVisaIssue").val();
+//   var endD = $("#upVisaExp").val();
 
-  if (!startD || !endD) {
-    return;
-  }
-  var startDate = new Date(startD);
-  var endDate = new Date(endD);
-  if (endDate < startDate) {
-    alert("End date must not be earlier than start date.");
-    $("#upVisaExp").val("");
-    return;
-  }
-});
+//   if (!startD || !endD) {
+//     return;
+//   }
+//   var startDate = new Date(startD);
+//   var endDate = new Date(endD);
+//   if (endDate < startDate) {
+//     alert("End date must not be earlier than start date.");
+//     $("#upVisaExp").val("");
+//     return;
+//   }
+// });
 $(document).on("click", "#upPassNo", function () {
   $(this).removeClass("border border-danger");
 });
@@ -693,6 +647,13 @@ function savePass() {
     // console.log("may empty");
     return;
   }
+  const startDate = new Date(passIssue);
+  const endDate = new Date(passExp);
+  if (endDate < startDate) {
+    alert("Expiry must not be earlier than date of issue.");
+    $("#upPassExp").val("");
+    return;
+  }
   var fd = new FormData();
   fd.append("fileValue", fPath);
   fd.append("empID", empID);
@@ -736,6 +697,8 @@ function resetPassInput() {
   $("#upPassBday").attr("disabled", true);
   $("#upPassIssue").attr("disabled", true);
   $("#upPassExp").attr("disabled", true);
+  $("#upPassAttach").attr("disabled", true);
+  $(".attach").addClass("d-none");
   $("#upPassExp, #upPassIssue, #upPassBday, #upPassNo ").removeClass(
     "border border-danger"
   );
@@ -774,6 +737,13 @@ function saveVisa() {
 
   if (!visaNo || !visaIssue || !visaExp) {
     // console.log("may empty");
+    return;
+  }
+  const startDate = new Date(visaIssue);
+  const endDate = new Date(visaExp);
+  if (endDate < startDate) {
+    alert("End date must not be earlier than start date.");
+    $("#upVisaExp").val("");
     return;
   }
   var fd = new FormData();
@@ -817,6 +787,8 @@ function resetVisaInput() {
   $("#upVisaNo").attr("disabled", true);
   $("#upVisaIssue").attr("disabled", true);
   $("#upVisaExp").attr("disabled", true);
+  $("#upVisaAttach").attr("disabled", true);
+  $(".attach").addClass("d-none");
   $("#upVisaNo, #upVisaIssue, #upVisaExp").removeClass("border border-danger");
   $("#updateVisa .btn-close").closest(".modal").find(".modal-footer").html(`
   <button type="button" class="btn btn-cancel btn-secondary">

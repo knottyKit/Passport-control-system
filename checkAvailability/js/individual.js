@@ -13,40 +13,7 @@ switch (document.location.hostname) {
 var dispatch_days = 0;
 var to_add = 0;
 const full = 183;
-var empDetails = [];
 //#endregion
-// checkLogin()
-//   .then((emp_deets) => {
-//     empDetails = emp_deets;
-//     checkAccess()
-//       .then((acc) => {
-//         if (acc) {
-//           $(document).ready(function () {
-//             Promise.all([getGroups(), getEmployees(), getLocations()])
-//               .then(([grps, emps, locs]) => {
-//                 fillGroups(grps);
-//                 fillEmployees(emps);
-//                 fillLocations(locs);
-//               })
-//               .catch((error) => {
-//                 alert(`${error}`);
-//               });
-//             mainHeight();
-//           });
-//         } else {
-//           alert("Access denied");
-//           window.location.href = "../";
-//         }
-//       })
-//       .catch((error) => {
-//         alert(`${error}`);
-//       });
-//   })
-//   .catch((error) => {
-//     alert(error);
-//     window.location.href = `${rootFolder}/KDTPortalLogin`;
-//   });
-
 checkAccess()
   .then((acc) => {
     if (acc) {
@@ -102,16 +69,16 @@ $(document).on("change", ".ddates", function () {
   if (!startD || !endD) {
     return;
   }
-  var startDate = new Date(startD);
-  var endDate = new Date(endD);
-  if (endDate < startDate) {
-    alert("End date must not be earlier than start date.");
-    $("#endDate").val("");
-    to_add = 0;
-    countTotal();
-    $("#daysCount").text("");
-    return;
-  }
+  // var startDate = new Date(startD);
+  // var endDate = new Date(endD);
+  // if (endDate < startDate) {
+  //   alert("End date must not be earlier than start date.");
+  //   $("#endDate").val("");
+  //   to_add = 0;
+  //   countTotal();
+  //   $("#daysCount").text("");
+  //   return;
+  // }
   // var timeDifference = endDate - startDate;
   // var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
   // if (daysDifference === 1) {
@@ -568,6 +535,16 @@ function insertDispatch() {
     console.log("complete required fields");
     return;
   }
+  const startDate = new Date(startD);
+  const endDate = new Date(endD);
+  if (endDate < startDate) {
+    alert("End date must not be earlier than start date.");
+    $("#endDate").val("");
+    to_add = 0;
+    countTotal();
+    $("#daysCount").text("");
+    return;
+  }
   $.ajax({
     type: "POST",
     url: "php/insert_dispatch.php",
@@ -621,7 +598,7 @@ function mainHeight() {
 
   if ($(window).width() > 1456) {
     $(".main").css("height", `calc(100vh - ${title}`);
-    console.log(title);
+    // console.log(title);
   } else {
     $(".main").css("height", ``);
   }
