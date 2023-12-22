@@ -11,40 +11,6 @@ switch (document.location.hostname) {
     break;
 }
 //#endregion
-// checkLogin()
-//   .then((emp_deets) => {
-//     empDetails = emp_deets;
-//     checkAccess()
-//       .then((acc) => {
-//         if (acc) {
-//           $(document).ready(function () {
-//             Promise.all([
-//               getDispatchlist(),
-//               getExpiringPassport(),
-//               getExpiringVisa(),
-//             ])
-//               .then(([dList, epList, evList]) => {
-//                 fillDispatchList(dList);
-//                 fillPassport(epList);
-//                 fillVisa(evList);
-//               })
-//               .catch((error) => {
-//                 alert(`${error}`);
-//               });
-//           });
-//         } else {
-//           alert("Access denied");
-//           window.location.href = "../";
-//         }
-//       })
-//       .catch((error) => {
-//         alert(`${error}`);
-//       });
-//   })
-//   .catch((error) => {
-//     alert(error);
-//     window.location.href = `${rootFolder}/KDTPortalLogin`;
-//   });
 
 checkAccess()
   .then((acc) => {

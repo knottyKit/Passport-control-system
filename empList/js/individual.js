@@ -11,38 +11,7 @@ switch (document.location.hostname) {
     break;
 }
 const dispTableID = ["eList", "eListNon"];
-var empDetails = [];
 //#endregion
-// checkLogin()
-//   .then((emp_deets) => {
-//     empDetails = emp_deets;
-//     checkAccess()
-//       .then((acc) => {
-//         if (acc) {
-//           $(document).ready(function () {
-//             Promise.all([getGroups(), getEmployees()])
-//               .then(([grps, emps]) => {
-//                 fillGroups(grps);
-//                 fillEmployees(emps);
-//               })
-//               .catch((error) => {
-//                 alert(`${error}`);
-//               });
-//             mainHeight();
-//           });
-//         } else {
-//           alert("Access denied");
-//           window.location.href = "../";
-//         }
-//       })
-//       .catch((error) => {
-//         alert(`${error}`);
-//       });
-//   })
-//   .catch((error) => {
-//     alert(error);
-//     window.location.href = `${rootFolder}/KDTPortalLogin`;
-//   });
 
 checkAccess()
   .then((acc) => {
