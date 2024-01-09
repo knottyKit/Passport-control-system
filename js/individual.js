@@ -1,29 +1,45 @@
 //#region GLOBALS
-// switch (document.location.hostname) {
-//   case "kdt-ph":
-//     rootFolder = "//kdt-ph/";
-//     break;
-//   case "localhost":
-//     rootFolder = "//localhost/";
-//     break;
-//   default:
-//     rootFolder = "//kdt-ph/";
-//     break;
-// }
+switch (document.location.hostname) {
+  case "kdt-ph":
+    rootFolder = "//kdt-ph/";
+    break;
+  case "localhost":
+    rootFolder = "//localhost/";
+    break;
+  default:
+    rootFolder = "//kdt-ph/";
+    break;
+}
 //#endregion
 
+checkAccess()
+  .then((acc) => {
+    if (acc) {
+      $(document).ready(function () {
+        Promise.all([
+          getDispatchlist(),
+          getExpiringPassport(),
+          getExpiringVisa(),
+        ])
+          .then(([dList, epList, evList]) => {
+            fillDispatchList(dList);
+            fillPassport(epList);
+            fillVisa(evList);
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      });
+    } else {
+      alert("Access denied");
+      window.location.href = `${rootFolder}`;
+    }
+  })
+  .catch((error) => {
+    alert(`${error}`);
+  });
+
 //#region BINDS
-$(document).ready(function () {
-  Promise.all([getDispatchlist(), getExpiringPassport(), getExpiringVisa()])
-    .then(([dList, epList, evList]) => {
-      fillDispatchList(dList);
-      fillPassport(epList);
-      fillVisa(evList);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-});
 
 $(document).on("change", "#idYear", function () {
   getDispatchlist()
@@ -199,5 +215,26 @@ function formatDays(numberOfDays) {
     return `${numberOfDays} days`;
   }
 }
-
+function checkAccess() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/check_permission.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+  });
+}
 //#endregion

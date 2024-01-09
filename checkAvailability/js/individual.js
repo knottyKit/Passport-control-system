@@ -1,33 +1,44 @@
 //#region GLOBALS
-// switch (document.location.hostname) {
-//   case "kdt-ph":
-//     rootFolder = "//kdt-ph/";
-//     break;
-//   case "localhost":
-//     rootFolder = "//localhost/";
-//     break;
-//   default:
-//     rootFolder = "//kdt-ph/";
-//     break;
-// }
+switch (document.location.hostname) {
+  case "kdt-ph":
+    rootFolder = "//kdt-ph/";
+    break;
+  case "localhost":
+    rootFolder = "//localhost/";
+    break;
+  default:
+    rootFolder = "//kdt-ph/";
+    break;
+}
 var dispatch_days = 0;
 var to_add = 0;
 const full = 183;
 //#endregion
-
+checkAccess()
+  .then((acc) => {
+    if (acc) {
+      $(document).ready(function () {
+        Promise.all([getGroups(), getEmployees(), getLocations()])
+          .then(([grps, emps, locs]) => {
+            fillGroups(grps);
+            fillEmployees(emps);
+            fillLocations(locs);
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+        mainHeight();
+      });
+    } else {
+      alert("Access denied");
+      window.location.href = `${rootFolder}`;
+    }
+  })
+  .catch((error) => {
+    alert(`${error}`);
+  });
 //#region BINDS
-$(document).ready(function () {
-  Promise.all([getGroups(), getEmployees(), getLocations()])
-    .then(([grps, emps, locs]) => {
-      fillGroups(grps);
-      fillEmployees(emps);
-      fillLocations(locs);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-  mainHeight();
-});
+
 $(window).resize(function () {
   mainHeight();
 });
@@ -61,16 +72,16 @@ $(document).on("change", ".ddates", function () {
   if (!startD || !endD) {
     return;
   }
-  var startDate = new Date(startD);
-  var endDate = new Date(endD);
-  if (endDate < startDate) {
-    alert("End date must not be earlier than start date.");
-    $("#endDate").val("");
-    to_add = 0;
-    countTotal();
-    $("#daysCount").text("");
-    return;
-  }
+  // var startDate = new Date(startD);
+  // var endDate = new Date(endD);
+  // if (endDate < startDate) {
+  //   alert("End date must not be earlier than start date.");
+  //   $("#endDate").val("");
+  //   to_add = 0;
+  //   countTotal();
+  //   $("#daysCount").text("");
+  //   return;
+  // }
   // var timeDifference = endDate - startDate;
   // var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
   // if (daysDifference === 1) {
@@ -527,6 +538,16 @@ function insertDispatch() {
     console.log("complete required fields");
     return;
   }
+  const startDate = new Date(startD);
+  const endDate = new Date(endD);
+  if (endDate < startDate) {
+    alert("End date must not be earlier than start date.");
+    $("#endDate").val("");
+    to_add = 0;
+    countTotal();
+    $("#daysCount").text("");
+    return;
+  }
   $.ajax({
     type: "POST",
     url: "php/insert_dispatch.php",
@@ -580,7 +601,7 @@ function mainHeight() {
 
   if ($(window).width() > 1456) {
     $(".main").css("height", `calc(100vh - ${title}`);
-    console.log(title);
+    // console.log(title);
   } else {
     $(".main").css("height", ``);
   }
@@ -647,6 +668,28 @@ function deleteDispatch() {
         reject("An unspecified error occurreds.");
       }
     },
+  });
+}
+function checkAccess() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/check_permission.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
   });
 }
 //#endregion

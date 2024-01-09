@@ -1,19 +1,42 @@
 //#region GLOBALS
+switch (document.location.hostname) {
+  case "kdt-ph":
+    rootFolder = "//kdt-ph/";
+    break;
+  case "localhost":
+    rootFolder = "//localhost/";
+    break;
+  default:
+    rootFolder = "//kdt-ph/";
+    break;
+}
 const dispTableID = ["eList", "eListNon"];
 //#endregion
 
+checkAccess()
+  .then((acc) => {
+    if (acc) {
+      $(document).ready(function () {
+        Promise.all([getGroups(), getEmployees()])
+          .then(([grps, emps]) => {
+            fillGroups(grps);
+            fillEmployees(emps);
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+        mainHeight();
+      });
+    } else {
+      alert("Access denied");
+      window.location.href = `${rootFolder}`;
+    }
+  })
+  .catch((error) => {
+    alert(`${error}`);
+  });
 //#region BINDS
-$(document).ready(function () {
-  Promise.all([getGroups(), getEmployees()])
-    .then(([grps, emps]) => {
-      fillGroups(grps);
-      fillEmployees(emps);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-  mainHeight();
-});
+
 $(window).on("resize", function () {
   mainHeight();
 });
@@ -170,5 +193,27 @@ function checkEmpty(tbodyID) {
     var newRow = `<tr><td colspan="6" class="text-center">No data found</td></tr>`;
     $(tbodySelector).append(newRow);
   }
+}
+function checkAccess() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/check_permission.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+  });
 }
 //#endregion
