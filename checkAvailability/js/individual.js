@@ -51,6 +51,9 @@ $(document).on("change", "#grpSel", function () {
     fillEmployees(emps);
   });
 });
+$(document).on("click", ".btn-cancel", function () {
+  $(this).closest(".modal").find(".btn-close").click();
+});
 $(document).on("change", ".ddates", function () {
   var startD = $("#startDate").val();
   var endD = $("#endDate").val();
