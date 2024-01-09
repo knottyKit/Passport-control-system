@@ -153,6 +153,7 @@ table thead tr {
   font-size: 12px !important;
   text-transform: uppercase;
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 .main .tables tbody tr:hover {
