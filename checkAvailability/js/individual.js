@@ -738,7 +738,7 @@ function saveEditEntry() {
   var loc = $("#editentryLocation").val();
   var dateJapan = $("#editentryDateJ").val();
   var datePh = $("#editentryDateP").val();
-
+  const empID = $("#empSel").find("option:selected").attr("emp-id");
   // var fd = new FormData();
   // fd.append("location", loc);
   // fd.append("dateJapan", dateJapan);
@@ -764,8 +764,10 @@ function saveEditEntry() {
       locID: loc,
       dateFrom: dateJapan,
       dateTo: datePh,
+      empID: empID,
     },
     success: function (response) {
+      console.log(response);
       Promise.all([getDispatchHistory(), getDispatchDays()])
         .then(([dlst, dd]) => {
           dHistory = dlst;
