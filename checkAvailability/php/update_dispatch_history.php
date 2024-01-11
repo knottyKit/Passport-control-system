@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-$dispatchID, $empNum = 0;
+$dispatchID = $empNum = 0;
 $dateFrom = $dateTo = NULL;
 #endregion
 
@@ -30,17 +30,21 @@ if (!empty($_POST["dateTo"])) {
 #region main function
 try {
     $range = [
-        "start" => $dateFrom;
-        "end" => $dateTo;
-    ]
+        "start" => $dateFrom,
+        "end" => $dateTo
+    ];
     
     if(checkOverlap($empNum, $range)) {
         $msg = "Dispatch conflict";
     } else {
         $updateQ = "UPDATE dispatch_list SET dispatch_from = :dateFrom, dispatch_to = :dateTo WHERE dispatch_id = :dispatchID";
         $updateStmt = $connpcs->prepare($updateQ);
-        $updateStmt->execute([":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"]);
-        $msg = "Update successfull";
+        if($updateStmt->execute([":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"])){
+            $msg = "Update successfull";
+        } else {
+            $msg = "Error updating";
+        }
+        
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
