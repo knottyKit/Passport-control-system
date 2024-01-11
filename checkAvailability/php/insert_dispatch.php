@@ -64,4 +64,4 @@ try {
 
 #endregion
 // echo json_encode(array('errors' => $errorMsg), JSON_PRETTY_PRINT);
-echo json_encode($errorMsg);
+echo json_encode($msg);

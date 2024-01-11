@@ -600,15 +600,17 @@ function insertDispatch() {
     },
     dataType: "json",
     success: function (response) {
+      console.log(response);
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
-        alert(`${response.conflict}`); // Reject the promise
+        alert(`${response.error}`); // Reject the promise
       } else {
-        Promise.all([getDispatchHistory(), getDispatchDays()])
-          .then(([dlst, dd]) => {
+        Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+          .then(([dlst, dd, yrl]) => {
             dHistory = dlst;
             fillHistory(dHistory);
             dispatch_days = dd;
+            fillYearly(yrl);
             $("#startDate").val("");
             $("#endDate").val("");
             $("#daysCount").text("");
@@ -690,11 +692,12 @@ function deleteDispatch() {
       dispatchID: delID,
     },
     success: function (response) {
-      Promise.all([getDispatchHistory(), getDispatchDays()])
-        .then(([dlst, dd]) => {
+      Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+        .then(([dlst, dd, yrl]) => {
           dHistory = dlst;
           fillHistory(dHistory);
           dispatch_days = dd;
+          fillYearly(yrl);
           countTotal();
           $("#deleteEntry .btn-close").click();
         })
@@ -768,16 +771,18 @@ function saveEditEntry() {
       dateTo: datePh,
       empID: empID,
     },
+    dataType: "json",
     success: function (response) {
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
         alert(`${response.conflict}`); // Reject the promise
       } else {
-        Promise.all([getDispatchHistory(), getDispatchDays()])
-          .then(([dlst, dd]) => {
+        Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+          .then(([dlst, dd, yrl]) => {
             dHistory = dlst;
             fillHistory(dHistory);
             dispatch_days = dd;
+            fillYearly(yrl);
             countTotal();
             $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
           })
