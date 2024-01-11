@@ -947,7 +947,7 @@ function computeTotalDays() {
   }
 }
 function getEditDetails(editID) {
-  const editItem = dHistory.find((item) => item.id === editID);
+  const editItem = dHistory.find((item) => parseInt(item.id) === editID);
   var loc = editItem["locationName"];
   var japan = editItem["fromDate"];
   var parsedDateJap = new Date(japan);
@@ -976,6 +976,5 @@ function getEditDetails(editID) {
   $("#editentryDateP").attr("min", formattedDateJap);
   $("#editentryLocation option:contains(" + loc + ")").prop("selected", true);
   $(" #editentryDays").html(total);
-  // $(" #editentryPYear").html(totalpast);
 }
 //#endregion

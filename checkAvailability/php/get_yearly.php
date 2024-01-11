@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-$empID = 446;
+$empID = 0;
 $yearlyDeets = array();
 $yearNow = date('Y');
 $yearPast = $yearNow - 1;
@@ -29,9 +29,9 @@ if (!empty($_POST["empID"])) {
 
 #region main function
 try {
-    $total["totalDaysPast"] = totalDuration($startPast, $endPast);
-    $total["totalDaysNow"] = totalDuration($startNow, $endNow);
-    $total["totalDaysFuture"] = totalDuration($startFuture, $endFuture);
+    $total["totalDaysPast"] = totalDuration($startPast, $endPast, $yearPast);
+    $total["totalDaysNow"] = totalDuration($startNow, $endNow, $yearNow);
+    $total["totalDaysFuture"] = totalDuration($startFuture, $endFuture, $yearFuture);
 
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
@@ -41,7 +41,7 @@ try {
 echo json_encode($total);
 
 #region function
-function totalDuration($startYear, $endYear)
+function totalDuration($startYear, $endYear, $dateNow)
 { 
     global $empID, $connpcs;
     $totalDays = 0;
@@ -56,17 +56,17 @@ function totalDuration($startYear, $endYear)
         foreach($dispatch as $val) {
             $dateFrom = $val["dispatch_from"];
             $dateTo = $val["dispatch_to"];
-            $daysDiff = getDuration($dateFrom, $dateTo);
-            $totalDays += $daysDiff + 1;
+            $daysDiff = getDuration($dateFrom, $dateTo, $dateNow);
+            $totalDays = $totalDays + $daysDiff + 1;
         }
     }
 
     return $totalDays;
 }
 
-function getDuration($dateFrom, $dateTo)
+function getDuration($dateFrom, $dateTo, $dateNow)
 {
-    $yearNow = date("Y");
+    $yearNow = $dateNow;
     $dateFromYear = date("Y", strtotime($dateFrom));
     $dateToYear = date("Y", strtotime($dateTo));
 

@@ -13,6 +13,7 @@ switch (document.location.hostname) {
 var dispatch_days = 0;
 var to_add = 0;
 const full = 183;
+var dHistory = [];
 //#endregion
 checkAccess()
   .then((acc) => {
@@ -51,16 +52,14 @@ $(document).on("click", "#closeNav", function () {
   $(".navigation").removeClass("open");
   $("body").removeClass("overflow-hidden");
 });
-// $(document).on("mouseenter", ".editThis", function () {
-//   $(this).addClass("hov");
-// });
-// $(document).on("mouseleave", ".editThis", function () {
-//   $(this).removeClass("hov");
-// });
 $(document).on("change", "#grpSel", function () {
   getEmployees().then((emps) => {
     fillEmployees(emps);
   });
+});
+$(document).on("click", ".btn-close", function () {
+  $(this).closest(".modal").find("input").attr("disabled", true);
+  $("#btn-saveEntry").attr("e-id", 0);
 });
 $(document).on("click", ".btn-cancel", function () {
   $(this).closest(".modal").find(".btn-close").click();
@@ -72,23 +71,6 @@ $(document).on("change", ".ddates", function () {
   if (!startD || !endD) {
     return;
   }
-  // var startDate = new Date(startD);
-  // var endDate = new Date(endD);
-  // if (endDate < startDate) {
-  //   alert("End date must not be earlier than start date.");
-  //   $("#endDate").val("");
-  //   to_add = 0;
-  //   countTotal();
-  //   $("#daysCount").text("");
-  //   return;
-  // }
-  // var timeDifference = endDate - startDate;
-  // var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
-  // if (daysDifference === 1) {
-  //   $("#daysCount").text(" 1 day.");
-  // } else {
-  //   $("#daysCount").text(`${daysDifference} days`);
-  // }
   countDays(startD, endD)
     .then((cd) => {
       displayDays(cd);
@@ -104,13 +86,16 @@ $(document).on("change", "#empSel", function () {
     getVisa(),
     getDispatchHistory(),
     getDispatchDays(),
+    getYearly(),
   ])
-    .then(([pass, vsa, dlst, dd]) => {
+    .then(([pass, vsa, dlst, dd, yrl]) => {
       fillPassport(pass);
       fillVisa(vsa);
       dispatch_days = dd;
-      fillHistory(dlst);
+      dHistory = dlst;
+      fillHistory(dHistory);
       countTotal();
+      fillYearly(yrl);
     })
     .catch((error) => {
       alert(`${error}`);
@@ -130,7 +115,8 @@ $(document).on("change", "#empSel", function () {
 $(document).on("change", "#dToggle", function () {
   getDispatchHistory()
     .then((dlst) => {
-      fillHistory(dlst);
+      dHistory = dlst;
+      fillHistory(dHistory);
     })
     .catch((error) => {
       alert(`${error}`);
@@ -174,39 +160,48 @@ $(document).on("click", "#updateEmp", function () {
 $(document).on("click", "#btn-saveEntry", function () {
   saveEditEntry();
 });
-$(document).on("change", "#editentryDateP", function () {
+$(document).on("change", ".edit-date", function () {
   computeTotalDays();
 });
+$(document).on("change", "#editentryDateP", function () {
+  $("#editentryDateJ").attr("max", $(this).val());
+});
+$(document).on("change", "#editentryDateJ", function () {
+  $("#editentryDateP").attr("min", $(this).val());
+});
 $(document).on("click", ".btn-edit", function () {
-  var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
-  var japan = $(this).closest("tr").find("td:eq(2)").html();
-  var parsedDateJap = new Date(japan);
+  // var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
+  // var japan = $(this).closest("tr").find("td:eq(2)").html();
+  // var parsedDateJap = new Date(japan);
 
-  var formattedDateJap =
-    parsedDateJap.getFullYear() +
-    "-" +
-    ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + parsedDateJap.getDate()).slice(-2);
-  var ph = $(this).closest("tr").find("td:eq(3)").html();
-  var parsedDatePh = new Date(ph);
-  var formattedDatePh =
-    parsedDatePh.getFullYear() +
-    "-" +
-    ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + parsedDatePh.getDate()).slice(-2);
+  // var formattedDateJap =
+  //   parsedDateJap.getFullYear() +
+  //   "-" +
+  //   ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
+  //   "-" +
+  //   ("0" + parsedDateJap.getDate()).slice(-2);
+  // var ph = $(this).closest("tr").find("td:eq(3)").html();
+  // var parsedDatePh = new Date(ph);
+  // var formattedDatePh =
+  //   parsedDatePh.getFullYear() +
+  //   "-" +
+  //   ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
+  //   "-" +
+  //   ("0" + parsedDatePh.getDate()).slice(-2);
 
-  var total = $(this).closest("tr").find("td:eq(4)").html();
-  var totalpast = $(this).closest("tr").find("td:eq(5)").html();
+  // var total = $(this).closest("tr").find("td:eq(4)").html();
+  // var totalpast = $(this).closest("tr").find("td:eq(5)").html();
 
-  $("#editentryDateJ").val(formattedDateJap);
-  $("#editentryDateP").val(formattedDatePh);
-  $("#editentryLocation").val(loc);
-  $(" #editentryDays").html(total);
-  $(" #editentryPYear").html(totalpast);
+  // $("#editentryDateJ").val(formattedDateJap);
+  // $("#editentryDateP").val(formattedDatePh);
+  // $("#editentryLocation").val(loc);
+  // $(" #editentryDays").html(total);
+  // $(" #editentryPYear").html(totalpast);
+  var trID = parseInt($(this).closest("tr").attr("d-id"));
+  getEditDetails(trID);
   $("#editentryDateP, #editentryDateJ").prop("disabled", false);
   $("#editEntry").modal("show");
+  $("#btn-saveEntry").attr("e-id", trID);
 });
 
 //#endregion
@@ -605,13 +600,14 @@ function insertDispatch() {
     },
     dataType: "json",
     success: function (response) {
-      const errorMsgs = response;
-      if (Object.keys(errorMsgs).length > 0) {
-        alert(`${errorMsgs.errors.conflict}`); // Reject the promise
+      const isSuccess = response.isSuccess;
+      if (!isSuccess) {
+        alert(`${response.conflict}`); // Reject the promise
       } else {
         Promise.all([getDispatchHistory(), getDispatchDays()])
           .then(([dlst, dd]) => {
-            fillHistory(dlst);
+            dHistory = dlst;
+            fillHistory(dHistory);
             dispatch_days = dd;
             $("#startDate").val("");
             $("#endDate").val("");
@@ -696,7 +692,8 @@ function deleteDispatch() {
     success: function (response) {
       Promise.all([getDispatchHistory(), getDispatchDays()])
         .then(([dlst, dd]) => {
-          fillHistory(dlst);
+          dHistory = dlst;
+          fillHistory(dHistory);
           dispatch_days = dd;
           countTotal();
           $("#deleteEntry .btn-close").click();
@@ -743,21 +740,60 @@ function saveEditEntry() {
   var loc = $("#editentryLocation").val();
   var dateJapan = $("#editentryDateJ").val();
   var datePh = $("#editentryDateP").val();
+  const empID = $("#empSel").find("option:selected").attr("emp-id");
+  // var fd = new FormData();
+  // fd.append("location", loc);
+  // fd.append("dateJapan", dateJapan);
+  // fd.append("datePh", datePh);
 
-  var fd = new FormData();
-  fd.append("location", loc);
-  fd.append("dateJapan", dateJapan);
-  fd.append("datePh", datePh);
-
+  // $.ajax({
+  //   type: "POST",
+  //   url: "",
+  //   data: fd,
+  //   contentType: false,
+  //   cache: false,
+  //   processData: false,
+  //   success: function (response) {
+  //     $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+  //   },
+  // });
+  const editID = $("#btn-saveEntry").attr("e-id");
   $.ajax({
     type: "POST",
-    url: "",
-    data: fd,
-    contentType: false,
-    cache: false,
-    processData: false,
+    url: "php/update_dispatch_history.php",
+    data: {
+      dispatchID: editID,
+      locID: loc,
+      dateFrom: dateJapan,
+      dateTo: datePh,
+      empID: empID,
+    },
     success: function (response) {
-      $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+      const isSuccess = response.isSuccess;
+      if (!isSuccess) {
+        alert(`${response.conflict}`); // Reject the promise
+      } else {
+        Promise.all([getDispatchHistory(), getDispatchDays()])
+          .then(([dlst, dd]) => {
+            dHistory = dlst;
+            fillHistory(dHistory);
+            dispatch_days = dd;
+            countTotal();
+            $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      }
+    },
+    error: function (xhr, status, error) {
+      if (xhr.status === 404) {
+        reject("Not Found Error: The requested resource was not found.");
+      } else if (xhr.status === 500) {
+        reject("Internal Server Error: There was a server error.");
+      } else {
+        reject("An unspecified error occurreds.");
+      }
     },
   });
 }
@@ -767,9 +803,81 @@ function computeTotalDays() {
 
   if (!isNaN(from.getTime()) && !isNaN(to.getTime())) {
     var differenceInTime = to.getTime() - from.getTime();
-    var differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+    var differenceInDays =
+      Math.round(differenceInTime / (1000 * 3600 * 24)) + 1;
 
     $("#editentryDays").html(differenceInDays);
+  }
+}
+function getEditDetails(editID) {
+  const editItem = dHistory.find((item) => parseInt(item.id) === editID);
+  console.log(editItem);
+  var loc = editItem["locationName"];
+  var japan = editItem["fromDate"];
+  var parsedDateJap = new Date(japan);
+
+  var formattedDateJap =
+    parsedDateJap.getFullYear() +
+    "-" +
+    ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + parsedDateJap.getDate()).slice(-2);
+  var ph = editItem["toDate"];
+  var parsedDatePh = new Date(ph);
+  var formattedDatePh =
+    parsedDatePh.getFullYear() +
+    "-" +
+    ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + parsedDatePh.getDate()).slice(-2);
+
+  var total = editItem["duration"];
+
+  $("#editentryDateJ").val(formattedDateJap);
+  $("#editentryDateJ").attr("max", formattedDatePh);
+  $("#editentryDateP").val(formattedDatePh);
+  $("#editentryDateP").attr("min", formattedDateJap);
+  $("#editentryLocation option:contains(" + loc + ")").prop("selected", true);
+  $(" #editentryDays").html(total);
+}
+function getYearly() {
+  const empID = $("#empSel").find("option:selected").attr("emp-id");
+  return new Promise((resolve, reject) => {
+    if (empID === undefined) {
+      resolve([]);
+    }
+    $.ajax({
+      type: "POST",
+      url: "php/get_yearly.php",
+      data: {
+        empID: empID,
+      },
+      dataType: "json",
+      success: function (response) {
+        const yrly = response;
+        resolve(yrly);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.3");
+        }
+      },
+    });
+  });
+}
+
+function fillYearly(yrl) {
+  if (Object.keys(yrl).length > 0) {
+    const prev = yrl.totalDaysPast;
+    const cur = yrl.totalDaysNow;
+    const fut = yrl.totalDaysFuture;
+    $("#y1-days").text(prev);
+    $("#y2-days").text(cur);
+    $("#y3-days").text(fut);
   }
 }
 //#endregion
