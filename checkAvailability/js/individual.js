@@ -86,14 +86,16 @@ $(document).on("change", "#empSel", function () {
     getVisa(),
     getDispatchHistory(),
     getDispatchDays(),
+    getYearly(),
   ])
-    .then(([pass, vsa, dlst, dd]) => {
+    .then(([pass, vsa, dlst, dd, yrl]) => {
       fillPassport(pass);
       fillVisa(vsa);
       dispatch_days = dd;
       dHistory = dlst;
       fillHistory(dHistory);
       countTotal();
+      fillYearly(yrl);
     })
     .catch((error) => {
       alert(`${error}`);
@@ -767,18 +769,22 @@ function saveEditEntry() {
       empID: empID,
     },
     success: function (response) {
-      console.log(response);
-      Promise.all([getDispatchHistory(), getDispatchDays()])
-        .then(([dlst, dd]) => {
-          dHistory = dlst;
-          fillHistory(dHistory);
-          dispatch_days = dd;
-          countTotal();
-          $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
+      const isSuccess = response.isSuccess;
+      if (!isSuccess) {
+        alert(`${response.conflict}`); // Reject the promise
+      } else {
+        Promise.all([getDispatchHistory(), getDispatchDays()])
+          .then(([dlst, dd]) => {
+            dHistory = dlst;
+            fillHistory(dHistory);
+            dispatch_days = dd;
+            countTotal();
+            $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      }
     },
     error: function (xhr, status, error) {
       if (xhr.status === 404) {
@@ -833,5 +839,45 @@ function getEditDetails(editID) {
   $("#editentryDateP").attr("min", formattedDateJap);
   $("#editentryLocation option:contains(" + loc + ")").prop("selected", true);
   $(" #editentryDays").html(total);
+}
+function getYearly() {
+  const empID = $("#empSel").find("option:selected").attr("emp-id");
+  return new Promise((resolve, reject) => {
+    if (empID === undefined) {
+      resolve([]);
+    }
+    $.ajax({
+      type: "POST",
+      url: "php/get_yearly.php",
+      data: {
+        empID: empID,
+      },
+      dataType: "json",
+      success: function (response) {
+        const yrly = response;
+        resolve(yrly);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.3");
+        }
+      },
+    });
+  });
+}
+
+function fillYearly(yrl) {
+  if (Object.keys(yrl).length > 0) {
+    const prev = yrl.totalDaysPast;
+    const cur = yrl.totalDaysNow;
+    const fut = yrl.totalDaysFuture;
+    $("#y1-days").text(prev);
+    $("#y2-days").text(cur);
+    $("#y3-days").text(fut);
+  }
 }
 //#endregion
