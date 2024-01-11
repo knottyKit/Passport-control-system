@@ -598,9 +598,9 @@ function insertDispatch() {
     },
     dataType: "json",
     success: function (response) {
-      const errorMsgs = response;
-      if (Object.keys(errorMsgs).length > 0) {
-        alert(`${errorMsgs.errors.conflict}`); // Reject the promise
+      const isSuccess = response.isSuccess;
+      if (!isSuccess) {
+        alert(`${response.conflict}`); // Reject the promise
       } else {
         Promise.all([getDispatchHistory(), getDispatchDays()])
           .then(([dlst, dd]) => {
