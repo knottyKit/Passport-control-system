@@ -37,8 +37,9 @@ checkAccess()
           getVisa(),
           getDispatchHistory(),
           getDispatchDays(),
+          getYearly(),
         ])
-          .then(([emps, pport, vsa, dlst, dd]) => {
+          .then(([emps, pport, vsa, dlst, dd, yrl]) => {
             userPass = pport;
             userVisa = vsa;
             fillDetails(emps);
@@ -47,6 +48,7 @@ checkAccess()
             dHistory = dlst;
             fillHistory(dHistory);
             displayDays(dd);
+            fillYearly(yrl);
             // dispatch_days = dd;
           })
           .catch((error) => {
@@ -634,11 +636,12 @@ function deleteDispatch() {
       dispatchID: delID,
     },
     success: function (response) {
-      Promise.all([getDispatchHistory(), getDispatchDays()])
-        .then(([dlst, dd]) => {
+      Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+        .then(([dlst, dd, yrl]) => {
           dHistory = dlst;
           fillHistory(dHistory);
           displayDays(dd);
+          fillYearly(yrl);
           $("#deleteEntry .btn-close").click();
         })
         .catch((error) => {
@@ -912,11 +915,12 @@ function saveEditEntry() {
       dateTo: datePh,
     },
     success: function (response) {
-      Promise.all([getDispatchHistory(), getDispatchDays()])
-        .then(([dlst, dd]) => {
+      Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+        .then(([dlst, dd, yrl]) => {
           dHistory = dlst;
           fillHistory(dHistory);
           displayDays(dd);
+          fillYearly(yrl);
           $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
         })
         .catch((error) => {
@@ -976,5 +980,50 @@ function getEditDetails(editID) {
   $("#editentryDateP").attr("min", formattedDateJap);
   $("#editentryLocation option:contains(" + loc + ")").prop("selected", true);
   $(" #editentryDays").html(total);
+}
+function getYearly() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: "php/get_yearly.php",
+      data: {
+        empID: empID,
+      },
+      dataType: "json",
+      success: function (response) {
+        const yrly = response;
+        resolve(yrly);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.3");
+        }
+      },
+    });
+  });
+}
+
+function fillYearly(yrl) {
+  console.log(yrl);
+  if (Object.keys(yrl).length > 0) {
+    const prev = yrl.totalDaysPast;
+    const cur = yrl.totalDaysNow;
+    const fut = yrl.totalDaysFuture;
+    $("#y1-days").text(prev);
+    $("#y2-days").text(cur);
+    $("#y3-days").text(fut);
+  }
+}
+function getYears() {
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+  const nextYear = currentYear + 1;
+  $("#y1").text(previousYear);
+  $("#y2").text(currentYear);
+  $("#y3").text(nextYear);
 }
 //#endregion
