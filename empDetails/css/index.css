@@ -248,6 +248,10 @@ table thead tr {
 .emptyState-visa {
   opacity: 0.25;
 }
+.totalDays{
+  font-size: 24px;
+  font-weight: 700;
+}
 @media (min-width: 1149px) and (max-width: 1456px) {
   .right {
     flex-direction: row !important;
