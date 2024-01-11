@@ -191,7 +191,7 @@ nav li.active {
   color: var(--red-color);
 }
 .dispatch-hist {
-  height: calc(100% - 480px);
+  height: calc(100vh - 654px);
 }
 .dispatch-hist table thead th {
   text-transform: uppercase;

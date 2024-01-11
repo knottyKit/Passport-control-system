@@ -88,6 +88,14 @@ $(document).on("input", "#empSearch", function () {
       alert(`${error}`);
     });
 });
+$(document).on("click", ".sortEmpNum", function () {
+  $(this).closest(".table").find("tbody");
+  //SOrt EMP NUM
+});
+$(document).on("click", ".sortEmpName", function () {
+  $(this).closest(".table").find("tbody");
+  //SORT EMP NAME
+});
 //#endregion
 
 //#region FUNCTIONS
