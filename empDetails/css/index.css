@@ -252,6 +252,7 @@ table thead tr {
   font-size: 24px;
   font-weight: 700;
 }
+
 @media (min-width: 1149px) and (max-width: 1456px) {
   .right {
     flex-direction: row !important;
