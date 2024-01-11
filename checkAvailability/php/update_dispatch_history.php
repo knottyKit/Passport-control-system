@@ -13,7 +13,7 @@ $dateFrom = $dateTo = NULL;
 #endregion
 
 #region get values
-if(!empty($_POST["empID"])) {
+if (!empty($_POST["empID"])) {
     $empNum = $_POST["empID"];
 }
 if (!empty($_POST["dispatchID"])) {
@@ -36,13 +36,13 @@ try {
         "start" => $dateFrom,
         "end" => $dateTo
     ];
-    
-    if(checkOverlap($range) == false) {
+
+    if (checkOverlap($range)) {
         $msg = "Dispatch conflict";
     } else {
         $updateQ = "UPDATE dispatch_list SET location_id = :dispatchLoc, dispatch_from = :dateFrom, dispatch_to = :dateTo WHERE dispatch_id = :dispatchID";
         $updateStmt = $connpcs->prepare($updateQ);
-        if($updateStmt->execute([":dispatchLoc" => "$dispatchLoc", ":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"])){
+        if ($updateStmt->execute([":dispatchLoc" => "$dispatchLoc", ":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"])) {
             $msg = "Update successfull";
         } else {
             $msg = "Error updating";
