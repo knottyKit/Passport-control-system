@@ -143,7 +143,7 @@ table thead tr {
 }
 
 .main .tables {
-  height: calc(100% - 71px);
+  height: calc(100vh - 88px)
 }
 .main .tables thead tr {
   box-shadow: 0px 4px 4px -4px rgba(0, 0, 0, 0.2) !important;
@@ -184,46 +184,11 @@ table tbody tr td i:hover {
   border-radius: 3px;
 }
 .table-cont {
-  opacity: 0;
-  transition: opacity 0.35s ease-out;
   background-color: #fff;
   width: 100%;
-  height: calc(100% - 102px);
+  height: calc(100% - 100px);
 }
 
-.table-one {
-  position: absolute;
-  top: 30px;
-  right: 0;
-  transition: all 0.5s ease-out;
-}
-
-.table-two {
-  position: absolute;
-  top: 30px;
-  left: 100%;
-  transition: all 0.5s ease-out;
-}
-
-.table-cont.active {
-  opacity: 1;
-}
-
-.table-two.active {
-  left: 0;
-}
-
-.table-two.active ~ .table-one {
-  right: 100%;
-}
-
-.table-one.active {
-  right: 0;
-}
-
-.table-one.active ~ .table-two {
-  left: 100%;
-}
 .pageTitle {
   padding: 20px;
 }
