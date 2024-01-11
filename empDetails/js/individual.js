@@ -15,6 +15,7 @@ var userPass = [];
 var userVisa = [];
 const full = 183;
 var empDetails = [];
+var dHistory = [];
 // var dispatch_days = 0;
 //#endregion
 
@@ -43,7 +44,8 @@ checkAccess()
             fillDetails(emps);
             fillPassport(userPass);
             fillVisa(userVisa);
-            fillHistory(dlst);
+            dHistory = dlst;
+            fillHistory(dHistory);
             displayDays(dd);
             // dispatch_days = dd;
           })
@@ -122,9 +124,11 @@ $(document).on("click", "#btn-updatePass", function () {
 $(document).on("click", ".btn-close", function () {
   $(this).closest(".modal").find(".attach").addClass("d-none");
   $(this).closest(".modal").find("input").attr("disabled", true);
+  $("#btn-saveEntry").attr("e-id", 0);
 });
 $(document).on("click", ".btn-cancel", function () {
   $(this).closest(".modal").find(".btn-close").click();
+  $("#btn-saveEntry").attr("e-id", 0);
 });
 $(document).on("click", "#updatePass .btn-close", function () {
   resetPassInput();
@@ -145,7 +149,8 @@ $(document).on("click", "#btn-deleteEntry", function () {
 $(document).on("change", "#dToggle", function () {
   getDispatchHistory()
     .then((dlst) => {
-      fillHistory(dlst);
+      dHistory = dlst;
+      fillHistory(dHistory);
     })
     .catch((error) => {
       alert(`${error}`);
@@ -223,39 +228,48 @@ $(document).on("click", "#upVisaExp", function () {
 $(document).on("click", "#btn-saveEntry", function () {
   saveEditEntry();
 });
-$(document).on("change", "#editentryDateP", function () {
+$(document).on("change", ".edit-date", function () {
   computeTotalDays();
 });
+$(document).on("change", "#editentryDateJ", function () {
+  $("#editentryDateP").attr("min", $(this).val());
+});
+$(document).on("change", "#editentryDateP", function () {
+  $("#editentryDateJ").attr("max", $(this).val());
+});
 $(document).on("click", ".btn-edit", function () {
-  var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
-  var japan = $(this).closest("tr").find("td:eq(2)").html();
-  var parsedDateJap = new Date(japan);
+  // var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
+  // var japan = $(this).closest("tr").find("td:eq(2)").html();
+  // var parsedDateJap = new Date(japan);
 
-  var formattedDateJap =
-    parsedDateJap.getFullYear() +
-    "-" +
-    ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + parsedDateJap.getDate()).slice(-2);
-  var ph = $(this).closest("tr").find("td:eq(3)").html();
-  var parsedDatePh = new Date(ph);
-  var formattedDatePh =
-    parsedDatePh.getFullYear() +
-    "-" +
-    ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + parsedDatePh.getDate()).slice(-2);
+  // var formattedDateJap =
+  //   parsedDateJap.getFullYear() +
+  //   "-" +
+  //   ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
+  //   "-" +
+  //   ("0" + parsedDateJap.getDate()).slice(-2);
+  // var ph = $(this).closest("tr").find("td:eq(3)").html();
+  // var parsedDatePh = new Date(ph);
+  // var formattedDatePh =
+  //   parsedDatePh.getFullYear() +
+  //   "-" +
+  //   ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
+  //   "-" +
+  //   ("0" + parsedDatePh.getDate()).slice(-2);
 
-  var total = $(this).closest("tr").find("td:eq(4)").html();
-  var totalpast = $(this).closest("tr").find("td:eq(5)").html();
+  // var total = $(this).closest("tr").find("td:eq(4)").html();
+  // var totalpast = $(this).closest("tr").find("td:eq(5)").html();
 
-  $("#editentryDateJ").val(formattedDateJap);
-  $("#editentryDateP").val(formattedDatePh);
-  $("#editentryLocation").val(loc);
-  $(" #editentryDays").html(total);
-  $(" #editentryPYear").html(totalpast);
+  // $("#editentryDateJ").val(formattedDateJap);
+  // $("#editentryDateP").val(formattedDatePh);
+  // $("#editentryLocation").val(loc);
+  // $(" #editentryDays").html(total);
+  // $(" #editentryPYear").html(totalpast);
+  var trID = parseInt($(this).closest("tr").attr("d-id"));
+  getEditDetails(trID);
   $("#editentryDateP, #editentryDateJ").prop("disabled", false);
   $("#editEntry").modal("show");
+  $("#btn-saveEntry").attr("e-id", trID);
 });
 //#endregion
 
@@ -622,7 +636,8 @@ function deleteDispatch() {
     success: function (response) {
       Promise.all([getDispatchHistory(), getDispatchDays()])
         .then(([dlst, dd]) => {
-          fillHistory(dlst);
+          dHistory = dlst;
+          fillHistory(dHistory);
           displayDays(dd);
           $("#deleteEntry .btn-close").click();
         })
@@ -870,20 +885,52 @@ function saveEditEntry() {
   var dateJapan = $("#editentryDateJ").val();
   var datePh = $("#editentryDateP").val();
 
-  var fd = new FormData();
-  fd.append("location", loc);
-  fd.append("dateJapan", dateJapan);
-  fd.append("datePh", datePh);
+  // var fd = new FormData();
+  // fd.append("location", loc);
+  // fd.append("dateJapan", dateJapan);
+  // fd.append("datePh", datePh);
 
+  // $.ajax({
+  //   type: "POST",
+  //   url: "",
+  //   data: fd,
+  //   contentType: false,
+  //   cache: false,
+  //   processData: false,
+  //   success: function (response) {
+  //     $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+  //   },
+  // });
+  const editID = $("#btn-saveEntry").attr("e-id");
   $.ajax({
     type: "POST",
-    url: "",
-    data: fd,
-    contentType: false,
-    cache: false,
-    processData: false,
+    url: "php/update_dispatch_history.php",
+    data: {
+      dispatchID: editID,
+      locID: loc,
+      dateFrom: dateJapan,
+      dateTo: datePh,
+    },
     success: function (response) {
-      $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+      Promise.all([getDispatchHistory(), getDispatchDays()])
+        .then(([dlst, dd]) => {
+          dHistory = dlst;
+          fillHistory(dHistory);
+          displayDays(dd);
+          $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+        })
+        .catch((error) => {
+          alert(`${error}`);
+        });
+    },
+    error: function (xhr, status, error) {
+      if (xhr.status === 404) {
+        reject("Not Found Error: The requested resource was not found.");
+      } else if (xhr.status === 500) {
+        reject("Internal Server Error: There was a server error.");
+      } else {
+        reject("An unspecified error occurreds.");
+      }
     },
   });
 }
@@ -893,9 +940,42 @@ function computeTotalDays() {
 
   if (!isNaN(from.getTime()) && !isNaN(to.getTime())) {
     var differenceInTime = to.getTime() - from.getTime();
-    var differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+    var differenceInDays =
+      Math.round(differenceInTime / (1000 * 3600 * 24)) + 1;
 
     $("#editentryDays").html(differenceInDays);
   }
+}
+function getEditDetails(editID) {
+  const editItem = dHistory.find((item) => item.id === editID);
+  var loc = editItem["locationName"];
+  var japan = editItem["fromDate"];
+  var parsedDateJap = new Date(japan);
+
+  var formattedDateJap =
+    parsedDateJap.getFullYear() +
+    "-" +
+    ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + parsedDateJap.getDate()).slice(-2);
+  var ph = editItem["toDate"];
+  var parsedDatePh = new Date(ph);
+  var formattedDatePh =
+    parsedDatePh.getFullYear() +
+    "-" +
+    ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + parsedDatePh.getDate()).slice(-2);
+
+  var total = editItem["duration"];
+  var totalpast = editItem["pastOne"];
+
+  $("#editentryDateJ").val(formattedDateJap);
+  $("#editentryDateJ").attr("max", formattedDatePh);
+  $("#editentryDateP").val(formattedDatePh);
+  $("#editentryDateP").attr("min", formattedDateJap);
+  $("#editentryLocation option:contains(" + loc + ")").prop("selected", true);
+  $(" #editentryDays").html(total);
+  // $(" #editentryPYear").html(totalpast);
 }
 //#endregion

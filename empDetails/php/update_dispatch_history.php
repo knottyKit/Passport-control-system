@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-$dispatchID = 0;
+$dispatchID = $dispatchLoc = 0;
 $dateFrom = $dateTo = NULL;
 #endregion
 
@@ -21,6 +21,9 @@ if (!empty($_POST["dateFrom"])) {
 }
 if (!empty($_POST["dateTo"])) {
     $dateTo = $_POST["dateTo"];
+}
+if (!empty($_POST["locID"])) {
+    $dispatchLoc = $_POST["locID"];
 }
 #endregion
 
