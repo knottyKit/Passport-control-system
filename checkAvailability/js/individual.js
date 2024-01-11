@@ -19,6 +19,7 @@ checkAccess()
   .then((acc) => {
     if (acc) {
       $(document).ready(function () {
+        getYears();
         Promise.all([getGroups(), getEmployees(), getLocations()])
           .then(([grps, emps, locs]) => {
             fillGroups(grps);
@@ -884,5 +885,13 @@ function fillYearly(yrl) {
     $("#y2-days").text(cur);
     $("#y3-days").text(fut);
   }
+}
+function getYears() {
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+  const nextYear = currentYear + 1;
+  $("#y1").text(previousYear);
+  $("#y2").text(currentYear);
+  $("#y3").text(nextYear);
 }
 //#endregion
