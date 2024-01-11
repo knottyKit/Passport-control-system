@@ -667,7 +667,7 @@ function savePass() {
   const upload = $("#upPassAttach").val();
   const extension = upload.slice(((upload.lastIndexOf(".") - 1) >>> 0) + 2);
   if (fPath) {
-    if (extension !== "pdf") {
+    if (extension.toLowerCase() !== "pdf") {
       alert("Please attach PDF files only");
       $("#upPassAttach").val("");
       return;
@@ -763,7 +763,7 @@ function saveVisa() {
   const upload = $("#upVisaAttach").val();
   const extension = upload.slice(((upload.lastIndexOf(".") - 1) >>> 0) + 2);
   if (fPath) {
-    if (extension !== "pdf") {
+    if (extension.toLowerCase() !== "pdf") {
       alert("Please attach PDF files only");
       $("#upVisaAttach").val("");
       return;
