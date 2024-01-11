@@ -187,7 +187,7 @@ function getGroups() {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.7");
         }
       },
     });
@@ -225,7 +225,7 @@ function getEmployees() {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.6");
         }
       },
     });
@@ -262,7 +262,7 @@ function countDays(strt, end) {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.5");
         }
       },
     });
@@ -314,7 +314,7 @@ function getPassport() {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.4");
         }
       },
     });
@@ -374,7 +374,7 @@ function getVisa() {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.3");
         }
       },
     });
@@ -619,7 +619,7 @@ function getLocations() {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.2");
         }
       },
     });
@@ -683,7 +683,7 @@ function checkAccess() {
         } else if (xhr.status === 500) {
           reject("Internal Server Error: There was a server error.");
         } else {
-          reject("An unspecified error occurred.");
+          reject("An unspecified error occurred.1");
         }
       },
     });
