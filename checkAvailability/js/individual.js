@@ -802,7 +802,8 @@ function computeTotalDays() {
   }
 }
 function getEditDetails(editID) {
-  const editItem = dHistory.find((item) => item.id === editID);
+  const editItem = dHistory.find((item) => parseInt(item.id) === editID);
+  console.log(editItem);
   var loc = editItem["locationName"];
   var japan = editItem["fromDate"];
   var parsedDateJap = new Date(japan);
