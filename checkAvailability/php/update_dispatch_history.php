@@ -8,11 +8,14 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-$dispatchID = 0;
+$dispatchID, $empNum = 0;
 $dateFrom = $dateTo = NULL;
 #endregion
 
 #region get values
+if(!empty($_POST["empID"])) {
+    $empNum = $_POST["empID"];
+}
 if (!empty($_POST["dispatchID"])) {
     $dispatchID = $_POST["dispatchID"];
 }
@@ -26,10 +29,41 @@ if (!empty($_POST["dateTo"])) {
 
 #region main function
 try {
-    $updateQ = "UPDATE dispatch_list SET dispatch_from = :dateFrom, dispatch_to = :dateTo WHERE dispatch_id = :dispatchID";
-    $updateStmt = $connpcs->prepare($updateQ);
-    $updateStmt->execute([":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"]);
+    $range = [
+        "start" => $dateFrom;
+        "end" => $dateTo;
+    ]
+    
+    if(checkOverlap($empNum, $range)) {
+        $msg = "Dispatch conflict";
+    } else {
+        $updateQ = "UPDATE dispatch_list SET dispatch_from = :dateFrom, dispatch_to = :dateTo WHERE dispatch_id = :dispatchID";
+        $updateStmt = $connpcs->prepare($updateQ);
+        $updateStmt->execute([":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"]);
+        $msg = "Update successfull";
+    }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
+}
+#endregion
+
+echo $msg;
+
+#region function
+function checkOverlap($empnum, $range)
+{
+    global $connpcs;
+    $isOverlap = false;
+    $starttime = $range['start'];
+    $endtime = $range['end'];
+    $dispatchQ = "SELECT * FROM `dispatch_list` WHERE `emp_number` = :empnum AND ((`dispatch_from` <= :starttime AND `dispatch_to` >= :starttime) OR 
+    (`dispatch_from` <= :endtime AND `dispatch_to` >= :endtime) OR (:starttime <= `dispatch_from` AND :endtime >= `dispatch_from`) OR (:starttime <= `dispatch_to` AND :endtime >= `dispatch_to`))";
+    $dispatchStmt = $connpcs->prepare($dispatchQ);
+    $dispatchStmt->execute([":empnum" => $empnum, ":starttime" => $starttime, ":endtime" => $endtime]);
+    if ($dispatchStmt->rowCount() > 0) {
+        $isOverlap = true;
+    }
+
+    return $isOverlap;
 }
 #endregion
