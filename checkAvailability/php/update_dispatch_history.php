@@ -38,12 +38,14 @@ try {
     ];
 
     if (checkOverlap($range)) {
-        $msg = "Dispatch conflict";
+        $msg["isSuccess"] = false;
+        $msg["error"] = "Dispatch conflict";
     } else {
         $updateQ = "UPDATE dispatch_list SET location_id = :dispatchLoc, dispatch_from = :dateFrom, dispatch_to = :dateTo WHERE dispatch_id = :dispatchID";
         $updateStmt = $connpcs->prepare($updateQ);
         if ($updateStmt->execute([":dispatchLoc" => "$dispatchLoc", ":dateFrom" => "$dateFrom", ":dateTo" => "$dateTo", ":dispatchID" => "$dispatchID"])) {
-            $msg = "Update successfull";
+            $msg["isSuccess"] = true;
+            $msg["error"] = "Update successfull";
         } else {
             $msg["isSuccess"] = false;
             $msg["error"] = "Error updating";

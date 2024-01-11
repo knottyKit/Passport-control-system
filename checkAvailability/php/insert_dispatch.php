@@ -35,10 +35,9 @@ $newRange = [
     'start' => $dateFrom,
     'end' => $dateTo,
 ];
-$errorMsg['isSuccess'] = true;
 if (checkOverlap($empNumber, $newRange)) {
-    $errorMsg['isSuccess'] = false;
-    $errorMsg['conflict'] = "Dispatch Conflict";
+    $msg["isSuccess"] = false;
+    $msg['error'] = "Dispatch Conflict";
 }
 $locID = 0;
 if (!empty($_POST['locID'])) {
@@ -64,9 +63,5 @@ try {
 }
 
 #endregion
-if (!empty($errorMsg)) {
-    // echo json_encode(array('errors' => $errorMsg), JSON_PRETTY_PRINT);
-    echo json_encode($errorMsg);
-} else {
-    echo json_encode([]);
-}
+// echo json_encode(array('errors' => $errorMsg), JSON_PRETTY_PRINT);
+echo json_encode($errorMsg);
