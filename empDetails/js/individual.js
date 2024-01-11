@@ -976,6 +976,5 @@ function getEditDetails(editID) {
   $("#editentryDateP").attr("min", formattedDateJap);
   $("#editentryLocation option:contains(" + loc + ")").prop("selected", true);
   $(" #editentryDays").html(total);
-  // $(" #editentryPYear").html(totalpast);
 }
 //#endregion
