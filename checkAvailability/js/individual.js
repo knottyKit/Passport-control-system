@@ -171,6 +171,44 @@ $(document).on("click", "#updateEmp", function () {
   }
 });
 
+$(document).on("click", "#btn-saveEntry", function () {
+  saveEditEntry();
+});
+$(document).on("change", "#editentryDateP", function () {
+  computeTotalDays();
+});
+$(document).on("click", ".btn-edit", function () {
+  var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
+  var japan = $(this).closest("tr").find("td:eq(2)").html();
+  var parsedDateJap = new Date(japan);
+
+  var formattedDateJap =
+    parsedDateJap.getFullYear() +
+    "-" +
+    ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + parsedDateJap.getDate()).slice(-2);
+  var ph = $(this).closest("tr").find("td:eq(3)").html();
+  var parsedDatePh = new Date(ph);
+  var formattedDatePh =
+    parsedDatePh.getFullYear() +
+    "-" +
+    ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + parsedDatePh.getDate()).slice(-2);
+
+  var total = $(this).closest("tr").find("td:eq(4)").html();
+  var totalpast = $(this).closest("tr").find("td:eq(5)").html();
+
+  $("#editentryDateJ").val(formattedDateJap);
+  $("#editentryDateP").val(formattedDatePh);
+  $("#editentryLocation").val(loc);
+  $(" #editentryDays").html(total);
+  $(" #editentryPYear").html(totalpast);
+  $("#editentryDateP, #editentryDateJ").prop("disabled", false);
+  $("#editEntry").modal("show");
+});
+
 //#endregion
 
 //#region FUNCTIONS
@@ -456,7 +494,15 @@ function fillHistory(dlist) {
       row.append(`<td>${item.toDate}</td>`);
       row.append(`<td>${item.duration}</td>`);
       row.append(`<td>${item.pastOne}</td>`);
-      row.append(`<td>                            <div class="d-flex gap-2">
+      row.append(`<td>
+      <div class="d-flex gap-2">
+      <button
+        class="btn-edit"
+        title="Edit Entry"
+        
+      >
+      <i class='bx bxs-edit fs-5' ></i>
+      </button>
       <button
         class="btn-delete"
         title="Delete Entry"
@@ -691,5 +737,39 @@ function checkAccess() {
       },
     });
   });
+}
+
+function saveEditEntry() {
+  var loc = $("#editentryLocation").val();
+  var dateJapan = $("#editentryDateJ").val();
+  var datePh = $("#editentryDateP").val();
+
+  var fd = new FormData();
+  fd.append("location", loc);
+  fd.append("dateJapan", dateJapan);
+  fd.append("datePh", datePh);
+
+  $.ajax({
+    type: "POST",
+    url: "",
+    data: fd,
+    contentType: false,
+    cache: false,
+    processData: false,
+    success: function (response) {
+      $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+    },
+  });
+}
+function computeTotalDays() {
+  var from = new Date($("#editentryDateJ").val());
+  var to = new Date($("#editentryDateP").val());
+
+  if (!isNaN(from.getTime()) && !isNaN(to.getTime())) {
+    var differenceInTime = to.getTime() - from.getTime();
+    var differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+
+    $("#editentryDays").html(differenceInDays);
+  }
 }
 //#endregion
