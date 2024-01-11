@@ -9,7 +9,13 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize variables
-
+$adminMembers = array("panado-g1@global.kawasaki.com", "soriano-kdt@global.kawasaki.com", "magno-kdt@global.kawasaki.com", "mesias-kdt@global.kawasaki.com");
+$adminMembers = implode(", ", $adminMembers);
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+$headers .= "From: kdtreminder@corp.khi.co.jp" . "\r\n";
+$headers .= "CC: " . $adminMembers;
+$subject = 'Expiring Passport (for testing)';
 #endregion
 
 #region main function
@@ -45,11 +51,7 @@ try {
 
 function sendEmail($expiryID, $sendDays, $type)
 {
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: kdtexpiringpassportreminder@corp.khi.co.jp";
-    $subject = 'Expiring Passport';
-
+    global $headers, $subject;
     foreach ($expiryID as $val) {
         $expiringIn = $val["expiringIn"];
         $expiringDate = $val["expiringDate"];
@@ -59,9 +61,9 @@ function sendEmail($expiryID, $sendDays, $type)
         if (in_array($expiringIn, $sendDays)) {
             $expiringDate = strtotime($expiringDate);
             $expiringDate = date("d M Y", $expiringDate);
-            $message = "Your " . $type . " with number " . $idNum . " will be expiring in " . $expiringDate . " (for testing)";
+            $message = "Your " . $type . " with number " . $idNum . " will be expiring in " . $expiringDate;
             if ($expiringIn == 0) {
-                $message = "Your " . $type . " with number " . $idNum . " will be expiring today (for testing)";
+                $message = "Your " . $type . " with number " . $idNum . " will be expiring today";
             }
 
             mail($email, $subject, $message, $headers);

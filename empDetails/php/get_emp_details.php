@@ -29,7 +29,11 @@ try {
     // $val["pictureLink"] = "path/" . $val["id"] . "/picture.jpg";
     // }
     $version = date("YmdHis");
+    $picLink = "../EmployeesFolder/" . $empDeets["id"] . "/picture.jpg";
     $empDeets["pictureLink"] = "./EmployeesFolder/" . $empDeets["id"] . "/picture.jpg?version=" . $version;
+    if(!file_exists($picLink)) {
+        $empDeets["pictureLink"] = "./EmployeesFolder/defaultqmsphoto.png";
+    }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
