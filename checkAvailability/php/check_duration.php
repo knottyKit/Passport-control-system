@@ -44,6 +44,7 @@ try {
 
 echo $dispatchCount;
 
+#region function
 function getDuration($dateFrom, $dateTo)
 {
     $yearNow = date("Y");
@@ -70,3 +71,4 @@ function getDuration($dateFrom, $dateTo)
 
     return $difference->days;
 }
+#endregion

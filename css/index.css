@@ -132,7 +132,7 @@ nav li.active {
 }
 .table-container {
   overflow: auto;
-  height: calc(100% - 80px);
+  height: calc(100% - 42px);
 }
 table tbody tr:hover {
   background-color: #ededed;
@@ -161,7 +161,7 @@ table tbody tr:hover {
 }
 .passportExp,
 .visaExp {
-  height: calc(100% - 100px);
+  height: calc(100% - 117px);
 }
 .passportExp thead th,
 .visaExp thead th {
