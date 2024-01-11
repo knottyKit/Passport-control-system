@@ -48,15 +48,7 @@ $(document).on("click", "#closeNav", function () {
   $(".navigation").removeClass("open");
   $("body").removeClass("overflow-hidden");
 });
-$(document).on("click", ".table-titles .title.first", function () {
-  $(".table-titles .title.second, .table-two").removeClass("active");
-  $(this).addClass("active");
-  $(".table-one").addClass("active");
-});
-$(document).on("click", ".table-titles .title.second", function () {
-  $(".table-titles .title.second, .table-two").addClass("active");
-  $(".table-titles .title.first, .table-one").removeClass("active");
-});
+
 $(document).on("click", ".seeMore", function () {
   var empID = $(this).attr("id");
   window.location.href = `../empDetails?id=${empID}`;

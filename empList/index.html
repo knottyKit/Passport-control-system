@@ -208,10 +208,7 @@
             </div>
             <h1 class="fw-semibold m-0">Employee List</h1>
           </div>
-          <div class="table-titles d-flex">
-            <div class="title active first">For Dispatch</div>
-            <div class="title second">Non Dispatch</div>
-          </div>
+    
           <div class="tables position-relative overflow-hidden p-3">
             <div class="filters d-flex gap-3 mb-3">
               <div class="search position-relative w-100">
@@ -230,19 +227,8 @@
                 </select>
               </div>
             </div>
-            <div class="w-100 h-100 position-relative">
-              <div
-                class="d-flex gap-1 position-relative align-items-center px-3"
-                style="opacity: 0.75"
-              >
-                <i class="bx bx-info-circle"></i>
-                <small
-                  >All employees in Non Dispatch table won't be shown in
-                  Employee Dispatch Management and won't be shown in upcoming
-                  expirations.
-                </small>
-              </div>
-              <div class="table-cont table-one overflow-auto active px-3 pb-3">
+            
+              <div class="table-cont overflow-auto px-3 pb-3">
                 <table class="table">
                   <thead class="sticky-top">
                     <tr>
@@ -273,47 +259,8 @@
                   <tbody id="eList"></tbody>
                 </table>
               </div>
-              <div class="table-cont table-two overflow-auto px-3 pb-3">
-                <table class="table">
-                  <thead class="sticky-top">
-                    <tr>
-                      <th>
-                        <div class="d-flex align-items-center gap-2">
-                          <span>Emp No.</span
-                          ><i
-                            class="bx bx-sort-alt-2 fs-5 sortEmpNum"
-                            role="button"
-                          ></i>
-                        </div>
-                      </th>
-                      <th>
-                        <div class="d-flex align-items-center gap-2">
-                          <span>Name</span
-                          ><i
-                            class="bx bx-sort-a-z fs-5 sortEmpName"
-                            role="button"
-                          ></i>
-                        </div>
-                      </th>
-                      <th>Group</th>
-                      <th>Passport Expiration</th>
-                      <th>Visa Expiration</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="eListNon">
-                    <tr>
-                      <td>487</td>
-                      <td>Collene sdgsajdk</td>
-                      <td>SYS</td>
-                      <td>20 AUG 2023</td>
-                      <td>21 JAN 2025</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+              
+            
           </div>
         </div>
       </div>
