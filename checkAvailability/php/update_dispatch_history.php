@@ -62,7 +62,7 @@ function checkOverlap($range)
     $isOverlap = false;
     $starttime = $range['start'];
     $endtime = $range['end'];
-    $dispatchQ = "SELECT * FROM `dispatch_list` WHERE `emp_number` = :empNum AND `dispatch_id` != :dispatchID ((`dispatch_from` <= :starttime AND `dispatch_to` >= :starttime) OR 
+    $dispatchQ = "SELECT * FROM `dispatch_list` WHERE `emp_number` = :empNum AND `dispatch_id` != :dispatchID AND ((`dispatch_from` <= :starttime AND `dispatch_to` >= :starttime) OR 
     (`dispatch_from` <= :endtime AND `dispatch_to` >= :endtime) OR (:starttime <= `dispatch_from` AND :endtime >= `dispatch_from`) OR (:starttime <= `dispatch_to` AND :endtime >= `dispatch_to`))";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":empNum" => $empNum, ":starttime" => $starttime, ":endtime" => $endtime, ":dispatchID" => $dispatchID]);
