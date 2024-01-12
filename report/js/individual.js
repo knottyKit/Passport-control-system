@@ -49,19 +49,6 @@ $(document).on("click", "#closeNav", function () {
   $("body").removeClass("overflow-hidden");
 });
 
-$(document).on("click", ".seeMore", function () {
-  var empID = $(this).attr("id");
-  window.location.href = `../empDetails?id=${empID}`;
-});
-$(document).on("click", ".title", function () {
-  getEmployees()
-    .then((emps) => {
-      fillEmployees(emps);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-});
 $(document).on("change", "#grpSel", function () {
   getEmployees()
     .then((emps) => {
@@ -71,26 +58,22 @@ $(document).on("change", "#grpSel", function () {
       alert(`${error}`);
     });
 });
-$(document).on("input", "#empSearch", function () {
-  getEmployees()
-    .then((emps) => {
-      fillEmployees(emps);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-});
-$(document).on("click", ".sortEmpNum", function () {
-  $(this).closest(".table").find("tbody");
-  //SOrt EMP NUM
-});
-$(document).on("click", ".sortEmpName", function () {
-  $(this).closest(".table").find("tbody");
-  //SORT EMP NAME
-});
+// $(document).on("input", "#empSearch", function () {
+//   getEmployees()
+//     .then((emps) => {
+//       fillEmployees(emps);
+//     })
+//     .catch((error) => {
+//       alert(`${error}`);
+//     });
+// });
+
 //#endregion
 
 //#region FUNCTIONS
+function createTable(){
+  
+}
 function mainHeight() {
   var title = $(".pageTitle").css("height");
 
