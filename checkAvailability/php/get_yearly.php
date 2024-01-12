@@ -29,9 +29,9 @@ if (!empty($_POST["empID"])) {
 
 #region main function
 try {
-    $total["totalDaysPast"] = totalDuration($startPast, $endPast, $yearPast);
-    $total["totalDaysNow"] = totalDuration($startNow, $endNow, $yearNow);
-    $total["totalDaysFuture"] = totalDuration($startFuture, $endFuture, $yearFuture);
+    $total[$yearPast] = totalDuration($startPast, $endPast, $yearPast);
+    $total[$yearNow] = totalDuration($startNow, $endNow, $yearNow);
+    $total[$yearFuture] = totalDuration($startFuture, $endFuture, $yearFuture);
 
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();

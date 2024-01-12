@@ -76,6 +76,14 @@ try {
 
             array_push($dispatchArray, $disval);
         }
+
+        if($val["visaExpiry"] != null) {
+            $vExp = strtotime($val["visaExpiry"]);
+            $val["visaExpiry"] = date("d M Y", $vExp);
+        } else {
+            $val["visaExpiry"] = "None";
+        }
+
         $val["dispatch"] = $dispatchArray;
         $val["totalDays"] = $days;
 
