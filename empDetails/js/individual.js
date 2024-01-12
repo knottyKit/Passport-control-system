@@ -1021,7 +1021,6 @@ function getYearly() {
 }
 
 function fillYearly(yrl) {
-  console.log(yrl);
   var x = 1;
   var yrRow = `<tr class='d-none'></tr><tr class='d-none'>
   <tr class='d-none'><td data-f-name='Arial' data-f-sz='9' data-f-bold='true' data-a-h='center' data-a-v='middle' data-b-a-s='thin' data-b-a-c='000000'>Year</td>

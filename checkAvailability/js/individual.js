@@ -132,13 +132,7 @@ $(document).on("click", ".btn-clear", function () {
   $(".emptyState").removeClass("d-none");
   $(".withContent").addClass("d-none");
 });
-// $(document).on("click", ".btn-delete", function () {
-//   var name = $("#empSel option:selected").text();
-//   var num = $(this).closest("tr").find("td:first-of-type").text();
 
-//   $("#selectedEmp").html(name);
-//   $("#storeId").html(num);
-// });
 $(document).on("click", ".btn-delete", function () {
   var num = $(this).closest("tr").find("td:first-of-type").html();
 
@@ -171,40 +165,15 @@ $(document).on("change", "#editentryDateJ", function () {
   $("#editentryDateP").attr("min", $(this).val());
 });
 $(document).on("click", ".btn-edit", function () {
-  // var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
-  // var japan = $(this).closest("tr").find("td:eq(2)").html();
-  // var parsedDateJap = new Date(japan);
-
-  // var formattedDateJap =
-  //   parsedDateJap.getFullYear() +
-  //   "-" +
-  //   ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
-  //   "-" +
-  //   ("0" + parsedDateJap.getDate()).slice(-2);
-  // var ph = $(this).closest("tr").find("td:eq(3)").html();
-  // var parsedDatePh = new Date(ph);
-  // var formattedDatePh =
-  //   parsedDatePh.getFullYear() +
-  //   "-" +
-  //   ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
-  //   "-" +
-  //   ("0" + parsedDatePh.getDate()).slice(-2);
-
-  // var total = $(this).closest("tr").find("td:eq(4)").html();
-  // var totalpast = $(this).closest("tr").find("td:eq(5)").html();
-
-  // $("#editentryDateJ").val(formattedDateJap);
-  // $("#editentryDateP").val(formattedDatePh);
-  // $("#editentryLocation").val(loc);
-  // $(" #editentryDays").html(total);
-  // $(" #editentryPYear").html(totalpast);
   var trID = parseInt($(this).closest("tr").attr("d-id"));
   getEditDetails(trID);
   $("#editentryDateP, #editentryDateJ").prop("disabled", false);
   $("#editEntry").modal("show");
   $("#btn-saveEntry").attr("e-id", trID);
 });
-
+$(document).on("click", "#btnExport", function () {
+  exportTable();
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -484,13 +453,23 @@ function fillHistory(dlist) {
   } else {
     $.each(dlist, function (index, item) {
       var row = $(`<tr d-id=${item.id}>`);
-      row.append(`<td>${index + 1}</td>`);
-      row.append(`<td>${item.locationName}</td>`);
-      row.append(`<td>${item.fromDate}</td>`);
-      row.append(`<td>${item.toDate}</td>`);
-      row.append(`<td>${item.duration}</td>`);
-      row.append(`<td>${item.pastOne}</td>`);
-      row.append(`<td>
+      row.append(`<td data-exclude='true'>${index + 1}</td>`);
+      row.append(
+        `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.locationName}</td>`
+      );
+      row.append(
+        `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.fromDate}</td>`
+      );
+      row.append(
+        `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.toDate}</td>`
+      );
+      row.append(
+        `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.duration}</td>`
+      );
+      row.append(
+        `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.pastOne}</td>`
+      );
+      row.append(`<td data-exclude='true'>
       <div class="d-flex gap-2">
       <button
         class="btn-edit"
@@ -877,14 +856,18 @@ function getYearly() {
 }
 
 function fillYearly(yrl) {
-  if (Object.keys(yrl).length > 0) {
-    const prev = yrl.totalDaysPast;
-    const cur = yrl.totalDaysNow;
-    const fut = yrl.totalDaysFuture;
-    $("#y1-days").text(prev);
-    $("#y2-days").text(cur);
-    $("#y3-days").text(fut);
-  }
+  var x = 1;
+  var yrRow = `<tr class='d-none'></tr><tr class='d-none'>
+  <tr class='d-none'><td data-f-name='Arial' data-f-sz='9' data-f-bold='true' data-a-h='center' data-a-v='middle' data-b-a-s='thin' data-b-a-c='000000'>Year</td>
+  <td data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Total Days in Japan</td> </tr>`;
+  Object.entries(yrl).forEach(([key, value]) => {
+    $(`#y${x}`).text(key);
+    $(`#y${x}-days`).text(value);
+
+    yrRow += `<tr class='d-none'><td data-f-name='Arial' data-f-sz='9' data-a-h='center' data-a-v='middle' data-b-a-s='thin' data-b-a-c='000000'>${key}</td><td data-f-name='Arial' data-f-sz='9' data-a-h='center' data-a-v='middle' data-b-a-s='thin' data-b-a-c='000000'>${value}</td></tr>`;
+    x++;
+  });
+  $("#histTable").append(yrRow);
 }
 function getYears() {
   const currentYear = new Date().getFullYear();
@@ -893,5 +876,14 @@ function getYears() {
   $("#y1").text(previousYear);
   $("#y2").text(currentYear);
   $("#y3").text(nextYear);
+}
+function exportTable() {
+  const empID = $("#empSel").find("option:selected").attr("emp-id");
+  TableToExcel.convert(document.getElementById("histTable"), {
+    name: `Dispatch_History_${empID}.xlsx`,
+    sheet: {
+      name: `Dispatch History`,
+    },
+  });
 }
 //#endregion

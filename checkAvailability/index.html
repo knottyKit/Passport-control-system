@@ -561,37 +561,23 @@
                   <div class="top d-flex justify-content-between">
                     <div class="title pb-4">Dispatch History to Japan</div>
                     <div>
-                      <button class="btn btn-success">Export table</button>
+                      <button class="btn btn-success" id="btnExport">Export table</button>
                     </div>
                   </div>
                   <div class="table-cont overflow-auto">
-                    <table class="table">
+                    <table class="table" id="histTable">
                       <thead>
                         <tr>
-                          <th>No.</th>
-                          <th>
+                          <th data-exclude="true">No.</th>
+                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">
                             Location
-                            <!-- <select
-                              class="border-0"
-                              style="
-                                background-color: transparent;
-                                text-transform: uppercase;
-                                text-wrap: nowrap;
-                                font-weight: 700;
-                              "
-                              role="button"
-                            >
-                              <option selected value="0">Location</option>
-                              <option value="1">Kobe</option>
-                              <option value="2">Tokyo</option>
-                            </select> -->
                           </th>
-                          <th>Date to Japan</th>
-                          <th>Date to Philippines</th>
-                          <th>No. of Days</th>
-                          <th>Total Days past 1 year</th>
+                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Date to Japan</th>
+                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Date to Philippines</th>
+                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">No. of Days</th>
+                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Total Days past 1 year</th>
                 
-                          <th></th>
+                          <th data-exclude="true"></th>
                         </tr>
                       </thead>
                       <tbody id="dList">
