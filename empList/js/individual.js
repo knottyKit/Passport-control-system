@@ -11,6 +11,9 @@ switch (document.location.hostname) {
     break;
 }
 const dispTableID = ["eList", "eListNon"];
+var sortNum = 1;
+var sortEmp = 4;
+var sortKey = 1;
 //#endregion
 
 checkAccess()
@@ -81,12 +84,26 @@ $(document).on("input", "#empSearch", function () {
     });
 });
 $(document).on("click", ".sortEmpNum", function () {
-  $(this).closest(".table").find("tbody");
-  //SOrt EMP NUM
+  sortNum = sortNum === 1 ? 2 : 1;
+  sortKey = sortNum;
+  getEmployees()
+    .then((emps) => {
+      fillEmployees(emps);
+    })
+    .catch((error) => {
+      alert(`${error}`);
+    });
 });
 $(document).on("click", ".sortEmpName", function () {
-  $(this).closest(".table").find("tbody");
-  //SORT EMP NAME
+  sortEmp = sortEmp === 3 ? 4 : 3;
+  sortKey = sortEmp;
+  getEmployees()
+    .then((emps) => {
+      fillEmployees(emps);
+    })
+    .catch((error) => {
+      alert(`${error}`);
+    });
 });
 //#endregion
 
@@ -143,6 +160,7 @@ function getEmployees() {
         groupID: grpID,
         dispatch: disp,
         searchkey: keyword,
+        sortKey: sortKey,
       },
       dataType: "json",
       success: function (response) {

@@ -31,16 +31,16 @@ if (!empty($_POST['searchkey'])) {
     $searchkey = $_POST['searchkey'];
     $searchStmt = "AND (CONCAT_WS(' ',ed.emp_firstname,ed.emp_surname) LIKE '%$searchkey%' OR ed.emp_number LIKE '%$searchkey%')";
 }
-if(!empty($_POST['sortKey'])) {
+if (!empty($_POST['sortKey'])) {
     $sortKey = $_POST['sortKey'];
 }
 
-if($sortKey == 1) {
+if ($sortKey == 1) {
     $sortQuery = "ORDER BY ed.emp_number ASC";
 } else if ($sortKey == 2) {
     $sortQuery = "ORDER BY ed.emp_number DESC";
 } else if ($sortKey == 3) {
-    $sortQuery = "ODRER BY ed.emp_firstname ASC";
+    $sortQuery = "ORDER BY ed.emp_firstname ASC";
 } else if ($sortKey == 4) {
     $sortQuery = "ORDER BY ed.emp_firstname DESC";
 } else {
