@@ -87,7 +87,11 @@ table thead tr th, table tbody tr td{
 table thead tr th:last-of-type{
   width: 8%;
 }
-
+table thead tr th{
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+}
 @media (max-width: 767px) {
   .pageTitle {
     padding: 10px !important;

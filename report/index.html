@@ -210,21 +210,31 @@
 
 
         <div class="main w-100">
-          <div class="selection w-100 d-flex aling-items-center">
-            <div class="form-floating">
-              <select class="form-select" id="yearSel">
-              
-                <option value="1">2023</option>
-                <option value="2">2024</option>
-                <option value="3">2025</option>
-              </select>
-              <label for="yearSel">Year</label>
+          <div class="px-3 selection w-100 d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-2">
+              <div class="form-floating" style="width: 200px;">
+                <select class="form-select" id="yearSel">
+                
+                  <option value="1">2023</option>
+                  <option value="2">2024</option>
+                  <option value="3">2025</option>
+                </select>
+                <label for="yearSel">Year</label>
+              </div>
+              <div class="form-floating" style="width: 200px;">
+                <select class="form-select" id="grpSel">
+                </select>
+                <label for="grpSel">Group</label>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-success px-5">Export</button>
             </div>
           </div>
     
-          <div>
+          <div class="p-3 overflow-auto" style="height: calc(100% - 58px);">
             <table class="table">
-              <thead>
+              <thead class="sticky-top">
                 <tr>
                   <th rowspan="2">Name</th>
                   <th rowspan="2">Group</th>
@@ -239,7 +249,7 @@
 
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="dataHere">
                 <tr>
                   <td rowspan="2">MEDRANO, Collene Keith</td>
                   <td rowspan="2">SYS</td>
