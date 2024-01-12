@@ -78,11 +78,9 @@ function createTable(repData) {
   repData.forEach((element) => {
     var ele = $(element.dispatch);
     var rspan = ele.length;
-    var visa = $(element.visaExpiry);
-    if (visa === null) {
-      visa = `wala`;
-    } else {
-      visa = $(element.visaExpiry);
+    var visa = "None";
+    if (element.visaExpiry !== "None") {
+      visa = `ICT VISA 5 yr ${element.visaExpiry}`;
     }
     var str = "";
     var deets = `
@@ -93,7 +91,7 @@ function createTable(repData) {
       element.groupName
     }</td>
 <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
-      element.visaExpiry || "-"
+      visa || "-"
     }</td>
 `;
     var tot = `
@@ -262,7 +260,7 @@ function exportTable() {
   TableToExcel.convert(document.getElementById("repTable"), {
     name: `Dispatch_Report_${yr}.xlsx`,
     sheet: {
-      name: `Dispatch History`,
+      name: `${yr}`,
     },
   });
 }
