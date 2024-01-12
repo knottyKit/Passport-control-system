@@ -879,11 +879,18 @@ function getYears() {
 }
 function exportTable() {
   const empID = $("#empSel").find("option:selected").attr("emp-id");
+  const ename = arrangeName($("#empSel").val());
   TableToExcel.convert(document.getElementById("histTable"), {
     name: `Dispatch_History_${empID}.xlsx`,
     sheet: {
-      name: `Dispatch History`,
+      name: `${ename}`,
     },
   });
+}
+function arrangeName(nme) {
+  let rearrangedName = "";
+  let nameParts = nme.split(", "); // Split the string into an array using ', ' as the separator
+  rearrangedName = nameParts[1] + " " + nameParts[0]; // Concatenate the parts in the desired order
+  return rearrangedName;
 }
 //#endregion

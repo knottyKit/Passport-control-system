@@ -16,6 +16,7 @@ var userVisa = [];
 const full = 183;
 var empDetails = [];
 var dHistory = [];
+var ename = "";
 // var dispatch_days = 0;
 //#endregion
 
@@ -343,6 +344,7 @@ function fillDetails(empnum) {
   $("#dispatchStatus").val(empnum.dispatch);
   dispatchStatus();
   $("#disModalEmpName").text(`${empnum.firstname} ${empnum.lastname}`);
+  ename = `${empnum.firstname} ${empnum.lastname}`;
 }
 function getPassport() {
   return new Promise((resolve, reject) => {
@@ -1046,7 +1048,7 @@ function exportTable() {
   TableToExcel.convert(document.getElementById("histTable"), {
     name: `Dispatch_History_${empID}.xlsx`,
     sheet: {
-      name: `Dispatch History`,
+      name: `${ename}`,
     },
   });
 }
