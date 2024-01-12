@@ -79,18 +79,33 @@ nav li.active {
 .pageTitle {
   padding: 20px;
 }
+table {
+  border-collapse:separate !important;
+  border-spacing: 0;
+  width: 100%;
+}
 table thead tr th, table tbody tr td{
   text-align: center;
   vertical-align: middle;
-  border: 0.5px solid #cbcbcb ;
+  border: 1px solid #cbcbcb ;
+  white-space: nowrap;
 }
 table thead tr th:last-of-type{
   width: 8%;
 }
 table thead tr th{
-  background-color: #fff;
+  background-color: #fff !important;
+ text-transform: uppercase;
+ font-size: 14px;
+ 
+}
+thead{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
+}
+.selection{
+  justify-content: space-between;
 }
 @media (max-width: 767px) {
   .pageTitle {
@@ -99,6 +114,28 @@ table thead tr th{
   }
   .pageTitle h1 {
     font-size: 24px;
+  }
+  .table-cont{
+    padding: 0 !important;
+  }
+  
+}
+@media (max-width: 946px){
+  .selection{
+    flex-direction: column;
+    gap: 18px;
+  }
+  .selection > div{
+    width: 100%;
+  }
+  .btn-export{
+    width: 100%;
+  }
+  .form-floating{
+    width: 50% !important;
+  }
+  .table-cont{
+    height: calc(100% - 150px) !important;
   }
 }
 /* SMALLSCREEN NAVIGATION */

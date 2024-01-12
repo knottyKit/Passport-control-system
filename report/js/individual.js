@@ -12,7 +12,7 @@ switch (document.location.hostname) {
 }
 const dispTableID = ["eList", "eListNon"];
 //#endregion
-
+createTable()
 checkAccess()
   .then((acc) => {
     if (acc) {
@@ -57,6 +57,7 @@ $(document).on("change", "#grpSel", function () {
     .catch((error) => {
       alert(`${error}`);
     });
+    createTable();
 });
 // $(document).on("input", "#empSearch", function () {
 //   getEmployees()
@@ -72,7 +73,518 @@ $(document).on("change", "#grpSel", function () {
 
 //#region FUNCTIONS
 function createTable(){
-  
+  const myData = [{
+    "id": 212,
+    "empName": "LAZARO, Edmon",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 355,
+    "empName": "DE JESUS, Jommuel",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 464,
+    "empName": "COQUIA, Joshua Mari",
+    "groupName": "SYS",
+    "visaExpiry": "2028-02-07",
+    "dispatch": [
+        {
+            "dispatch_from": "24 Jan 2024",
+            "dispatch_to": "14 Feb 2024",
+            "duration": 22
+        },
+        {
+            "dispatch_from": "01 Mar 2024",
+            "dispatch_to": "15 Mar 2024",
+            "duration": 15
+        }
+    ],
+    "totalDays": 37
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+}
+,
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+
+{
+    "id": 487,
+    "empName": "MEDRANO, Collene Keith",
+    "groupName": "SYS",
+    "visaExpiry": 123,
+    "dispatch": [
+        {
+            "dispatch_from": "13 Oct 2023",
+            "dispatch_to": "01 Jan 2024",
+            "duration": 0
+        }
+    ],
+    "totalDays": 0
+},
+{
+    "id": 498,
+    "empName": "CERDAN JR., Tagumpay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 510,
+    "empName": "HERNANDEZ, Dexmel Mico",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 511,
+    "empName": "APOLINARIO, Timothy Jay",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+},
+{
+    "id": 513,
+    "empName": "ALANO, Adrian William",
+    "groupName": "SYS",
+    "visaExpiry": null,
+    "dispatch": [],
+    "totalDays": 0
+}];
+myData.forEach(element => {
+  var ele = $(element.dispatch)
+  var rspan = ele.length;
+  var visa = $(element.visaExpiry);
+  if (visa === null){
+    visa = `wala`;
+  }
+  else{
+    visa = $(element.visaExpiry);
+  }
+  var str = "";
+var deets = `
+<td rowspan="${rspan}">${element.empName}</td>
+<td rowspan="${rspan}">${element.groupName}</td>
+<td rowspan="${rspan}">${element.visaExpiry || "-"}</td>
+`;
+var tot = `
+<td rowspan="${rspan}">${element.totalDays}</td>
+`;
+
+if(rspan===0){
+str+=`
+<tr>
+  <td rowspan="1">${element.empName}</td>
+  <td rowspan="1">${element.groupName}</td>
+  <td rowspan="1">${element.visaExpiry || "-"}</td>
+  <td>-</td>
+  <td>-</td>
+  <td>-</td>
+  <td rowspan="1">-</td>
+</tr>
+`;
+}
+else{
+  element.dispatch.forEach((dispData,index) => {
+    var dDeets='';
+    var dTot='';
+    if(index===0){
+      dDeets=deets;
+      dTot=tot;
+    }
+    str+=`<tr>
+    ${dDeets}
+    <td>${dispData.dispatch_from}</td>
+    <td>${dispData.dispatch_to}</td>
+    <td>${dispData.duration}</td>
+    ${dTot}
+    </tr>`;
+  });
+}
+
+$("#dataHere").append(str)
+});
 }
 function mainHeight() {
   var title = $(".pageTitle").css("height");
