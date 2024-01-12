@@ -53,6 +53,20 @@ try {
         foreach ($dispatch as $disval) {
             $fromDate = $disval["dispatch_from"];
             $toDate = $disval["dispatch_to"];
+
+            if ($fromDate !== null) {
+                $fDate = strtotime($fromDate);
+                $disval["dispatch_from"] = date("d M Y", $fDate);
+            } else {
+                $disval["dispatch_from"] = "None";
+            }
+            if ($toDate !== null) {
+                $tDate = strtotime($toDate);
+                $disval["dispatch_to"] = date("d M Y", $tDate);
+            } else {
+                $disval["dispatch_to"] = "None";
+            }
+
             $daysDiff = getDuration($fromDate, $toDate, $dateNow);
             if($daysDiff > 0) {
                 $daysDiff += 1;
