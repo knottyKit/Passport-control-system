@@ -59,6 +59,7 @@ $(document).on("change", "#grpSel", function () {
     });
 });
 $(document).on("change", "#yearSel", function () {
+  $("#selectedYear").text($(this).val());
   getReport()
     .then((rep) => {
       createTable(rep);
@@ -259,6 +260,7 @@ function fillYear(yr) {
   });
   const curYear = new Date().getFullYear();
   $("#yearSel").val(curYear);
+  $("#selectedYear").text(curYear);
 }
 function exportTable() {
   const yr = $("#yearSel").val();
