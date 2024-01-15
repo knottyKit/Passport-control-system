@@ -8,6 +8,7 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
+$yearNow = date('Y');
 $years = array();
 #endregion
 
@@ -25,6 +26,11 @@ try {
         checkYear($from);
         checkYear($to);
     }
+
+    if(!in_array($yearNow, $years)) {
+        array_push($years, $yearNow);
+    }
+    sort($years);
 
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
