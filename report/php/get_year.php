@@ -14,17 +14,13 @@ $years = array();
 
 #region main query
 try {
-    $yearQ = "SELECT YEAR(dispatch_from) as dispatch_from, YEAR(dispatch_to) as dispatch_to FROM dispatch_list GROUP BY YEAR(dispatch_from), YEAR(dispatch_to)";
+    $yearQ = "SELECT DISTINCT(YEAR(dispatch_from)) as dispatch_from FROM dispatch_list UNION SELECT DISTINCT(YEAR(dispatch_to)) as dispatch_to FROM dispatch_list";
     $yearStmt = $connpcs->query($yearQ);
     $yearStmt->execute([]);
     $allYears = $yearStmt->fetchAll();
 
-    foreach ($allYears as $val) {
-        $from = $val["dispatch_from"];
-        $to = $val["dispatch_to"];
-
-        checkYear($from);
-        checkYear($to);
+    foreach($allYears as $val) {
+        array_push($years, $val["dispatch_from"]);
     }
 
     if(!in_array($yearNow, $years)) {
@@ -38,13 +34,3 @@ try {
 #endregion
 
 echo json_encode($years);
-
-#region function
-function checkYear($year) {
-    global $years;
-
-    if(!in_array($year, $years)) {
-        array_push($years, $year);
-    }
-}
-#endregion
