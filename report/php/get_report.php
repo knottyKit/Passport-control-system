@@ -46,60 +46,63 @@ try {
         $reportStmt = $connpcs->prepare($reportQ);
         $reportStmt->execute([":oneGroupID" => "$oneGroupID"]);
         $report = $reportStmt->fetchAll();
-
+        $reportCount = count($report);
         $userArray = array();
-        foreach ($report as $val) {
-            $empID = $val["id"];
 
-            $dispatchQ = "SELECT dispatch_from, dispatch_to FROM dispatch_list WHERE emp_number = :empID AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR 
-            (`dispatch_to` <= :endYear AND `dispatch_to` >= :startYear))";
-            $dispatchStmt = $connpcs->prepare($dispatchQ);
-            $dispatchStmt->execute([":empID" => "$empID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
-            $dispatch = $dispatchStmt->fetchAll();
-
-
-            $days = 0;
-            $dispatchArray = array();
-            foreach ($dispatch as $disval) {
-                $fromDate = $disval["dispatch_from"];
-                $toDate = $disval["dispatch_to"];
-
-                if ($fromDate !== null) {
-                    $fDate = strtotime($fromDate);
-                    $disval["dispatch_from"] = date("d M Y", $fDate);
+        if($reportCount > 0) {
+            foreach ($report as $val) {
+                $empID = $val["id"];
+    
+                $dispatchQ = "SELECT dispatch_from, dispatch_to FROM dispatch_list WHERE emp_number = :empID AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR 
+                (`dispatch_to` <= :endYear AND `dispatch_to` >= :startYear))";
+                $dispatchStmt = $connpcs->prepare($dispatchQ);
+                $dispatchStmt->execute([":empID" => "$empID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
+                $dispatch = $dispatchStmt->fetchAll();
+    
+    
+                $days = 0;
+                $dispatchArray = array();
+                foreach ($dispatch as $disval) {
+                    $fromDate = $disval["dispatch_from"];
+                    $toDate = $disval["dispatch_to"];
+    
+                    if ($fromDate !== null) {
+                        $fDate = strtotime($fromDate);
+                        $disval["dispatch_from"] = date("d M Y", $fDate);
+                    } else {
+                        $disval["dispatch_from"] = "None";
+                    }
+                    if ($toDate !== null) {
+                        $tDate = strtotime($toDate);
+                        $disval["dispatch_to"] = date("d M Y", $tDate);
+                    } else {
+                        $disval["dispatch_to"] = "None";
+                    }
+    
+                    $daysDiff = getDuration($fromDate, $toDate, $dateNow);
+                    if ($daysDiff > 0) {
+                        $daysDiff += 1;
+                    }
+                    $disval["duration"] = $daysDiff;
+                    $days += $daysDiff;
+    
+                    array_push($dispatchArray, $disval);
+                }
+    
+                if ($val["visaExpiry"] != null) {
+                    $vExp = strtotime($val["visaExpiry"]);
+                    $val["visaExpiry"] = date("m/d/Y", $vExp);
                 } else {
-                    $disval["dispatch_from"] = "None";
+                    $val["visaExpiry"] = "None";
                 }
-                if ($toDate !== null) {
-                    $tDate = strtotime($toDate);
-                    $disval["dispatch_to"] = date("d M Y", $tDate);
-                } else {
-                    $disval["dispatch_to"] = "None";
-                }
-
-                $daysDiff = getDuration($fromDate, $toDate, $dateNow);
-                if ($daysDiff > 0) {
-                    $daysDiff += 1;
-                }
-                $disval["duration"] = $daysDiff;
-                $days += $daysDiff;
-
-                array_push($dispatchArray, $disval);
+    
+                $val["dispatch"] = $dispatchArray;
+                $val["totalDays"] = $days;
+    
+                array_push($userArray, $val);
             }
-
-            if ($val["visaExpiry"] != null) {
-                $vExp = strtotime($val["visaExpiry"]);
-                $val["visaExpiry"] = date("m/d/Y", $vExp);
-            } else {
-                $val["visaExpiry"] = "None";
-            }
-
-            $val["dispatch"] = $dispatchArray;
-            $val["totalDays"] = $days;
-
-            array_push($userArray, $val);
+            $finalReport->offsetSet($groupName, $userArray);
         }
-        $finalReport->offsetSet($groupName, $userArray);
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
