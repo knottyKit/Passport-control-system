@@ -75,66 +75,71 @@ $(document).on("click", "#btnExport", function () {
 //#region FUNCTIONS
 function createTable(repData) {
   $("#dataHere").empty();
-  repData.forEach((element) => {
-    var ele = $(element.dispatch);
-    var rspan = ele.length;
-    var visa = "None";
-    if (element.visaExpiry !== "None") {
-      visa = `ICT VISA 5 yr ${element.visaExpiry}`;
-    }
-    var str = "";
-    var deets = `
-<td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
+  Object.entries(repData).forEach(([key, groups]) => {
+    $("#dataHere").append(
+      `<tr><td colspan=7 class='text-start' data-f-name="Arial" data-f-sz="9"  data-a-h="left" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${key}</td></tr>`
+    );
+    groups.forEach((element) => {
+      var ele = $(element.dispatch);
+      var rspan = ele.length;
+      var visa = "None";
+      if (element.visaExpiry !== "None") {
+        visa = `ICT VISA 5 yr ${element.visaExpiry}`;
+      }
+      var str = "";
+      var deets = `
+  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
+        element.empName
+      }</td>
+  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
+        element.groupName
+      }</td>
+  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
+        visa || "-"
+      }</td>
+  `;
+      var tot = `
+  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalDays}</td>
+  `;
+
+      if (rspan === 0) {
+        str += `
+  <tr>
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
       element.empName
     }</td>
-<td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
       element.groupName
     }</td>
-<td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
-      visa || "-"
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
+      element.visaExpiry || "-"
     }</td>
-`;
-    var tot = `
-<td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalDays}</td>
-`;
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">-</td>
+  </tr> data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000"
+  `;
+      } else {
+        element.dispatch.forEach((dispData, index) => {
+          var dDeets = "";
+          var dTot = "";
+          if (index === 0) {
+            dDeets = deets;
+            dTot = tot;
+          }
+          str += `<tr>
+      ${dDeets}
+      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_from}</td>
+      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_to}</td>
+      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.duration}</td>
+      ${dTot}
+      </tr>`;
+        });
+      }
 
-    if (rspan === 0) {
-      str += `
-<tr>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
-    element.empName
-  }</td>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
-    element.groupName
-  }</td>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
-    element.visaExpiry || "-"
-  }</td>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-  <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">-</td>
-</tr> data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000"
-`;
-    } else {
-      element.dispatch.forEach((dispData, index) => {
-        var dDeets = "";
-        var dTot = "";
-        if (index === 0) {
-          dDeets = deets;
-          dTot = tot;
-        }
-        str += `<tr>
-    ${dDeets}
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_from}</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_to}</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.duration}</td>
-    ${dTot}
-    </tr>`;
-      });
-    }
-
-    $("#dataHere").append(str);
+      $("#dataHere").append(str);
+    });
   });
 }
 function getReport() {
