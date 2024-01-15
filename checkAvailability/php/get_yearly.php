@@ -57,7 +57,7 @@ function totalDuration($startYear, $endYear, $dateNow)
             $dateFrom = $val["dispatch_from"];
             $dateTo = $val["dispatch_to"];
             $daysDiff = getDuration($dateFrom, $dateTo, $dateNow);
-            $totalDays = $totalDays + $daysDiff + 1;
+            $totalDays += $daysDiff;
         }
     }
 
@@ -69,6 +69,10 @@ function getDuration($dateFrom, $dateTo, $dateNow)
     $yearNow = $dateNow;
     $dateFromYear = date("Y", strtotime($dateFrom));
     $dateToYear = date("Y", strtotime($dateTo));
+
+    if($dateFrom > $dateTo) {
+        return 0;
+    }
 
     if ($dateFromYear != $yearNow && $dateToYear == $yearNow) {
         $startYear = $yearNow . "-01-01";
@@ -88,6 +92,6 @@ function getDuration($dateFrom, $dateTo, $dateNow)
 
     $difference = $startYear->diff($endYear);
 
-    return $difference->days;
+    return $difference->days + 1;
 }
 #endregion

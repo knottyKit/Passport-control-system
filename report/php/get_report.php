@@ -89,9 +89,6 @@ try {
                     }
     
                     $daysDiff = getDuration($fromDate, $toDate, $dateNow);
-                    if ($daysDiff > 0) {
-                        $daysDiff += 1;
-                    }
                     $disval["duration"] = $daysDiff;
                     $days += $daysDiff;
     
@@ -127,6 +124,10 @@ function getDuration($dateFrom, $dateTo, $dateNow)
     $dateFromYear = date("Y", strtotime($dateFrom));
     $dateToYear = date("Y", strtotime($dateTo));
 
+    if($dateFrom > $dateTo) {
+        return 0;
+    }
+
     if ($dateFromYear != $yearNow && $dateToYear == $yearNow) {
         $startYear = $yearNow . "-01-01";
         $endYear = $dateTo;
@@ -145,6 +146,6 @@ function getDuration($dateFrom, $dateTo, $dateNow)
 
     $difference = $startYear->diff($endYear);
 
-    return $difference->days;
+    return $difference->days + 1;
 }
 #endregion

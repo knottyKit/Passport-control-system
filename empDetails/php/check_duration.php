@@ -33,7 +33,7 @@ try {
             $dateTo = $val["dispatch_to"];
             $daysDiff = getDuration($dateFrom, $dateTo);
 
-            $dispatchCount += $daysDiff + 1;
+            $dispatchCount += $daysDiff;
         }
     }
 } catch (Exception $e) {
@@ -49,6 +49,10 @@ function getDuration($dateFrom, $dateTo)
     $yearNow = date("Y");
     $dateFromYear = date("Y", strtotime($dateFrom));
     $dateToYear = date("Y", strtotime($dateTo));
+
+    if($dateFrom > $dateTo) {
+        return 0;
+    }
 
     if ($dateFromYear != $yearNow && $dateToYear == $yearNow) {
         $startYear = $yearNow . "-01-01";
@@ -68,5 +72,5 @@ function getDuration($dateFrom, $dateTo)
 
     $difference = $startYear->diff($endYear);
 
-    return $difference->days;
+    return $difference->days + 1;
 }
