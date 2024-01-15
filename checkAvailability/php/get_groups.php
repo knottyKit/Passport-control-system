@@ -8,34 +8,18 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-
 $groups = array();
-
 #endregion
 
 #region main query
 try {
-    $groupQ = "SELECT group_id,group_abbr FROM `group_list` ORDER BY group_abbr";
+    $groupQ = "SELECT group_id as id, group_name as name, group_abbr as abbreviation, (SELECT COUNT(*) FROM employee_details WHERE group_id = id) as empCount 
+    FROM group_list HAVING empCount > 0 ORDER BY group_name";
     $groupStmt = $connpcs->query($groupQ);
-
-    if ($groupStmt->rowCount() > 0) {
-        $grouparr = $groupStmt->fetchAll();
-        foreach ($grouparr as $grp) {
-            $output = array();
-            $name = $grp['group_abbr'];
-            $id = $grp['group_id'];
-            $output += ["name" => $name];
-            $output += ["id" => $id];
-            array_push($groups, $output);
-        }
-    }
+    $groupStmt->execute([]);
+    $groups = $groupStmt->fetchAll();
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }
-
-#endregion
-
-#region FUNCTIONS
-
 #endregion
 echo json_encode($groups);
