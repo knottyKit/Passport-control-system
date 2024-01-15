@@ -41,66 +41,77 @@ try {
         $oneGroupID = $gval["id"];
         $groupName = $gval["name"];
 
+        // $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry, 
+        // (SELECT COUNT(*) FROM dispatch_list WHERE emp_number = id AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR (`dispatch_to` <= :endYear AND 
+        // `dispatch_to` >= :startYear))) as dCount FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
+        // vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID HAVING dCount > 0 ORDER BY ed.emp_number";
+
         $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry FROM 
         employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = vd.emp_number WHERE ed.emp_dispatch = 1 
-        AND ed.group_id = :oneGroupID GROUP BY ed.emp_number";
+        AND ed.group_id = :oneGroupID ORDER BY ed.emp_number";
         $reportStmt = $connpcs->prepare($reportQ);
+
+        // $reportStmt->execute([":oneGroupID" => "$oneGroupID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
+
         $reportStmt->execute([":oneGroupID" => "$oneGroupID"]);
         $report = $reportStmt->fetchAll();
+        $reportCount = count($report);
 
-        $userArray = array();
-        foreach ($report as $val) {
-            $empID = $val["id"];
-
-            $dispatchQ = "SELECT dispatch_from, dispatch_to FROM dispatch_list WHERE emp_number = :empID AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR 
-            (`dispatch_to` <= :endYear AND `dispatch_to` >= :startYear))";
-            $dispatchStmt = $connpcs->prepare($dispatchQ);
-            $dispatchStmt->execute([":empID" => "$empID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
-            $dispatch = $dispatchStmt->fetchAll();
-
-
-            $days = 0;
-            $dispatchArray = array();
-            foreach ($dispatch as $disval) {
-                $fromDate = $disval["dispatch_from"];
-                $toDate = $disval["dispatch_to"];
-
-                if ($fromDate !== null) {
-                    $fDate = strtotime($fromDate);
-                    $disval["dispatch_from"] = date("d M Y", $fDate);
+        if($reportCount > 0) {
+            $userArray = array();
+            foreach ($report as $val) {
+                $empID = $val["id"];
+    
+                $dispatchQ = "SELECT dispatch_from, dispatch_to FROM dispatch_list WHERE emp_number = :empID AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR 
+                (`dispatch_to` <= :endYear AND `dispatch_to` >= :startYear))";
+                $dispatchStmt = $connpcs->prepare($dispatchQ);
+                $dispatchStmt->execute([":empID" => "$empID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
+                $dispatch = $dispatchStmt->fetchAll();
+    
+    
+                $days = 0;
+                $dispatchArray = array();
+                foreach ($dispatch as $disval) {
+                    $fromDate = $disval["dispatch_from"];
+                    $toDate = $disval["dispatch_to"];
+    
+                    if ($fromDate !== null) {
+                        $fDate = strtotime($fromDate);
+                        $disval["dispatch_from"] = date("d M Y", $fDate);
+                    } else {
+                        $disval["dispatch_from"] = "None";
+                    }
+                    if ($toDate !== null) {
+                        $tDate = strtotime($toDate);
+                        $disval["dispatch_to"] = date("d M Y", $tDate);
+                    } else {
+                        $disval["dispatch_to"] = "None";
+                    }
+    
+                    $daysDiff = getDuration($fromDate, $toDate, $dateNow);
+                    if ($daysDiff > 0) {
+                        $daysDiff += 1;
+                    }
+                    $disval["duration"] = $daysDiff;
+                    $days += $daysDiff;
+    
+                    array_push($dispatchArray, $disval);
+                }
+    
+                if ($val["visaExpiry"] != null) {
+                    $vExp = strtotime($val["visaExpiry"]);
+                    $val["visaExpiry"] = date("m/d/Y", $vExp);
                 } else {
-                    $disval["dispatch_from"] = "None";
+                    $val["visaExpiry"] = "None";
                 }
-                if ($toDate !== null) {
-                    $tDate = strtotime($toDate);
-                    $disval["dispatch_to"] = date("d M Y", $tDate);
-                } else {
-                    $disval["dispatch_to"] = "None";
-                }
-
-                $daysDiff = getDuration($fromDate, $toDate, $dateNow);
-                if ($daysDiff > 0) {
-                    $daysDiff += 1;
-                }
-                $disval["duration"] = $daysDiff;
-                $days += $daysDiff;
-
-                array_push($dispatchArray, $disval);
+    
+                $val["dispatch"] = $dispatchArray;
+                $val["totalDays"] = $days;
+    
+                array_push($userArray, $val);
             }
-
-            if ($val["visaExpiry"] != null) {
-                $vExp = strtotime($val["visaExpiry"]);
-                $val["visaExpiry"] = date("m/d/Y", $vExp);
-            } else {
-                $val["visaExpiry"] = "None";
-            }
-
-            $val["dispatch"] = $dispatchArray;
-            $val["totalDays"] = $days;
-
-            array_push($userArray, $val);
+            $finalReport->offsetSet($groupName, $userArray);
         }
-        $finalReport->offsetSet($groupName, $userArray);
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
