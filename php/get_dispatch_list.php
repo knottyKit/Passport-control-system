@@ -14,12 +14,15 @@ $dateFilter = date("Y-m-d");
 // if (!empty($_POST['ySelect'])) {
 //     $dateFilter = date("Y", strtotime($_POST['ySelect']));
 // }
-$dispatchQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename, ll.location_name, dl.dispatch_from,dl.dispatch_to,pd.passport_expiry,vd.visa_expiry FROM `dispatch_list` AS dl JOIN `employee_details` AS ed ON dl.emp_number=ed.emp_number JOIN `location_list` AS ll ON dl.location_id=ll.location_id LEFT JOIN `passport_details` AS pd ON pd.emp_number=ed.emp_number  LEFT JOIN `visa_details` AS vd ON vd.emp_number=ed.emp_number WHERE dl.dispatch_to >= :dateFilter AND ed.emp_dispatch=1";
-$dispatchStmt = $connpcs->prepare($dispatchQ);
+
 #endregion
 
 #region Entries Query
 try {
+    $dispatchQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename, ll.location_name, dl.dispatch_from,dl.dispatch_to,pd.passport_expiry,vd.visa_expiry FROM 
+    `dispatch_list` AS dl JOIN `employee_details` AS ed ON dl.emp_number=ed.emp_number JOIN `location_list` AS ll ON dl.location_id=ll.location_id LEFT JOIN `passport_details` 
+    AS pd ON pd.emp_number=ed.emp_number  LEFT JOIN `visa_details` AS vd ON vd.emp_number=ed.emp_number WHERE dl.dispatch_to >= :dateFilter AND ed.emp_dispatch=1";
+    $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":dateFilter" => $dateFilter]);
     $dispatchArr = $dispatchStmt->fetchAll();
     foreach ($dispatchArr as $disp) {

@@ -146,6 +146,7 @@ function createTable(repData) {
 function getReport() {
   const grpID = $("#grpSel").find("option:selected").attr("grp-id");
   const yr = $("#yearSel").val();
+  console.log(yr, " getReport");
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
