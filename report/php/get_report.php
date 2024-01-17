@@ -97,13 +97,12 @@ try {
     
                 if ($val["visaExpiry"] != null) {
                     $vExp = strtotime($val["visaExpiry"]);
-                    $visaStart = new DateTime($val["visaIssue"]);
-                    $visaEnd = new DateTime($val["visaExpiry"]);
+                    $vIssue = strtotime($val["visaIssue"]);
 
-                    $difference = $visaStart->diff($visaEnd)->format("%y");
+                    $difference = convertStoY($vExp - $vIssue);
                     $visaDiff = $difference . " year/s ";
                     if($difference == 0) {
-                        $difference = $visaStart->diff($visaEnd)->format("%m");
+                        $difference = convertStoM($vExp - $vIssue);
                         $visaDiff = $difference . " month/s ";
                     }
                     $val["visaExpiry"] = "ICT VISA " . $visaDiff . date("m/d/Y", $vExp);
@@ -156,5 +155,17 @@ function getDuration($dateFrom, $dateTo, $dateNow)
     $difference = $startYear->diff($endYear);
 
     return $difference->days + 1;
+}
+
+function convertStoY($secs) {
+    $secondsInAYear = 365 * 24 * 60 * 60;
+    $years = floor($secs / $secondsInAYear);
+    return $years;
+}
+
+function convertStoM($secs) {
+    $secondsInAMonth = 2628000;
+    $months = floor($secs / $secondsInAMonth);
+    return $months;
 }
 #endregion
