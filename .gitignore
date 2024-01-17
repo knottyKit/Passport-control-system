@@ -1,2 +1,5 @@
 #ignore changes in employeesfolder
 /empList/EmployeesFolder
+
+#ignore dbconn folder
+/dbconn
