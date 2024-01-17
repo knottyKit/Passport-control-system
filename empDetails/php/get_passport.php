@@ -10,11 +10,15 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 $empID = 0;
 $passportDeets = array();
+$isDetails = false;
 #endregion
 
 #region get data values
 if (!empty($_POST["empID"])) {
     $empID = $_POST["empID"];
+}
+if (!empty($_POST["isDetails"])) {
+    $isDetails = json_decode($_POST["isDetails"]);
 }
 #endregion
 
@@ -31,6 +35,21 @@ try {
         $dateNow = new DateTime();
         if ($expiry < $dateNow) {
             $isValid = false;
+        }
+
+        if($isDetails == true) {
+            if ($passportDeets["bday"] !== null) {
+                $passportBd = strtotime($passportDeets["bday"]);
+                $passportDeets["bday"] = date("d M Y", $passportBd);
+            }
+            if ($passportDeets["issue"] !== null) {
+                $passportIs = strtotime($passportDeets["issue"]);
+                $passportDeets["issue"] = date("d M Y", $passportIs);
+            }
+            if ($passportDeets["expiry"] !== null) {
+                $passportEx = strtotime($passportDeets["expiry"]);
+                $passportDeets["expiry"] = date("d M Y", $passportEx);
+            }
         }
 
         $passportLink = "../EmployeesFolder/" . $empID . "/passport.pdf";

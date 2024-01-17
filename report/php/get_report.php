@@ -41,19 +41,19 @@ try {
         $oneGroupID = $gval["id"];
         $groupName = $gval["name"];
 
-        $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry, 
-        (SELECT COUNT(*) FROM dispatch_list WHERE emp_number = id AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR (`dispatch_to` <= :endYear AND 
-        `dispatch_to` >= :startYear))) as dCount FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
-        vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID HAVING dCount > 0 ORDER BY ed.emp_number";
+        // $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry, 
+        // (SELECT COUNT(*) FROM dispatch_list WHERE emp_number = id AND ((`dispatch_from` >= :startYear AND `dispatch_from` <= :endYear) OR (`dispatch_to` <= :endYear AND 
+        // `dispatch_to` >= :startYear))) as dCount FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
+        // vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID HAVING dCount > 0 ORDER BY ed.emp_number";
 
-        // $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry FROM 
-        // employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = vd.emp_number WHERE ed.emp_dispatch = 1 
-        // AND ed.group_id = :oneGroupID ORDER BY ed.emp_number";
-        
+        $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry FROM 
+        employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = vd.emp_number WHERE ed.emp_dispatch = 1 
+        AND ed.group_id = :oneGroupID ORDER BY ed.emp_number";
+
         $reportStmt = $connpcs->prepare($reportQ);
 
-        $reportStmt->execute([":oneGroupID" => "$oneGroupID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
-        // $reportStmt->execute([":oneGroupID" => "$oneGroupID"]);
+        // $reportStmt->execute([":oneGroupID" => "$oneGroupID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
+        $reportStmt->execute([":oneGroupID" => "$oneGroupID"]);
         $report = $reportStmt->fetchAll();
         $reportCount = count($report);
 

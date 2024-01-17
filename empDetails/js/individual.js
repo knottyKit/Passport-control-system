@@ -11,8 +11,10 @@ switch (document.location.hostname) {
     break;
 }
 var empID = 0;
-var userPass = [];
-var userVisa = [];
+var userPassD = [];
+var userPassI = [];
+var userVisaI = [];
+var userVisaD = [];
 const full = 183;
 var empDetails = [];
 var dHistory = [];
@@ -34,18 +36,24 @@ checkAccess()
       $(document).ready(function () {
         Promise.all([
           getEmployeeDetails(),
-          getPassport(),
-          getVisa(),
+          getPassport(true),
+          getPassport(false),
+          getVisa(true),
+          getVisa(false),
           getDispatchHistory(),
           getDispatchDays(),
           getYearly(),
         ])
-          .then(([emps, pport, vsa, dlst, dd, yrl]) => {
-            userPass = pport;
-            userVisa = vsa;
+          .then(([emps, pportD, pportI, vsaD, vsaI, dlst, dd, yrl]) => {
+            userPassD = pportD;
+            userPassI = pportI;
+            userVisaD = vsaD;
+            userVisaI = vsaI;
             fillDetails(emps);
-            fillPassport(userPass);
-            fillVisa(userVisa);
+            passportDisplay(userPassD);
+            passportInput(userPassI);
+            visaDisplay(userVisaD);
+            visaInput(userPassI);
             dHistory = dlst;
             fillHistory(dHistory);
             displayDays(dd);
@@ -346,13 +354,14 @@ function fillDetails(empnum) {
   $("#disModalEmpName").text(`${empnum.firstname} ${empnum.lastname}`);
   ename = `${empnum.firstname} ${empnum.lastname}`;
 }
-function getPassport() {
+function getPassport(isDetails) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
       url: "php/get_passport.php",
       data: {
         empID: empID,
+        isDetails: isDetails,
       },
       dataType: "json",
       success: function (response) {
@@ -371,10 +380,7 @@ function getPassport() {
     });
   });
 }
-function fillPassport(pport) {
-  passportDisplay(pport);
-  passportInput(pport);
-}
+
 function passportDisplay(pport) {
   if (Object.keys(pport).length > 0) {
     const pnum = pport.number;
@@ -425,13 +431,14 @@ function passportInput(pport) {
     $("#pAttach").html(`Attachment`);
   }
 }
-function getVisa() {
+function getVisa(isDetails) {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
       url: "php/get_visa.php",
       data: {
         empID: empID,
+        isDetails: isDetails,
       },
       dataType: "json",
       success: function (response) {
@@ -621,7 +628,6 @@ function saveStat() {
       dispatch: disStat,
     },
     success: function (response) {
-      console.log(response);
       getEmployeeDetails()
         .then((emps) => {
           fillDetails(emps);
@@ -746,10 +752,20 @@ function savePass() {
     cache: false,
     processData: false,
     success: function (response) {
-      getPassport()
+      getPassport(true)
         .then((pport) => {
-          userPass = pport;
-          fillPassport(userPass);
+          userPassD = pport;
+          passportDisplay(userPassD);
+          resetPassInput();
+          // $("#updatePass .btn-close").click();
+        })
+        .catch((error) => {
+          alert(`${error}`);
+        });
+      getPassport(false)
+        .then((pport) => {
+          userPassI = pport;
+          passportInput(userPassI);
           resetPassInput();
           // $("#updatePass .btn-close").click();
         })
@@ -769,7 +785,8 @@ function savePass() {
   });
 }
 function resetPassInput() {
-  fillPassport(userPass);
+  passportDisplay(userPassD);
+  passportInput(userPassI);
   $("#upPassNo").attr("disabled", true);
   $("#upPassBday").attr("disabled", true);
   $("#upPassIssue").attr("disabled", true);
@@ -837,10 +854,20 @@ function saveVisa() {
     cache: false,
     processData: false,
     success: function (response) {
-      getVisa()
+      getVisa(true)
         .then((vsa) => {
-          userVisa = vsa;
-          fillVisa(userVisa);
+          userVisaD = vsa;
+          visaDisplay(userVisaD);
+          resetVisaInput();
+          // $("#updateVisa .btn-close").click();
+        })
+        .catch((error) => {
+          alert(`${error}`);
+        });
+      getVisa(false)
+        .then((vsa) => {
+          userVisaI = vsa;
+          visaInput(userVisaI);
           resetVisaInput();
           // $("#updateVisa .btn-close").click();
         })
@@ -860,7 +887,8 @@ function saveVisa() {
   });
 }
 function resetVisaInput() {
-  fillVisa(userVisa);
+  visaDisplay(userVisaD);
+  visaInput(userVisaI);
   $("#upVisaNo").attr("disabled", true);
   $("#upVisaIssue").attr("disabled", true);
   $("#upVisaExp").attr("disabled", true);

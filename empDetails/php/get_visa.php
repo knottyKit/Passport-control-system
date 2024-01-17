@@ -10,11 +10,15 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 $empID = 0;
 $visaDeets = array();
+$isDetails = false;
 #endregion
 
 #region get data values
 if (!empty($_POST["empID"])) {
     $empID = $_POST["empID"];
+}
+if (!empty($_POST["isDetails"])) {
+    $isDetails = json_decode($_POST["isDetails"]);
 }
 #endregion
 
@@ -30,6 +34,17 @@ try {
         $dateNow = new DateTime();
         if ($expiry < $dateNow) {
             $isValid = false;
+        }
+
+        if($isDetails == true) {
+            if ($visaDeets["issue"] !== null) {
+                $visaIs = strtotime($visaDeets["issue"]);
+                $visaDeets["issue"] = date("d M Y", $visaIs);
+            }
+            if ($visaDeets["expiry"] !== null) {
+                $visaEx = strtotime($visaDeets["expiry"]);
+                $visaDeets["expiry"] = date("d M Y", $visaEx);
+            }
         }
 
         $visaLink = "../EmployeesFolder/" . $empID . "/visa.pdf";
