@@ -16,11 +16,17 @@ checkAccess()
   .then((acc) => {
     if (acc) {
       $(document).ready(function () {
-        Promise.all([getGroups(), getYear(), getReport()])
-          .then(([grps, yr, rep]) => {
+        Promise.all([getGroups(), getYear()])
+          .then(([grps, yr]) => {
             fillGroups(grps);
             fillYear(yr);
-            createTable(rep);
+            getReport()
+              .then((rep) => {
+                createTable(rep);
+              })
+              .catch((error) => {
+                alert(`${error}`);
+              });
           })
           .catch((error) => {
             alert(`${error}`);
