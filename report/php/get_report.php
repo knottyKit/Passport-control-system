@@ -158,12 +158,14 @@ function getDuration($dateFrom, $dateTo, $dateNow)
 }
 
 function convertStoY($secs) {
+    $secs += 86400;
     $secondsInAYear = 365 * 24 * 60 * 60;
     $years = floor($secs / $secondsInAYear);
     return $years;
 }
 
 function convertStoM($secs) {
+    $secs += 86400;
     $secondsInAMonth = 2628000;
     $months = floor($secs / $secondsInAMonth);
     return $months;
