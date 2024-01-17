@@ -1,5 +1,5 @@
 #ignore changes in employeesfolder
-empDetails/EmployeesFolder
+empDetails/EmployeesFolder/
 
 #ignore dbconn folder
-dbconn
+dbconn/
