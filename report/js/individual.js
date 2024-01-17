@@ -89,10 +89,7 @@ function createTable(repData) {
     groups.forEach((element) => {
       var ele = $(element.dispatch);
       var rspan = ele.length;
-      var visa = "None";
-      if (element.visaExpiry !== "None") {
-        visa = `ICT VISA 5 yr ${element.visaExpiry}`;
-      }
+      var visa = element.visaExpiry;
       var str = "";
       var deets = `
   <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${

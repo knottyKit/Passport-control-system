@@ -46,9 +46,9 @@ try {
         // `dispatch_to` >= :startYear))) as dCount FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
         // vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID HAVING dCount > 0 ORDER BY ed.emp_number";
 
-        $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry FROM 
-        employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = vd.emp_number WHERE ed.emp_dispatch = 1 
-        AND ed.group_id = :oneGroupID ORDER BY ed.emp_number";
+        $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_issue as visaIssue,
+        vd.visa_expiry as visaExpiry FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
+        vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID ORDER BY ed.emp_number";
 
         $reportStmt = $connpcs->prepare($reportQ);
 
@@ -97,7 +97,16 @@ try {
     
                 if ($val["visaExpiry"] != null) {
                     $vExp = strtotime($val["visaExpiry"]);
-                    $val["visaExpiry"] = date("m/d/Y", $vExp);
+                    $visaStart = new DateTime($val["visaIssue"]);
+                    $visaEnd = new DateTime($val["visaExpiry"]);
+
+                    $difference = $visaStart->diff($visaEnd)->format("%y");
+                    $visaDiff = $difference . " year/s ";
+                    if($difference == 0) {
+                        $difference = $visaStart->diff($visaEnd)->format("%m");
+                        $visaDiff = $difference . " month/s ";
+                    }
+                    $val["visaExpiry"] = "ICT VISA " . $visaDiff . date("m/d/Y", $vExp);
                 } else {
                     $val["visaExpiry"] = "None";
                 }
