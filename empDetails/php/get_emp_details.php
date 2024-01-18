@@ -25,14 +25,16 @@ try {
     $empStmt->execute([":empID" => "$empID"]);
     $empDeets = $empStmt->fetch();
 
-    // foreach ($empDeets as $val) {
-    // $val["pictureLink"] = "path/" . $val["id"] . "/picture.jpg";
-    // }
     $version = date("YmdHis");
-    $picLink = "../EmployeesFolder/" . $empDeets["id"] . "/picture.jpg";
-    $empDeets["pictureLink"] = "./EmployeesFolder/" . $empDeets["id"] . "/picture.jpg?version=" . $version;
-    if(!file_exists($picLink)) {
-        $empDeets["pictureLink"] = "./EmployeesFolder/defaultqmsphoto.png";
+    $yearNow = date("Y");
+    
+    $empDeets["pictureLink"] = "http://kdt-ph/QMS/Profilev2/defaultqmsphoto.png";
+    for($x = $yearNow; $x >= 2021; $x--) {
+        $picLink = "C:/xampp/htdocs/QMS/Profilev2/" . $x . "/pic_" . $empDeets["id"] . ".jpg";
+        if(file_exists($picLink)) {
+            $empDeets["pictureLink"] = "http://kdt-ph/QMS/Profilev2/" . $x . "/pic_" . $empDeets["id"] . ".jpg?version=" . $version;
+            break;
+        }
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
