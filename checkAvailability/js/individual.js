@@ -655,12 +655,14 @@ function getLocations() {
 function fillLocations(locs) {
   var locSelect = $("#locSel");
   locSelect.html("<option value='0'>Select Location</option>");
+  $("#editentryLocation").empty();
   $.each(locs, function (index, item) {
     var option = $("<option>")
       .attr("value", item.id)
       .text(item.name)
       .attr("loc-id", item.id);
     locSelect.append(option);
+    $("#editentryLocation").append(option.clone());
   });
 }
 function deleteDispatch() {

@@ -43,8 +43,9 @@ checkAccess()
           getDispatchHistory(),
           getDispatchDays(),
           getYearly(),
+          getLocations(),
         ])
-          .then(([emps, pportD, pportI, vsaD, vsaI, dlst, dd, yrl]) => {
+          .then(([emps, pportD, pportI, vsaD, vsaI, dlst, dd, yrl, locs]) => {
             userPassD = pportD;
             userPassI = pportI;
             userVisaD = vsaD;
@@ -58,6 +59,7 @@ checkAccess()
             fillHistory(dHistory);
             displayDays(dd);
             fillYearly(yrl);
+            fillLocations(locs);
             // dispatch_days = dd;
           })
           .catch((error) => {
@@ -1078,6 +1080,39 @@ function exportTable() {
     sheet: {
       name: `${ename}`,
     },
+  });
+}
+function getLocations() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/get_location.php",
+      dataType: "json",
+      success: function (response) {
+        const locs = response;
+        resolve(locs);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.2");
+        }
+      },
+    });
+  });
+}
+function fillLocations(locs) {
+  var locSelect = $("#editentryLocation");
+  locSelect.empty();
+  $.each(locs, function (index, item) {
+    var option = $("<option>")
+      .attr("value", item.id)
+      .text(item.name)
+      .attr("loc-id", item.id);
+    locSelect.append(option);
   });
 }
 //#endregion
