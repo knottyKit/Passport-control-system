@@ -54,7 +54,7 @@ checkAccess()
             passportDisplay(userPassD);
             passportInput(userPassI);
             visaDisplay(userVisaD);
-            visaInput(vsaI);
+            visaInput(userVisaI);
             dHistory = dlst;
             fillHistory(dHistory);
             displayDays(dd);
