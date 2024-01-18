@@ -46,6 +46,11 @@ try {
         $fileVName = $_FILES['fileValue']['name'];
         $fileTemp = $_FILES['fileValue']['tmp_name'];
 
+        $folderID = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID;
+        if(!file_exists($folderID)) {
+            mkdir($folderID, 0755, true);
+        }
+
         $folderName = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID . "/visa.pdf";
 
         if (file_exists($folderName)) {
