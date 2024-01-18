@@ -662,7 +662,7 @@ function fillLocations(locs) {
       .text(item.name)
       .attr("loc-id", item.id);
     locSelect.append(option);
-    $("#editentryLocation").append(option);
+    $("#editentryLocation").append(option.clone());
   });
 }
 function deleteDispatch() {
