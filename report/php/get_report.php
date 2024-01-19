@@ -71,6 +71,7 @@ try {
     
                 $days = 0;
                 $dispatchArray = array();
+
                 foreach ($dispatch as $disval) {
                     $fromDate = $disval["dispatch_from"];
                     $toDate = $disval["dispatch_to"];
@@ -87,6 +88,7 @@ try {
                     } else {
                         $disval["dispatch_to"] = "None";
                     }
+                    $disval["totalPast"] =  getPastOneYear($empID, $toDate);
     
                     $daysDiff = getDuration($fromDate, $toDate, $dateNow);
                     $disval["duration"] = $daysDiff;
@@ -94,7 +96,9 @@ try {
     
                     array_push($dispatchArray, $disval);
                 }
-    
+
+                
+
                 if ($val["visaExpiry"] != null) {
                     $vExp = strtotime($val["visaExpiry"]);
                     $vIssue = strtotime($val["visaIssue"]);
@@ -169,5 +173,17 @@ function convertStoM($secs) {
     $secondsInAMonth = 2628000;
     $months = floor($secs / $secondsInAMonth);
     return $months;
+}
+
+function getPastOneYear($empID, $lastDay)
+{
+    global $connpcs;
+    $firstDay = date('Y-m-d', strtotime($lastDay . '-1 year'));
+    $dispatchQ = "SELECT SUM(DATEDIFF(LEAST(:endYear, dispatch_to), GREATEST(:startYear, dispatch_from)) + 1) AS days_in_year FROM `dispatch_list`
+    WHERE `dispatch_from` >= :startYear AND `dispatch_to` <= :endYear AND emp_number=:empID";
+    $dispatchStmt = $connpcs->prepare($dispatchQ);
+    $dispatchStmt->execute([":startYear" => $firstDay, ":endYear" => $lastDay, ":empID" => $empID]);
+    $dispatchCount = $dispatchStmt->fetchColumn();
+    return (int)$dispatchCount;
 }
 #endregion
