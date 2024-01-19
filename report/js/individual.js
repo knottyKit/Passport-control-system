@@ -84,7 +84,7 @@ function createTable(repData) {
   $("#dataHere").empty();
   Object.entries(repData).forEach(([key, groups]) => {
     $("#dataHere").append(
-      `<tr><td colspan=7 class='text-start' data-f-name="Arial" data-f-sz="9"  data-a-h="left" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${key}</td></tr>`
+      `<tr><td colspan=8 class='text-start' data-f-name="Arial" data-f-sz="9"  data-a-h="left" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${key}</td></tr>`
     );
     groups.forEach((element) => {
       var ele = $(element.dispatch);
@@ -105,6 +105,9 @@ function createTable(repData) {
       var tot = `
   <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalDays}</td>
   `;
+  var past = `
+  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalPast || "-"}</td>
+  `;//past 1 yr
 
       if (rspan === 0) {
         str += `
@@ -122,15 +125,18 @@ function createTable(repData) {
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">-</td>
-  </tr> data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000"
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
+  </tr> 
   `;
       } else {
         element.dispatch.forEach((dispData, index) => {
           var dDeets = "";
           var dTot = "";
+          var dPast = "";
           if (index === 0) {
             dDeets = deets;
             dTot = tot;
+            dPast = past;//past 1 yr
           }
           str += `<tr>
       ${dDeets}
@@ -138,6 +144,7 @@ function createTable(repData) {
       <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_to}</td>
       <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.duration}</td>
       ${dTot}
+      ${dPast}
       </tr>`;
         });
       }
