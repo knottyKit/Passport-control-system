@@ -105,9 +105,7 @@ function createTable(repData) {
       var tot = `
   <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalDays}</td>
   `;
-  var past = `
-  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalPast || "-"}</td>
-  `;//past 1 yr
+
 
       if (rspan === 0) {
         str += `
@@ -124,27 +122,28 @@ function createTable(repData) {
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">-</td>
     <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
+    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">-</td>
+    
   </tr> 
   `;
       } else {
         element.dispatch.forEach((dispData, index) => {
           var dDeets = "";
           var dTot = "";
-          var dPast = "";
           if (index === 0) {
             dDeets = deets;
             dTot = tot;
-            dPast = past;//past 1 yr
+    
           }
           str += `<tr>
       ${dDeets}
+      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.totalPast}</td>
       <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_from}</td>
       <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_to}</td>
       <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.duration}</td>
       ${dTot}
-      ${dPast}
+      
       </tr>`;
         });
       }
