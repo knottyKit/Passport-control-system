@@ -28,10 +28,10 @@ checkAccess()
           checkEditAccess(),
         ])
           .then(([grps, emps, locs, eAccess]) => {
+            editAccess = eAccess;
             fillGroups(grps);
             fillEmployees(emps);
             fillLocations(locs);
-            editAccess = eAccess;
             if (eAccess === false) {
               $("#btnApply").remove();
               $("#btnClear").remove();

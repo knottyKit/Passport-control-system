@@ -19,7 +19,7 @@ const full = 183;
 var empDetails = [];
 var dHistory = [];
 var ename = "";
-var editAccess;
+var editAccess = false;
 // var dispatch_days = 0;
 //#endregion
 
@@ -60,6 +60,7 @@ checkAccess()
               locs,
               eAccess,
             ]) => {
+              editAccess = eAccess;
               userPassD = pportD;
               userPassI = pportI;
               userVisaD = vsaD;
@@ -74,7 +75,6 @@ checkAccess()
               displayDays(dd);
               fillYearly(yrl);
               fillLocations(locs);
-              editAccess = eAccess;
               if (editAccess === false) {
                 $(".editThis").removeAttr("data-bs-target");
                 $(".editThis").removeAttr("data-bs-toggle");
@@ -588,6 +588,7 @@ function fillHistory(dlist) {
       row.append(
         `<td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.pastOne}</td>`
       );
+      console.log(editAccess);
       if (editAccess === true) {
         row.append(`<td data-exclude="true">                            <div class="d-flex gap-3">
           <button
