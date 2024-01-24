@@ -34,7 +34,6 @@ checkAccess()
             fillLocations(locs);
             if (eAccess === false) {
               $("#btnApply").remove();
-              $("#btnClear").remove();
               $("#updateEmp").remove();
             }
           })
