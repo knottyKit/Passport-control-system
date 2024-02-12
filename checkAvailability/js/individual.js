@@ -56,6 +56,9 @@ $(document).on("click", "#closeNav", function () {
 $(document).on("change", "#grpSel", function () {
   getEmployees().then((emps) => {
     fillEmployees(emps);
+    $("#empDetails__name").text("");
+    $(".emptyState").removeClass("d-none");
+    $(".withContent").addClass("d-none");
   });
 });
 $(document).on("click", ".btn-close", function () {
