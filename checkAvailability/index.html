@@ -89,73 +89,80 @@
     </div>
   </div>
 
-
   <div
-  class="modal fade"
-  id="editEntry"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Entry</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="d-grid">
-          <div class="row mb-2">
-            <label
-              for="editentryLocation"
-              class="col-sm-4 col-form-label col-form-label-sm"
-              >Location</label
-            >
-            <div class="col-sm-8">
-              <select class="form-select" id="editentryLocation">
-                <option value="1">Kobe</option>
-                <option value="2">Tokyo</option>
-              </select>
+    class="modal fade"
+    id="editEntry"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Entry</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-grid">
+            <div class="row mb-2">
+              <label
+                for="editentryLocation"
+                class="col-sm-4 col-form-label col-form-label-sm"
+                >Location</label
+              >
+              <div class="col-sm-8">
+                <select class="form-select" id="editentryLocation">
+                  <option value="1">Kobe</option>
+                  <option value="2">Tokyo</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="row mb-2">
-            <label
-              for="editentryDateJ"
-              class="col-sm-4 col-form-label col-form-label-sm"
-              >Date to Japan</label
-            >
-            <div class="col-sm-8">
-              <input type="date" class="form-control edit-date" id="editentryDateJ" />
+            <div class="row mb-2">
+              <label
+                for="editentryDateJ"
+                class="col-sm-4 col-form-label col-form-label-sm"
+                >Date to Japan</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="date"
+                  class="form-control edit-date"
+                  id="editentryDateJ"
+                />
+              </div>
             </div>
-          </div>
-          <div class="row mb-2">
-            <label
-              for="editentryDateP"
-              class="col-sm-4 col-form-label col-form-label-sm"
-              >Date to PH</label
-            >
-            <div class="col-sm-8">
-              <input type="date" class="form-control edit-date" id="editentryDateP" />
+            <div class="row mb-2">
+              <label
+                for="editentryDateP"
+                class="col-sm-4 col-form-label col-form-label-sm"
+                >Date to PH</label
+              >
+              <div class="col-sm-8">
+                <input
+                  type="date"
+                  class="form-control edit-date"
+                  id="editentryDateP"
+                />
+              </div>
             </div>
-          </div>
-          <div class="row mb-2">
-            <label
-              for="editentryDays"
-              class="col-sm-4 col-form-label col-form-label-sm"
-              >No. of Days</label
-            >
-            <div class="col-sm-8 d-flex align-items-center">
-              <span id="editentryDays" class="fw-medium fs-5">0</span>
+            <div class="row mb-2">
+              <label
+                for="editentryDays"
+                class="col-sm-4 col-form-label col-form-label-sm"
+                >No. of Days</label
+              >
+              <div class="col-sm-8 d-flex align-items-center">
+                <span id="editentryDays" class="fw-medium fs-5">0</span>
+              </div>
             </div>
-          </div>
-          <!-- <div class="row mb-2">
+            <!-- <div class="row mb-2">
             <label
               for="editentryPYear"
               class="col-sm-4 col-form-label col-form-label-sm"
@@ -165,25 +172,25 @@
               <span id="editentryPYear" class="fw-medium fs-5">0</span>
             </div>
           </div> -->
+          </div>
         </div>
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cancel btn-secondary">
-          Cancel
-        </button>
-        <button
-          type="button"
-          class="btn btn-success fw-medium"
-          id="btn-saveEntry"
-          e-id=0
-        >
-          Save
-        </button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel btn-secondary">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-success fw-medium"
+            id="btn-saveEntry"
+            e-id="0"
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <!-- #endregion modal-->
 
   <body>
@@ -227,13 +234,13 @@
               </li></a
             >
             <a href="../report/"
-            ><li>
-              <div class="d-flex align-items-center gap-2">
-                <i class='bx bxs-report' ></i>
-                <p>Report</p>
-              </div>
-            </li></a
-          >
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bx bxs-report"></i>
+                  <p>Report</p>
+                </div>
+              </li></a
+            >
             <!-- <a href="#"
               ><li>
                 <div class="d-flex align-items-center gap-2">
@@ -345,11 +352,9 @@
                   ></h5>
                 </div>
               </div>
-
-             
             </div>
             <div class="d-flex justify-content-end gap-2">
-              <button class="btn btn-clear">Clear</button>
+              <button class="btn btn-clear" id="btnClear">Clear</button>
               <button class="btn btn-dispatch" id="btnApply">
                 Add dispatch entry
               </button>
@@ -376,12 +381,14 @@
                   </button>
                 </div>
               </div>
-              <div class="d-flex flex-column empmoreDetails h-100 gap-3 overflow-auto">
+              <div
+                class="d-flex flex-column empmoreDetails h-100 gap-3 overflow-auto"
+              >
                 <div class="cards d-grid">
                   <div class="card shadow-sm">
                     <div class="card-body">
                       <h5 class="card-title">Latest Passport</h5>
-                
+
                       <div class="card-content">
                         <div id="passDeets" class="pass d-none">
                           <div class="row">
@@ -440,11 +447,11 @@
                       </div>
                     </div>
                   </div>
-                
+
                   <div class="card shadow-sm">
                     <div class="card-body">
                       <h5 class="card-title">Latest Japan Visa</h5>
-                
+
                       <div class="card-content">
                         <div id="visaDeets" class="vis d-none">
                           <div class="row">
@@ -457,7 +464,7 @@
                               >
                             </div>
                           </div>
-                
+
                           <div class="row">
                             <label for="visaNo" class="col-5 col-form-label"
                               >Visa no.</label
@@ -466,7 +473,7 @@
                               <span class="" id="visaNo">P6241898A</span>
                             </div>
                           </div>
-                
+
                           <div class="row">
                             <label for="visaIssue" class="col-5 col-form-label"
                               >Date Issue</label
@@ -498,41 +505,57 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="card shadow-sm">
                     <div class="card-body">
-                      <h5 class="card-title text-capitalize">Total dispatch days per year</h5>
-                
+                      <h5 class="card-title text-capitalize">
+                        Total dispatch days per year
+                      </h5>
+
                       <div class="card-content">
                         <div class="dispatchyears-table w-100">
                           <ul class="list-unstyled gap-3 d-grid p-2">
                             <li>
-                              <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-medium">Previous Year (<span id="y1">2023</span>)</span>
+                              <div
+                                class="d-flex justify-content-between align-items-center"
+                              >
+                                <span class="fw-medium"
+                                  >Previous Year (<span id="y1">2023</span
+                                  >)</span
+                                >
                                 <span class="totalDays" id="y1-days">269</span>
                               </div>
                             </li>
                             <li>
-                              <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-medium">Current Year (<span id="y2">2024</span>)</span>
+                              <div
+                                class="d-flex justify-content-between align-items-center"
+                              >
+                                <span class="fw-medium"
+                                  >Current Year (<span id="y2">2024</span
+                                  >)</span
+                                >
                                 <span class="totalDays" id="y2-days">213</span>
                               </div>
                             </li>
                             <li>
-                              <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-medium">Next Year (<span id="y3">2069</span>)</span>
+                              <div
+                                class="d-flex justify-content-between align-items-center"
+                              >
+                                <span class="fw-medium"
+                                  >Next Year (<span id="y3">2069</span>)</span
+                                >
                                 <span class="totalDays" id="y3-days">210</span>
                               </div>
                             </li>
                           </ul>
-                        
                         </div>
                       </div>
                     </div>
                   </div>
-                
                 </div>
-                <div class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3">
+                <div
+                  class="d-flex totalThisYear flex-column shadow-sm gap-3 p-3"
+                >
                   <div class="label">
                     Estimated Total Days of Dispatch this Year
                   </div>
@@ -569,7 +592,9 @@
                   <div class="top d-flex justify-content-between">
                     <div class="title pb-4">Dispatch History to Japan</div>
                     <div>
-                      <button class="btn btn-success" id="btnExport">Export table</button>
+                      <button class="btn btn-success" id="btnExport">
+                        Export table
+                      </button>
                     </div>
                   </div>
                   <div class="table-cont overflow-auto">
@@ -577,14 +602,62 @@
                       <thead>
                         <tr>
                           <th data-exclude="true">No.</th>
-                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">
+                          <th
+                            data-f-name="Arial"
+                            data-f-sz="9"
+                            data-f-bold="true"
+                            data-a-h="center"
+                            data-a-v="middle"
+                            data-b-a-s="thin"
+                            data-b-a-c="000000"
+                          >
                             Location
                           </th>
-                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Date to Japan</th>
-                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Date to Philippines</th>
-                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">No. of Days</th>
-                          <th data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Total Days past 1 year</th>
-                
+                          <th
+                            data-f-name="Arial"
+                            data-f-sz="9"
+                            data-f-bold="true"
+                            data-a-h="center"
+                            data-a-v="middle"
+                            data-b-a-s="thin"
+                            data-b-a-c="000000"
+                          >
+                            Date to Japan
+                          </th>
+                          <th
+                            data-f-name="Arial"
+                            data-f-sz="9"
+                            data-f-bold="true"
+                            data-a-h="center"
+                            data-a-v="middle"
+                            data-b-a-s="thin"
+                            data-b-a-c="000000"
+                          >
+                            Date to Philippines
+                          </th>
+                          <th
+                            data-f-name="Arial"
+                            data-f-sz="9"
+                            data-f-bold="true"
+                            data-a-h="center"
+                            data-a-v="middle"
+                            data-b-a-s="thin"
+                            data-b-a-c="000000"
+                          >
+                            No. of Days
+                          </th>
+                          <th
+                            data-f-name="Arial"
+                            data-f-sz="9"
+                            data-f-bold="true"
+                            data-a-h="center"
+                            data-a-v="middle"
+                            data-b-a-s="thin"
+                            data-b-a-c="000000"
+                          >
+                            Total Days past 1 year
+                          </th>
+
                           <th data-exclude="true"></th>
                         </tr>
                       </thead>

@@ -14,17 +14,28 @@ var dispatch_days = 0;
 var to_add = 0;
 const full = 183;
 var dHistory = [];
+var editAccess = false;
 //#endregion
 checkAccess()
   .then((acc) => {
     if (acc) {
       $(document).ready(function () {
         getYears();
-        Promise.all([getGroups(), getEmployees(), getLocations()])
-          .then(([grps, emps, locs]) => {
+        Promise.all([
+          getGroups(),
+          getEmployees(),
+          getLocations(),
+          checkEditAccess(),
+        ])
+          .then(([grps, emps, locs, eAccess]) => {
+            editAccess = eAccess;
             fillGroups(grps);
             fillEmployees(emps);
             fillLocations(locs);
+            if (eAccess === false) {
+              $("#btnApply").remove();
+              $("#updateEmp").remove();
+            }
           })
           .catch((error) => {
             alert(`${error}`);
@@ -472,24 +483,27 @@ function fillHistory(dlist) {
       row.append(
         `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.pastOne}</td>`
       );
-      row.append(`<td data-exclude='true'>
-      <div class="d-flex gap-2">
-      <button
-        class="btn-edit"
-        title="Edit Entry"
-        
-      >
-      <i class='bx bxs-edit fs-5' ></i>
-      </button>
-      <button
-        class="btn-delete"
-        title="Delete Entry"
-        data-bs-toggle="modal"
-        data-bs-target="#deleteEntry"
-      >
-        <i class="bx bx-trash fs-5"></i>
-      </button>
-    </div></td>`);
+      if (editAccess === true) {
+        row.append(`<td data-exclude='true'>
+        <div class="d-flex gap-2">
+        <button
+          class="btn-edit"
+          title="Edit Entry"
+          
+        >
+        <i class='bx bxs-edit fs-5' ></i>
+        </button>
+        <button
+          class="btn-delete"
+          title="Delete Entry"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteEntry"
+        >
+          <i class="bx bx-trash fs-5"></i>
+        </button>
+      </div></td>`);
+      }
+
       tableBody.append(row);
     });
   }
@@ -706,6 +720,29 @@ function checkAccess() {
     $.ajax({
       type: "GET",
       url: "php/check_permission.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.1");
+        }
+      },
+    });
+  });
+}
+
+function checkEditAccess() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/check_edit_permission.php",
       dataType: "json",
       success: function (data) {
         const acc = data;
