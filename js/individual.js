@@ -207,28 +207,6 @@ function formatDays(numberOfDays) {
     return `${numberOfDays} days`;
   }
 }
-// function checkAccess() {
-//   return new Promise((resolve, reject) => {
-//     $.ajax({
-//       type: "GET",
-//       url: "php/check_permission.php",
-//       dataType: "json",
-//       success: function (data) {
-//         const acc = data;
-//         resolve(acc);
-//       },
-//       error: function (xhr, status, error) {
-//         if (xhr.status === 404) {
-//           reject("Not Found Error: The requested resource was not found.");
-//         } else if (xhr.status === 500) {
-//           reject("Internal Server Error: There was a server error.");
-//         } else {
-//           reject("An unspecified error occurred.");
-//         }
-//       },
-//     });
-//   });
-// }
 function checkAccess() {
   const response = {
     isSuccess: true,
@@ -256,19 +234,19 @@ function checkAccess() {
   return new Promise((resolve, reject) => {
     // $.ajax({
     //   type: "GET",
-    //   url: "php/check_login.php",
+    //   url: "php/check_permission.php",
     //   dataType: "json",
     //   success: function (data) {
-    //     const emp = data;
-    //     resolve(emp);
+    //     const acc = data;
+    //     resolve(acc);
     //   },
     //   error: function (xhr, status, error) {
     //     if (xhr.status === 404) {
-    //       reject("Resource not found.");
+    //       reject("Not Found Error: The requested resource was not found.");
     //     } else if (xhr.status === 500) {
-    //       reject(`Server error: ${error}`);
+    //       reject("Internal Server Error: There was a server error.");
     //     } else {
-    //       reject("Unspecified error");
+    //       reject("An unspecified error occurred.");
     //     }
     //   },
     // });

@@ -4,27 +4,12 @@
     <title>Passport Control System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
-
-    <link
-      rel="stylesheet"
-      href="css/bootstrap.min.css"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-    <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/boxicons.css" />
     <script src="js/html2canvas.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.inview.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <!-- <script src="js/jquery.table2excel.js"></script> -->
     <script>
-      var busterCall = [
-        "js/individual.js",
-        "css/index.css",
-        "css/bootstrap.min.css",
-      ];
+      var busterCall = ["js/individual.js", "css/index.css"];
       $.post(
         "php/get_version.php",
         {
@@ -150,12 +135,16 @@
   <!-- #endregion modal-->
 
   <body>
-    <div class="home-content position-relative d-flex">
+    <div class="position-relative flex h-screen">
       <div class="navigation">
         <div
           class="title p-3 d-flex justify-content-between align-items-center"
         >
-          <h5 class="fw-semibold text-center">Passport Control System</h5>
+        <h5 class="font-bold text-center text-[28px] px-[.75rem]">
+          TRAVE<span class="text-[var(--secondary)] font-bold text-[28px]"
+            >RU</span
+          >.
+        </h5>
           <div
             id="closeNav"
             class="justify-content-center align-items-center m-0"
@@ -163,61 +152,91 @@
             <i class="bx bx-x fs-3"></i>
           </div>
         </div>
-        <nav>
-          <ul class="list-unstyled d-grid gap-2">
-            <a href="../"
-              ><li>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-dashboard fs-5"></i>
-                  <p>Dashboard</p>
+        <nav class="flex flex-col justify-content-between h-[calc(100%-63px)]">
+          <section>
+            <ul class="list-unstyled d-grid gap-2">
+              <a href="../"
+                ><li >
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-dashboard"></i>
+                    <p>Dashboard</p>
+                  </div>
+                </li></a
+              >
+              <a href="../checkAvailability/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-briefcase"></i>
+                    <p>Manage Dispatch</p>
+                  </div>
+                </li></a
+              >
+              <a href="./"
+                ><li class="active">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-group"></i>
+                    <p>Employee List</p>
+                  </div>
+                </li></a
+              >
+              <a href="../report/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-report"></i>
+                    <p>Report</p>
+                  </div>
+                </li></a
+              >
+            </ul>
+          </section>
+          <section class="grid gap-2">
+            <li class="bg-[var(--main)] hover:bg-green-100">
+              <div class="flex gap-2 items-center">
+                <div
+                  class="bg-[var(--secondary)] rounded-full h-[45px] w-[45px] min-w-[45px] flex justify-content-center items-center"
+                  id="empInitials"
+                >
+                  BK
                 </div>
-              </li></a
-            >
-            <a href="../checkAvailability/"
-              ><li>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-briefcase fs-5"></i>
-                  <p>Manage Dispatch</p>
+
+                <div class="w-full">
+                  <div class="" id="empLabel">Boglin Kit</div>
+                  <div class="text-uppercase text-[10px] text-gray-400" id="grpLabel">
+                    Systems group
+                  </div>
                 </div>
-              </li></a
-            >
-            <a href="#"
-              ><li class="active">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-group fs-5"></i>
-                  <p>Employee List</p>
-                </div>
-              </li></a
-            >
-            <a href="../report/"
-            ><li>
-              <div class="d-flex align-items-center gap-2">
-                <i class='bx bxs-report' ></i>
-                <p>Report</p>
               </div>
-            </li></a
-          >
-            <!-- <a href="#"
+            </li>
+            <!-- <a href="../admin/"
               ><li>
                 <div class="d-flex align-items-center gap-2">
-                  <i class="bx bx-history fs-5"></i>
-                  <p>History Logs</p>
+                  <i class="bx bxs-lock-open"></i>
+                  <p>Admin</p>
                 </div>
               </li></a
             > -->
-          </ul>
+            <a href="#" id="portalBtn"
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class='bx bx-home-alt'></i>
+                  <p>KDT Portal</p>
+                </div>
+              </li></a
+            >
+          </section>
         </nav>
       </div>
-      <div class="content">
-        <div class="main w-100">
-          <div class="pageTitle w-100 gap-3 d-flex">
-            <div id="menu">
-              <i class="bx bx-menu-alt-left fs-3"></i>
+      <div class="content h-screen">
+        <div class="main flex  h-full">
+          <div class="flex flex-col gap-3 overflow-auto p-[14px] md:p-8 h-full w-full">
+            <div class="pageTitle w-100 gap-3 d-flex">
+              <div id="menu">
+                <i class="bx bx-menu-alt-left fs-3"></i>
+              </div>
+              <h1 class="fw-semibold m-0">Employee List</h1>
             </div>
-            <h1 class="fw-semibold m-0">Employee List</h1>
-          </div>
-    
-          <div class="tables position-relative overflow-hidden p-3">
+
+          <div class="tables h-full position-relative overflow-hidden ">
             <div class="filters d-flex gap-3 mb-3">
               <div class="search position-relative w-100">
                 <input
@@ -235,40 +254,38 @@
                 </select>
               </div>
             </div>
-            
-              <div class="table-cont overflow-auto px-3 pb-3">
-                <table class="table">
-                  <thead class="sticky-top">
-                    <tr>
-                      <th>
-                        <div class="d-flex align-items-center gap-2">
-                          <span>Emp No.</span
-                          ><i
-                            class="bx bx-sort-alt-2 fs-5 sortEmpNum"
-                            role="button"
-                          ></i>
-                        </div>
-                      </th>
-                      <th>
-                        <div class="d-flex align-items-center gap-2">
-                          <span>Name</span
-                          ><i
-                            class="bx bx-sort-a-z fs-5 sortEmpName"
-                            role="button"
-                          ></i>
-                        </div>
-                      </th>
-                      <th>Group</th>
-                      <th>Passport Expiration</th>
-                      <th>Visa Expiration</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="eList"></tbody>
-                </table>
-              </div>
-              
-            
+
+            <div class="table-cont overflow-auto  pb-3">
+              <table class="table">
+                <thead class="sticky-top">
+                  <tr>
+                    <th>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="text-[12px] font-bold">Emp No.</span
+                        ><i
+                          class="bx bx-sort-alt-2 fs-5 sortEmpNum"
+                          role="button"
+                        ></i>
+                      </div>
+                    </th>
+                    <th>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="text-[12px] font-bold">Name</span
+                        ><i
+                          class="bx bx-sort-a-z fs-5 sortEmpName"
+                          role="button"
+                        ></i>
+                      </div>
+                    </th>
+                    <th>Group</th>
+                    <th>Passport Expiration</th>
+                    <th>Visa Expiration</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="eList"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
