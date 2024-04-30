@@ -55,6 +55,9 @@ $(document).on("click", ".rowEmp", function () {
   var empID = $(this).attr("emp-id");
   window.location.href = `./empDetails?id=${empID}`;
 });
+$(document).on("click", "#portalBtn", function () {
+  window.location.href = `${rootFolder}`;
+});
 //#endregion
 
 //#region FUNCTIONS
