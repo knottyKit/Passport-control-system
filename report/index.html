@@ -5,26 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
 
-    <link
-      rel="stylesheet"
-      href="css/bootstrap.min.css"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-    <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/boxicons.css" />
     <script src="js/html2canvas.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.inview.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <!-- <script src="js/jquery.table2excel.js"></script> -->
     <script>
-      var busterCall = [
-        "js/individual.js",
-        "css/index.css",
-        "css/bootstrap.min.css",
-      ];
+      var busterCall = ["js/individual.js", "css/index.css"];
       $.post(
         "php/get_version.php",
         {
@@ -150,12 +136,16 @@
   <!-- #endregion modal-->
 
   <body>
-    <div class="home-content position-relative d-flex">
+    <div class="position-relative flex h-screen">
       <div class="navigation">
         <div
           class="title p-3 d-flex justify-content-between align-items-center"
         >
-          <h5 class="fw-semibold text-center">Passport Control System</h5>
+          <h5 class="font-bold text-center text-[28px] px-[.75rem]">
+            TRAVE<span class="text-[var(--secondary)] font-bold text-[28px]"
+              >RU</span
+            >.
+          </h5>
           <div
             id="closeNav"
             class="justify-content-center align-items-center m-0"
@@ -163,100 +153,232 @@
             <i class="bx bx-x fs-3"></i>
           </div>
         </div>
-        <nav>
-          <ul class="list-unstyled d-grid gap-2">
-            <a href="../"
+        <nav class="flex flex-col justify-content-between h-[calc(100%-63px)]">
+          <section>
+            <ul class="list-unstyled d-grid gap-2">
+              <a href="../"
+                ><li >
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-dashboard"></i>
+                    <p>Dashboard</p>
+                  </div>
+                </li></a
+              >
+              <a href="../checkAvailability/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-briefcase"></i>
+                    <p>Manage Dispatch</p>
+                  </div>
+                </li></a
+              >
+              <a href="../empList/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-group"></i>
+                    <p>Employee List</p>
+                  </div>
+                </li></a
+              >
+              <a href="./"
+                ><li class="active">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-report"></i>
+                    <p>Report</p>
+                  </div>
+                </li></a
+              >
+            </ul>
+          </section>
+          <section class="grid gap-2">
+            <li class="bg-[var(--main)] hover:bg-green-100">
+              <div class="flex gap-2 items-center">
+                <div
+                  class="bg-[var(--secondary)] rounded-full h-[45px] w-[45px] min-w-[45px] flex justify-content-center items-center"
+                  id="empInitials"
+                >
+                  BK
+                </div>
+
+                <div class="w-full">
+                  <div class="" id="empLabel">Boglin Kit</div>
+                  <div class="text-uppercase text-[10px] text-gray-400" id="grpLabel">
+                    Systems group
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!-- <a href="../admin/"
               ><li>
                 <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-dashboard fs-5"></i>
-                  <p>Dashboard</p>
+                  <i class="bx bxs-lock-open"></i>
+                  <p>Admin</p>
                 </div>
               </li></a
-            >
-            <a href="../checkAvailability/"
+            > -->
+            <a href="#" id="portalBtn"
               ><li>
                 <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-briefcase fs-5"></i>
-                  <p>Manage Dispatch</p>
+                  <i class='bx bx-home-alt'></i>
+                  <p>KDT Portal</p>
                 </div>
               </li></a
             >
-            <a href="../empList/"
-              ><li >
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-group fs-5"></i>
-                  <p>Employee List</p>
-                </div>
-              </li></a
-            >
-            <a href="#"
-              ><li class="active">
-                <div class="d-flex align-items-center gap-2">
-                  <i class='bx bxs-report' ></i>
-                  <p>Report</p>
-                </div>
-              </li></a
-            >
-            
-          </ul>
+          </section>
         </nav>
       </div>
-      <div class="content"><div class="pageTitle w-100 gap-3 d-flex">
-            <div id="menu">
-              <i class="bx bx-menu-alt-left fs-3"></i>
+      <div class="content h-screen">
+        <div class="main flex  h-full">
+          <div class="flex flex-col gap-3 overflow-auto p-[14px] md:p-8 h-full w-full">
+            <div class="pageTitle w-100 gap-3 d-flex">
+              <div id="menu">
+                <i class="bx bx-menu-alt-left fs-3"></i>
+              </div>
+              <h1 class="fw-semibold m-0">Yearly Dispatch Report</h1>
             </div>
-            <h1 class="fw-semibold m-0">Yearly Dispatch Report</h1>
-          </div>
 
-
-        <div class="main w-100">
-          <div class="px-3 pb-3 selection w-100 d-flex align-items-center">
+        <div class="main w-100 h-[calc(100%-45px)] flex flex-col gap-3">
+          <div class=" selection w-100 d-flex align-items-center">
             <div class="d-flex gap-2">
-              <div class="form-floating" style="width: 200px;">
+              <div class="form-floating" style="width: 200px">
                 <select class="form-select" id="yearSel">
-                
                   <option>2023</option>
                   <option>2024</option>
                   <option>2025</option>
                 </select>
                 <label for="yearSel">Year</label>
               </div>
-              <div class="form-floating" style="width: 200px;">
-                <select class="form-select" id="grpSel">
-                </select>
+              <div class="form-floating" style="width: 200px">
+                <select class="form-select" id="grpSel"></select>
                 <label for="grpSel">Group</label>
               </div>
             </div>
             <div>
-              <button class="btn btn-success px-5 btn-export" id="btnExport">Export</button>
+              <button class="btn btn-success bg-[var(--darkest)] px-5 btn-export" id="btnExport">
+                Export
+              </button>
             </div>
           </div>
-    
-          <div class="table-cont overflow-auto " style="height: calc(100% - 95px); padding: 0 18px;">
-            <table class="table " id="repTable">
+
+          <div
+            class=" overflow-auto h-[calc(100%-55px)]"
+
+          >
+            <table class="table" id="repTable">
               <thead class="">
                 <tr>
-                  <th rowspan="2"  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Name</th>
-                  <th rowspan="2"  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Group</th>
-                  <th rowspan="2"  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Visa</th>
-                                    <th rowspan="2"  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Total Past 1 Year</th>
-                  <th colspan="3"  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Year <span id="selectedYear">2024</span></th>
-                  <th rowspan="2"  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">Total</th>
-
+                  <th
+                    rowspan="2"
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    Name
+                  </th>
+                  <th
+                    rowspan="2"
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    Group
+                  </th>
+                  <th
+                    rowspan="2"
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    Visa
+                  </th>
+                  <th
+                    rowspan="2"
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    Total Past 1 Year
+                  </th>
+                  <th
+                    colspan="3"
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    Year <span id="selectedYear">2024</span>
+                  </th>
+                  <th
+                    rowspan="2"
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    Total
+                  </th>
                 </tr>
                 <tr>
-                  <th  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">From</th>
-                  <th  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">To</th>
-                  <th  data-f-name="Arial" data-f-sz="9" data-f-bold="true" data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">No. of days</th>
-
+                  <th
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    From
+                  </th>
+                  <th
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    To
+                  </th>
+                  <th
+                    data-f-name="Arial"
+                    data-f-sz="9"
+                    data-f-bold="true"
+                    data-a-h="center"
+                    data-a-v="middle"
+                    data-b-a-s="thin"
+                    data-b-a-c="000000"
+                  >
+                    No. of days
+                  </th>
                 </tr>
               </thead>
-              <tbody id="dataHere" class="mt-3">
-                
-              </tbody>
+              <tbody id="dataHere" class="mt-3"></tbody>
             </table>
           </div>
-         
         </div>
       </div>
     </div>

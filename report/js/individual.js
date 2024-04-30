@@ -11,11 +11,14 @@ switch (document.location.hostname) {
     break;
 }
 const dispTableID = ["eList", "eListNon"];
+let empDetails = [];
 //#endregion
 checkAccess()
-  .then((acc) => {
-    if (acc) {
+  .then((emp) => {
+    if (emp.isSuccess) {
+      empDetails = emp.data;
       $(document).ready(function () {
+        fillEmployeeDetails();
         Promise.all([getGroups(), getYear()])
           .then(([grps, yr]) => {
             fillGroups(grps);
@@ -34,7 +37,7 @@ checkAccess()
         mainHeight();
       });
     } else {
-      alert("Access denied");
+      alert(emp.message);
       window.location.href = `${rootFolder}`;
     }
   })
@@ -77,6 +80,9 @@ $(document).on("change", "#yearSel", function () {
 $(document).on("click", "#btnExport", function () {
   exportTable();
 });
+$(document).on("click", "#portalBtn", function () {
+  window.location.href = `${rootFolder}`;
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -106,7 +112,6 @@ function createTable(repData) {
   <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalDays}</td>
   `;
 
-
       if (rspan === 0) {
         str += `
   <tr>
@@ -134,7 +139,6 @@ function createTable(repData) {
           if (index === 0) {
             dDeets = deets;
             dTot = tot;
-    
           }
           str += `<tr>
       ${dDeets}
@@ -218,27 +222,89 @@ function fillGroups(grps) {
     grpSelect.append(option);
   });
 }
+// function checkAccess() {
+//   return new Promise((resolve, reject) => {
+//     $.ajax({
+//       type: "GET",
+//       url: "php/check_permission.php",
+//       dataType: "json",
+//       success: function (data) {
+//         const acc = data;
+//         resolve(acc);
+//       },
+//       error: function (xhr, status, error) {
+//         if (xhr.status === 404) {
+//           reject("Not Found Error: The requested resource was not found.");
+//         } else if (xhr.status === 500) {
+//           reject("Internal Server Error: There was a server error.");
+//         } else {
+//           reject("An unspecified error occurred.");
+//         }
+//       },
+//     });
+//   });
+// }
 function checkAccess() {
+  const response = {
+    isSuccess: true,
+    data: {
+      empNum: 464,
+      empGroup: {
+        id: 21,
+        name: "System Group",
+        acr: "SYS",
+      },
+      empName: {
+        firstname: "Collene Keith",
+        surname: "Medrano",
+      },
+    },
+  };
+  // const response = {
+  //   isSuccess: false,
+  //   message: "Access Denied",
+  // };
+  // const response = {
+  //   isSuccess: false,
+  //   message: "Not logged in",
+  // };
   return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
-      url: "php/check_permission.php",
-      dataType: "json",
-      success: function (data) {
-        const acc = data;
-        resolve(acc);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.");
-        }
-      },
-    });
+    // $.ajax({
+    //   type: "GET",
+    //   url: "php/check_permission.php",
+    //   dataType: "json",
+    //   success: function (data) {
+    //     const acc = data;
+    //     resolve(acc);
+    //   },
+    //   error: function (xhr, status, error) {
+    //     if (xhr.status === 404) {
+    //       reject("Not Found Error: The requested resource was not found.");
+    //     } else if (xhr.status === 500) {
+    //       reject("Internal Server Error: There was a server error.");
+    //     } else {
+    //       reject("An unspecified error occurred.1");
+    //     }
+    //   },
+    // });
+    resolve(response);
   });
+}
+function fillEmployeeDetails() {
+  const fName = empDetails.empName.firstname;
+  const sName = empDetails.empName.surname;
+  const initials = getInitials(fName, sName);
+  const grpName = empDetails.empGroup.name;
+  $("#empLabel").html(`${fName} ${sName}`);
+  $("#empInitials").html(`${initials}`);
+  $("#grpLabel").html(`${grpName}`);
+}
+function getInitials(firstname, surname) {
+  let initials = "";
+  var firstInitial = firstname.charAt(0);
+  var lastInitial = surname.charAt(0);
+  initials = `${firstInitial}${lastInitial}`;
+  return initials.toUpperCase();
 }
 function getYear() {
   return new Promise((resolve, reject) => {

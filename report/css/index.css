@@ -1,197 +1,63 @@
-/* Google Fonts Import Link */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: #fff;
-  height: 100vh;
-  width: 100%;
-  font-family: "Poppins", sans-serif !important;
-  font-size: 14px;
-}
-ul,
-li,
-a {
-  list-style: none;
-  text-decoration: none !important;
-  color: inherit !important;
-}
-p {
-  margin: 0 !important;
-}
-
-.table-cont::-webkit-scrollbar {
-  width: 10px;
-}
-.table-cont::-webkit-scrollbar-track {
-  background: #ebebeb;
-}
-.table-cont::-webkit-scrollbar-thumb {
-  background: var(--darkest);
-  border-radius: 25px;
-}
-
-:root {
-  --main: #e3f1d6;
-  --secondary: #9dc08b;
-  --tertiary: #609966;
-  --darkest: #40513b;
-  --bg: #f6fcf1;
-  --orange: #ec8f5e;
-
-  --red-color: #df2e38;
-  --yellow-color: #f4c948;
-  --warning: #fcfad8;
-  --text-color: #555;
-}
-
-.navigation {
-  width: 250px;
-  height: 100vh;
-  border-right: 2px solid #dedede;
-  z-index: 2;
-}
-.content {
-  width: calc(100% - 250px);
-  height: 100vh;
-  z-index: 1;
-}
-nav {
-  padding: 64px 16px 16px 16px;
-}
-nav li {
-  padding: 10px 10px 10px 20px;
-  border-radius: 8px;
-}
-nav li:hover {
-  background-color: var(--main);
-}
-nav li.active {
-  background-color: var(--secondary);
-}
-
-
-.pageTitle {
-  padding: 20px;
-}
 table {
-  border-collapse:separate !important;
+  border-collapse: separate !important;
   border-spacing: 0;
   width: 100%;
 }
-table thead tr th, table tbody tr td{
+table thead tr th,
+table tbody tr td {
   text-align: center;
   vertical-align: middle;
-  border: 1px solid #cbcbcb ;
+  border: 1px solid #cbcbcb;
   white-space: nowrap;
 }
-table thead tr th:last-of-type{
+table thead tr th:last-of-type {
   width: 8%;
 }
-table thead tr th{
-  background-color: #fff !important;
- text-transform: uppercase;
- font-size: 14px;
- 
+table thead tr th {
+  background-color: inherit;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-weight: 700;
+  padding: 1.25rem 0.75rem;
 }
-thead{
+.main .tables thead tr th:first-of-type {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.main .tables thead tr th:last-of-type {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+table thead tr {
+  background-color: var(--tableheader);
+}
+
+thead {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
 }
-.selection{
+.selection {
   justify-content: space-between;
 }
-@media (max-width: 767px) {
-  .pageTitle {
-    padding: 10px !important;
-    align-items: center;
-  }
-  .pageTitle h1 {
-    font-size: 24px;
-  }
-  .table-cont{
-    padding: 0 !important;
-  }
-  
+table tbody tr td {
+  background-color: #fff !important;
 }
-@media (max-width: 946px){
-  .selection{
+
+@media (max-width: 946px) {
+  .selection {
     flex-direction: column;
     gap: 18px;
   }
-  .selection > div{
+  .selection > div {
     width: 100%;
   }
-  .btn-export{
+  .btn-export {
     width: 100%;
   }
-  .form-floating{
+  .form-floating {
     width: 50% !important;
-  }
-  .table-cont{
-    height: calc(100% - 150px) !important;
-  }
-}
-/* SMALLSCREEN NAVIGATION */
-#closeNav,
-#menu {
-  height: 35px;
-  width: 35px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 5px;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  opacity: 0.5;
-}
-#closeNav:hover,
-#menu:hover {
-  opacity: 1;
-}
-#closeNav i {
-  transition: transform 0.35s ease;
-}
-#closeNav:hover i {
-  transform: rotate(90deg);
-  color: var(--red-color);
-}
-#menu i {
-  transition: color 0.35s ease;
-}
-#menu:hover i {
-  color: var(--tertiary);
-}
-
-#menu,
-#closeNav {
-  display: none;
-}
-@media (max-width: 768px) {
-  .content {
-    height: 100%;
-    width: 100vw;
-  }
-  .navigation {
-    position: absolute;
-    left: -100%;
-    width: 100vw;
-    height: 100vh;
-    opacity: 0;
-    background-color: #fff;
-    transition: all 0.25s ease-out;
-  }
-  .navigation.open {
-    left: 0;
-    opacity: 1;
-  }
-  #menu,
-  #closeNav {
-    display: block;
   }
 }
