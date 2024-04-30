@@ -5,26 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
 
-    <link
-      rel="stylesheet"
-      href="css/bootstrap.min.css"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-    <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/boxicons.css" />
     <script src="js/html2canvas.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.inview.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <!-- <script src="js/jquery.table2excel.js"></script> -->
     <script>
-      var busterCall = [
-        "js/individual.js",
-        "css/index.css",
-        "css/bootstrap.min.css",
-      ];
+      var busterCall = ["js/individual.js", "css/index.css"];
       $.post(
         "php/get_version.php",
         {
@@ -38,47 +24,17 @@
     </script>
   </head>
 
-  <!-- #region modal -->
-  <!-- <div
-    class="modal fade"
-    id="changeCoreTime"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Change Core Time
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body"></div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-O" id="totOnly">Change</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- #endregion modal-->
-
   <body>
-    <div class="home-content position-relative d-flex">
+    <div class="position-relative flex h-screen">
       <div class="navigation">
         <div
           class="title p-3 d-flex justify-content-between align-items-center"
         >
-          <h5 class="fw-semibold text-center">Passport Control System</h5>
+        <h5 class="font-black text-center text-[28px] px-[.75rem]">
+          TRAVE<span class="text-[var(--secondary)] font-black text-[28px]"
+            >RU</span
+          >.
+        </h5>
           <div
             id="closeNav"
             class="justify-content-center align-items-center m-0"
@@ -86,68 +42,101 @@
             <i class="bx bx-x fs-3"></i>
           </div>
         </div>
-        <nav>
-          <ul class="list-unstyled d-grid gap-2">
-            <a href="./"
-              ><li class="active">
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-dashboard fs-5"></i>
-                  <p>Dashboard</p>
+        <nav class="flex flex-col justify-content-between h-[calc(100%-62px)]">
+          <section>
+            <ul class="list-unstyled d-grid gap-2">
+              <a href="./"
+                ><li class="active">
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-dashboard"></i>
+                    <p>Dashboard</p>
+                  </div>
+                </li></a
+              >
+              <a href="./checkAvailability/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-briefcase"></i>
+                    <p>Manage Dispatch</p>
+                  </div>
+                </li></a
+              >
+              <a href="./empList/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-group"></i>
+                    <p>Employee List</p>
+                  </div>
+                </li></a
+              >
+              <a href="./report/"
+                ><li>
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bx bxs-report"></i>
+                    <p>Report</p>
+                  </div>
+                </li></a
+              >
+            </ul>
+          </section>
+          <section class="grid gap-2">
+            <li class="bg-[var(--main)] hover:bg-green-100">
+              <div class="flex gap-2 items-center">
+                <div
+                  class="bg-[var(--secondary)] rounded-full h-[45px] w-[45px] min-w-[45px] flex justify-content-center items-center"
+                  id="empInitials"
+                >
+                  BM
                 </div>
-              </li></a
-            >
-            <a href="./checkAvailability/"
+
+                <div class="w-full">
+                  <div class="" id="empLabel">Baddogswa Mari</div>
+                  <div class="text-uppercase text-[10px] text-gray-400" id="grpLabel">
+                    Systems group
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!-- <a href="./admin/"
               ><li>
                 <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-briefcase fs-5"></i>
-                  <p>Manage Dispatch</p>
-                </div>
-              </li></a
-            >
-            <a href="./empList/"
-              ><li>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bxs-group fs-5"></i>
-                  <p>Employee List</p>
-                </div>
-              </li></a
-            >
-            <a href="./report/"
-              ><li>
-                <div class="d-flex align-items-center gap-2">
-                  <i class='bx bxs-report' ></i>
-                  <p>Report</p>
-                </div>
-              </li></a
-            >
-            <!-- <a href="#"
-              ><li>
-                <div class="d-flex align-items-center gap-2">
-                  <i class="bx bx-history fs-5"></i>
-                  <p>History Logs</p>
+                  <i class="bx bxs-lock-open"></i>
+                  <p>Admin</p>
                 </div>
               </li></a
             > -->
-          </ul>
+            <a href="#" id="portalBtn"
+              ><li>
+                <div class="d-flex align-items-center gap-2">
+                  <i class='bx bx-home-alt'></i>
+                  <p>KDT Portal</p>
+                </div>
+              </li></a
+            >
+          </section>
         </nav>
       </div>
       <div class="content">
-        <div class="main d-flex">
-          <div class="left d-flex flex-column overflow-hidden gap-4">
+        <div class="main flex h-screen">
+          <div
+            class="flex flex-col gap-3 overflow-auto p-[14px] md:p-8 h-full w-full"
+          >
             <div class="pageTitle w-100 gap-3 d-flex">
               <div id="menu">
                 <i class="bx bx-menu-alt-left fs-3"></i>
               </div>
               <h1 class="fw-semibold m-0">Dashboard</h1>
             </div>
-            <div class="d-flex gap-3 expirations" style="height: 400px">
+            <div class="d-flex gap-3 expirations h-[400px]">
               <div
                 class="alert1 shadow-sm rounded-4 d-flex flex-column position-relative overflow-hidden"
               >
-                <div class="title text-center p-3 ">
-                  <h5>Upcoming Passport Expirations</h5>
+                <div class="title text-center p-3">
+                  <h5 class="text-[18px] font-semibold">
+                    Upcoming Passport Expirations
+                  </h5>
                 </div>
-                <div class="passportExp overflow-auto w-100 px-3">
+                <div class="passportExp overflow-auto h-full w-100 px-3">
                   <table class="table">
                     <thead class="sticky-top bg-body">
                       <tr>
@@ -167,12 +156,14 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="d-flex gap-1 align-items-center p-3" style="color: #8d8d8d;">
-                  <i class='bx bx-info-circle'></i>
-                  <small>
-                    Displayed entries expire within 9 months.</small>
+                <div
+                  class="d-flex gap-1 align-items-center p-3"
+                  style="color: #8d8d8d"
+                >
+                  <i class="bx bx-info-circle"></i>
+                  <small> Displayed entries expire within 9 months.</small>
                 </div>
-                <div class="imgCont d-flex justify-content-end ">
+                <div class="imgCont d-flex justify-content-end">
                   <img src="images/passport.png" alt="" width="100%" />
                 </div>
               </div>
@@ -180,9 +171,11 @@
                 class="alert2 shadow-sm rounded-4 d-flex flex-column position-relative overflow-hidden"
               >
                 <div class="title text-center p-3">
-                  <h5>Upcoming Visa Expirations</h5>
+                  <h5 class="text-[18px] font-semibold">
+                    Upcoming Visa Expirations
+                  </h5>
                 </div>
-                <div class="visaExp w-100 px-3 overflow-auto">
+                <div class="visaExp w-100 h-full px-3 overflow-auto">
                   <table class="table">
                     <thead class="sticky-top bg-body">
                       <tr>
@@ -226,10 +219,12 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="d-flex gap-1 align-items-center p-3" style="color: #8d8d8d;">
-                  <i class='bx bx-info-circle'></i>
-                  <small>
-                    Displayed entries expire within 6 months.</small>
+                <div
+                  class="d-flex gap-1 align-items-center p-3"
+                  style="color: #8d8d8d"
+                >
+                  <i class="bx bx-info-circle"></i>
+                  <small> Displayed entries expire within 6 months.</small>
                 </div>
                 <div class="imgCont d-flex justify-content-end">
                   <img src="images/visa.png" alt="" width="100%" />
@@ -237,15 +232,11 @@
               </div>
             </div>
 
-            <div class="bottom">
+            <div class="bottom h-[calc(100%-400px)]">
               <div class="title d-flex justify-content-between">
-                <h3>Latest Dispatch List</h3>
-                <!-- <div>
-                  <select class="form-select form-select-sm">
-                    <option value="0">All</option>
-                    <option value="1" selected>This Year Only</option>
-                  </select>
-                </div> -->
+                <h3 class="font-semibold text-[18px] mb-3">
+                  Latest Dispatch List
+                </h3>
               </div>
               <div class="table-container">
                 <table class="table">
@@ -273,47 +264,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="right d-flex gap-3 flex-column">
-            <div
-              class="top d-flex justify-content-center align-items-center position-relative overflow-hidden ctaCard"
-            >
-              <div
-                class="h-100 w-100 position-relative contain d-flex align-items-center justify-content-center overflow-hidden"
-              >
-                <div class="picWave">
-                  <img
-                    src="images/wave.svg"
-                    class="waveImg"
-                    alt="wave"
-                    style="height: 600px"
-                  />
-                </div>
-                <div class="picTravel">
-                  <img src="images/travel.png" alt="" style="width: 550px" />
-                </div>
-                <div class="d-flex z-3 cta">
-                  <div>
-                    <div class="d-flex justify-content-between flex-column">
-                      <h1 class="fw-bold">Japan Dispatch Requirements Hub</h1>
-                    </div>
-                    <div class="d-flex flex-column position-relative rightt">
-                      <p class="fw-medium mt-2">
-                        Effortlessly Add, Update, and Verify Dispatched
-                        Employees' Requirements
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <a href="./checkAvailability/">
-                      <button class="btn-checkAvail">
-                        Manage Dispatch List
-                      </button>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
