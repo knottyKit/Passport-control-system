@@ -15,11 +15,14 @@ var to_add = 0;
 const full = 183;
 var dHistory = [];
 var editAccess = false;
+let empDetails = [];
 //#endregion
 checkAccess()
-  .then((acc) => {
-    if (acc) {
+  .then((emp) => {
+    if (emp.isSuccess) {
+      empDetails = emp.data;
       $(document).ready(function () {
+        fillEmployeeDetails();
         getYears();
         Promise.all([
           getGroups(),
@@ -43,7 +46,7 @@ checkAccess()
         mainHeight();
       });
     } else {
-      alert("Access denied");
+      alert(emp.message);
       window.location.href = `${rootFolder}`;
     }
   })
@@ -187,6 +190,9 @@ $(document).on("click", ".btn-edit", function () {
 });
 $(document).on("click", "#btnExport", function () {
   exportTable();
+});
+$(document).on("click", "#portalBtn", function () {
+  window.location.href = `${rootFolder}`;
 });
 //#endregion
 
@@ -715,29 +721,90 @@ function deleteDispatch() {
     },
   });
 }
+// function checkAccess() {
+//   return new Promise((resolve, reject) => {
+//     $.ajax({
+//       type: "GET",
+//       url: "php/check_permission.php",
+//       dataType: "json",
+//       success: function (data) {
+//         const acc = data;
+//         resolve(acc);
+//       },
+//       error: function (xhr, status, error) {
+//         if (xhr.status === 404) {
+//           reject("Not Found Error: The requested resource was not found.");
+//         } else if (xhr.status === 500) {
+//           reject("Internal Server Error: There was a server error.");
+//         } else {
+//           reject("An unspecified error occurred.1");
+//         }
+//       },
+//     });
+//   });
+// }
 function checkAccess() {
+  const response = {
+    isSuccess: true,
+    data: {
+      empNum: 464,
+      empGroup: {
+        id: 21,
+        name: "System Group",
+        acr: "SYS",
+      },
+      empName: {
+        firstname: "Collene Keith",
+        surname: "Medrano",
+      },
+    },
+  };
+  // const response = {
+  //   isSuccess: false,
+  //   message: "Access Denied",
+  // };
+  // const response = {
+  //   isSuccess: false,
+  //   message: "Not logged in",
+  // };
   return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
-      url: "php/check_permission.php",
-      dataType: "json",
-      success: function (data) {
-        const acc = data;
-        resolve(acc);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.1");
-        }
-      },
-    });
+    // $.ajax({
+    //   type: "GET",
+    //   url: "php/check_login.php",
+    //   dataType: "json",
+    //   success: function (data) {
+    //     const emp = data;
+    //     resolve(emp);
+    //   },
+    //   error: function (xhr, status, error) {
+    //     if (xhr.status === 404) {
+    //       reject("Resource not found.");
+    //     } else if (xhr.status === 500) {
+    //       reject(`Server error: ${error}`);
+    //     } else {
+    //       reject("Unspecified error");
+    //     }
+    //   },
+    // });
+    resolve(response);
   });
 }
-
+function fillEmployeeDetails() {
+  const fName = empDetails.empName.firstname;
+  const sName = empDetails.empName.surname;
+  const initials = getInitials(fName, sName);
+  const grpName = empDetails.empGroup.name;
+  $("#empLabel").html(`${fName} ${sName}`);
+  $("#empInitials").html(`${initials}`);
+  $("#grpLabel").html(`${grpName}`);
+}
+function getInitials(firstname, surname) {
+  let initials = "";
+  var firstInitial = firstname.charAt(0);
+  var lastInitial = surname.charAt(0);
+  initials = `${firstInitial}${lastInitial}`;
+  return initials.toUpperCase();
+}
 function checkEditAccess() {
   return new Promise((resolve, reject) => {
     $.ajax({
