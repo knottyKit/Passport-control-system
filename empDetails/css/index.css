@@ -1,18 +1,5 @@
 
 
-nav {
-  padding: 64px 16px 16px 16px;
-}
-nav li {
-  padding: 10px 10px 10px 20px;
-  border-radius: 8px;
-}
-nav li:hover {
-  background-color: var(--main);
-}
-nav li.active {
-  background-color: var(--secondary);
-}
 table tbody tr td {
   vertical-align: middle;
 }
@@ -22,12 +9,6 @@ table thead tr {
 .back {
   padding-bottom: 20px !important;
 }
-/* .content .topbar {
-  height: 55px;
-}
-.content .main {
-  height: calc(100vh - 55px);
-} */
 
 .back a span,
 .back a i {
