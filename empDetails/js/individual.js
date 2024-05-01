@@ -85,7 +85,7 @@ checkAccess()
           .catch((error) => {
             alert(`${error}`);
           });
-        mainHeight();
+
         dispatchStatus();
       });
     } else {
@@ -98,9 +98,6 @@ checkAccess()
   });
 //#region BINDS
 
-$(window).on("resize", function () {
-  mainHeight();
-});
 $(document).on("click", ".table-titles .title.first", function () {
   $(".table-titles .title.second, .table-two").removeClass("active");
   $(this).addClass("active");
@@ -314,21 +311,7 @@ $(document).on("click", "#btnExport", function () {
 //#endregion
 
 //#region FUNCTIONS
-function mainHeight() {
-  var title = $(".pageTitle").css("height");
 
-  if ($(window).width() > 1456) {
-    $(".main").css("height", `calc(100vh - ${title}`);
-  } else {
-    $(".main").css("height", ``);
-  }
-}
-// function resizeTable() {
-//   var h1 = parseInt($(".top").css("height"));
-//   var h2 = parseInt($(".mid").css("height"));
-
-//   $(".bot").css("height", h1 + h2);
-// }
 function dispatchStatus() {
   var stat = $("#dispatchStatus").val();
   if (stat == 1) {

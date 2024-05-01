@@ -1,68 +1,5 @@
-/* Google Fonts Import Link */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  background: #fff;
-  height: 100vh;
-  width: 100%;
-  font-family: "Poppins", sans-serif !important;
-  font-size: 14px;
-}
-ul,
-li,
-a {
-  list-style: none;
-  text-decoration: none !important;
-  color: inherit !important;
-}
-p {
-  margin: 0 !important;
-}
-
-.table-cont::-webkit-scrollbar {
-  width: 10px;
-}
-.table-cont::-webkit-scrollbar-track {
-  background: #ebebeb;
-}
-.table-cont::-webkit-scrollbar-thumb {
-  background: var(--darkest);
-  border-radius: 25px;
-}
-
-:root {
-  --main: #e3f1d6;
-  --secondary: #9dc08b;
-  --tertiary: #609966;
-  --darkest: #40513b;
-  --bg: #f6fcf1;
-  --orange: #ec8f5e;
-
-  --red-color: #df2e38;
-  --yellow-color: #f4c948;
-  --warning: #fcfad8;
-  --text-color: #555;
-}
-
-.navigation {
-  width: 250px;
-  height: 100vh;
-  border-right: 2px solid #dedede;
-  z-index: 2;
-}
-.content {
-  width: calc(100% - 250px);
-  height: 100vh;
-  z-index: 1;
-  background-color: #f2f2f2;
-  overflow: auto;
-}
 nav {
   padding: 64px 16px 16px 16px;
 }
@@ -80,7 +17,7 @@ table tbody tr td {
   vertical-align: middle;
 }
 table thead tr {
-  background-color: var(--main);
+  background-color: var(--tableheader);
 }
 .back {
   padding-bottom: 20px !important;
@@ -102,9 +39,7 @@ table thead tr {
 .back a:hover i {
   color: var(--tertiary) !important;
 }
-.main .left {
-  width: calc(100% - 400px);
-}
+
 .card {
   width: 400px;
   position: relative;
@@ -140,14 +75,13 @@ table thead tr {
   transition: background-color 0.25s ease-out;
 }
 .btn-update:hover {
-  background-color: #518255 !important;
+  background-color: var(--tertiary) !important;
 }
 #dispatchStatus {
   font-weight: 700 !important;
 }
 .left .pic {
-  width: 200px;
-  height: 200px;
+
   border: 1px solid #cdcdcd;
   border-radius: 6px;
 }
@@ -174,10 +108,7 @@ table thead tr {
   text-transform: uppercase;
   font-weight: 600;
 }
-.personal .empName {
-  font-size: 60px;
-  line-height: 65px;
-}
+
 .prog-cont small {
   color: var(--red-color);
 }
@@ -198,17 +129,29 @@ table thead tr {
   font-size: 20px !important;
   font-weight: 500;
 }
-.bot table thead th {
-  text-transform: uppercase;
+.bot table thead tr th {
+  background-color: inherit;
   font-size: 12px !important;
-  text-wrap: nowrap;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-weight: 700;
+  padding: 1.25rem 0.75rem;
+}
+.bot table thead tr th:first-of-type {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.bot table thead tr th:last-of-type {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 .bot table tbody td {
   font-size: 14px;
   vertical-align: middle;
 }
 .bot table tbody tr:hover {
-  background-color: #e6e6e6;
+  background-color: #ededed;
 }
 .btn-edit,
 .btn-delete {
@@ -224,9 +167,7 @@ table thead tr {
 .table-cont {
   height: calc(100% - 54px);
 }
-.bot {
-  height: 480px;
-}
+
 .disStat i {
   opacity: 50%;
   cursor: pointer;
@@ -235,9 +176,7 @@ table thead tr {
 .disStat i:hover {
   opacity: 100%;
 }
-.pageTitle {
-  padding: 20px;
-}
+
 .disStat {
   padding-bottom: 20px;
 }
@@ -253,100 +192,18 @@ table thead tr {
   font-weight: 700;
 }
 
-@media (min-width: 1149px) and (max-width: 1456px) {
-  .right {
-    flex-direction: row !important;
-  }
+.bg-success{
+  background-color: var(--tertiary) !important;
 }
-@media (max-width: 1149px) {
-  .right {
-    align-items: center;
-  }
-}
+
 @media (max-width: 991px) {
   .kaliwa,
   .kanan {
     width: 100% !important;
   }
 }
-@media (max-width: 1456px) {
-  .contents {
-    flex-direction: column;
-    overflow: auto;
-    height: 100%;
-  }
-  .left,
-  .right {
-    width: 100% !important;
-  }
-  .content {
-  }
-  .back {
-    padding-bottom: 20px !important;
-  }
-  .bot {
-    height: 300px;
-  }
-}
-@media (max-width: 1050px) {
-  .left .empName {
-    font-size: 45px;
-    line-height: 48px;
-  }
-  .disStat h4 {
-    font-size: 18px;
-  }
-  .disStat {
-    padding-bottom: 10px;
-  }
-}
-@media (max-width: 767px) {
-  .contents {
-    overflow: hidden;
-  }
-  .pageTitle {
-    padding: 10px !important;
-    align-items: center;
-  }
-  .pageTitle h1 {
-    font-size: 24px;
-  }
-  .back {
-    font-size: 14px;
-  }
-  .left .top {
-    height: 100%;
-  }
-  .left .pic {
-    height: 100px;
-    width: 100px;
-  }
-  .left .empId {
-    font-size: 12px;
-  }
-  .left .empName {
-    font-size: 28px !important;
-    line-height: 30px !important;
-  }
-  .disStat h4 {
-    font-size: 14px !important;
-  }
-  .disStat {
-    padding: 0;
-  }
-  .totalThisYear .label {
-    font-size: 14px;
-  }
-  .totalThisYear .count {
-    font-size: 24px;
-  }
-  .bot .header {
-    padding-bottom: 10px !important;
-  }
-  .bot .title {
-    font-size: 16px !important;
-  }
-}
+
+
 
 /* SMALLSCREEN NAVIGATION */
 #closeNav,
