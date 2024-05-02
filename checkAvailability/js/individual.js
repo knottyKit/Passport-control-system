@@ -43,7 +43,6 @@ checkAccess()
           .catch((error) => {
             alert(`${error}`);
           });
-        mainHeight();
       });
     } else {
       alert(emp.message);
@@ -54,11 +53,6 @@ checkAccess()
     alert(`${error}`);
   });
 //#region BINDS
-
-$(window).resize(function () {
-  mainHeight();
-});
-
 $(document).on("click", "#menu", function () {
   $(".navigation").addClass("open");
   $("body").addClass("overflow-hidden");
@@ -642,16 +636,6 @@ function clearInput() {
   to_add = 0;
   $("#daysCount").text("");
   $("#empSel").change();
-}
-function mainHeight() {
-  var title = $(".pageTitle").css("height");
-
-  if ($(window).width() > 1456) {
-    $(".main").css("height", `calc(100vh - ${title}`);
-    // console.log(title);
-  } else {
-    $(".main").css("height", ``);
-  }
 }
 function getLocations() {
   return new Promise((resolve, reject) => {
