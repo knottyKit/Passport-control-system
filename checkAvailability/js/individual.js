@@ -36,7 +36,6 @@ checkAccess()
             fillEmployees(emps);
             fillLocations(locs);
             if (eAccess === false) {
-              $("#btnApply").remove();
               $("#updateEmp").remove();
             }
           })
@@ -290,16 +289,6 @@ function countDays(strt, end) {
       },
     });
   });
-
-  var timeDifference = endDate - startDate;
-  var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
-
-  if (daysDifference === 1) {
-    $("#daysCount").text(" 1 day.");
-  } else {
-    $("#daysCount").text(`${daysDifference} days`);
-  }
-  countTotal();
 }
 function displayDays(cdays) {
   if (cdays.difference === 1) {
@@ -486,8 +475,8 @@ function fillHistory(dlist) {
       row.append(
         `<td  data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.pastOne}</td>`
       );
-      if (editAccess === true) {
-        row.append(`<td data-exclude='true'>
+
+      row.append(`<td data-exclude='true'>
         <div class="d-flex gap-2">
         <button
           class="btn-edit"
@@ -505,7 +494,6 @@ function fillHistory(dlist) {
           <i class="bx bx-trash fs-5"></i>
         </button>
       </div></td>`);
-      }
 
       tableBody.append(row);
     });
@@ -604,7 +592,6 @@ function insertDispatch() {
     },
     dataType: "json",
     success: function (response) {
-      console.log(response);
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
         toggleLoadingAnimation(false);
@@ -877,7 +864,6 @@ function computeTotalDays() {
 }
 function getEditDetails(editID) {
   const editItem = dHistory.find((item) => parseInt(item.id) === editID);
-  console.log(editItem);
   var loc = editItem["locationName"];
   var japan = editItem["fromDate"];
   var parsedDateJap = new Date(japan);

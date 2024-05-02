@@ -568,9 +568,8 @@ function fillHistory(dlist) {
       row.append(
         `<td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${item.pastOne}</td>`
       );
-      console.log(editAccess);
-      if (editAccess === true) {
-        row.append(`<td data-exclude="true">                            <div class="d-flex gap-3">
+
+      row.append(`<td data-exclude="true">                            <div class="d-flex gap-3">
           <button
             class="btn-edit"
             title="Edit Entry"
@@ -587,7 +586,6 @@ function fillHistory(dlist) {
             <i class="bx bx-trash fs-5"></i>
           </button>
         </div></td>`);
-      }
 
       tableBody.append(row);
     });
