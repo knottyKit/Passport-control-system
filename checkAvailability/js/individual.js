@@ -99,6 +99,7 @@ $(document).on("change", ".ddates", function () {
     });
 });
 $(document).on("change", "#empSel", function () {
+  toggleLoadingAnimation(true);
   Promise.all([
     getPassport(),
     getVisa(),
@@ -114,9 +115,11 @@ $(document).on("change", "#empSel", function () {
       fillHistory(dHistory);
       countTotal();
       fillYearly(yrl);
+      toggleLoadingAnimation(false);
     })
     .catch((error) => {
       alert(`${error}`);
+      toggleLoadingAnimation(false);
     });
   if ($(this).val() === 0) {
     $("#empDetails__name").text("");
@@ -578,8 +581,11 @@ function insertDispatch() {
   const locID = $("#locSel").find("option:selected").attr("loc-id");
   const startD = $("#startDate").val();
   const endD = $("#endDate").val();
+
+  toggleLoadingAnimation(true);
   if (!empID || !locID || !startD || !endD) {
     console.log("complete required fields");
+    toggleLoadingAnimation(false);
     return;
   }
   const startDate = new Date(startD);
@@ -590,6 +596,7 @@ function insertDispatch() {
     to_add = 0;
     countTotal();
     $("#daysCount").text("");
+    toggleLoadingAnimation(false);
     return;
   }
   $.ajax({
@@ -606,6 +613,7 @@ function insertDispatch() {
       console.log(response);
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
+        toggleLoadingAnimation(false);
         alert(`${response.error}`); // Reject the promise
       } else {
         Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
@@ -619,8 +627,10 @@ function insertDispatch() {
             $("#daysCount").text("");
             to_add = 0;
             countTotal();
+            toggleLoadingAnimation(false);
           })
           .catch((error) => {
+            toggleLoadingAnimation(false);
             alert(`${error}`);
           });
       }
@@ -979,5 +989,29 @@ function arrangeName(nme) {
   let nameParts = nme.split(", "); // Split the string into an array using ', ' as the separator
   rearrangedName = nameParts[1] + " " + nameParts[0]; // Concatenate the parts in the desired order
   return rearrangedName;
+}
+
+function toggleLoadingAnimation(show) {
+  if (show) {
+    $("#appendHere").append(`
+          <div class="top-0 backdrop-blur-sm bg-gray/30 h-full flex justify-center items-center flex-col pb-5 absolute w-full" id="loadingAnimation">
+              <div class="relative">
+                  <div class="grayscale-[70%] w-[400px]">
+                      <img src="../images/Frame 1.gif" alt="loader" class="w-full" />
+                  </div>
+                  <div class="absolute bottom-0 flex-col w-full text-center flex justify-center items-center gap-2">
+                      <div class="title fw-semibold fs-5">
+                          Loading data . . .
+                      </div>
+                      <div class="text">
+                          Please wait while we fetch the employee details.
+                      </div>
+                  </div>
+              </div>
+          </div>
+      `);
+  } else {
+    $("#loadingAnimation").remove();
+  }
 }
 //#endregion
