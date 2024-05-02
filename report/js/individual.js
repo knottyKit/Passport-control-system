@@ -34,7 +34,6 @@ checkAccess()
           .catch((error) => {
             alert(`${error}`);
           });
-        mainHeight();
       });
     } else {
       alert(emp.message);
@@ -45,10 +44,6 @@ checkAccess()
     alert(`${error}`);
   });
 //#region BINDS
-
-$(window).on("resize", function () {
-  mainHeight();
-});
 $(document).on("click", "#menu", function () {
   $(".navigation").addClass("open");
   $("body").addClass("overflow-hidden");
@@ -189,11 +184,6 @@ function getReport() {
       },
     });
   });
-}
-function mainHeight() {
-  var title = $(".pageTitle").css("height");
-
-  $(".main").css("height", `calc(100vh - ${title}`);
 }
 function getGroups() {
   return new Promise((resolve, reject) => {

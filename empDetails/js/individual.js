@@ -85,7 +85,6 @@ checkAccess()
           .catch((error) => {
             alert(`${error}`);
           });
-
         dispatchStatus();
       });
     } else {
@@ -97,7 +96,6 @@ checkAccess()
     alert(`${error}`);
   });
 //#region BINDS
-
 $(document).on("click", ".table-titles .title.first", function () {
   $(".table-titles .title.second, .table-two").removeClass("active");
   $(this).addClass("active");
@@ -311,7 +309,6 @@ $(document).on("click", "#btnExport", function () {
 //#endregion
 
 //#region FUNCTIONS
-
 function dispatchStatus() {
   var stat = $("#dispatchStatus").val();
   if (stat == 1) {
