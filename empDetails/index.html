@@ -276,64 +276,6 @@
     </div>
   </div>
 
-  <div
-    class="modal fade"
-    id="changeDispatchStatus"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Change Dispatch Status
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <p class="mb-2">
-            Please select dispatch status for
-            <span id="disModalEmpName" class="fw-semibold"
-              >Joshua Mari Coquia</span
-            >.
-          </p>
-          <select class="form-select" id="dispatchStatus">
-            <option value="1" class="text-success fw-medium">
-              For Dispatch
-            </option>
-            <option value="0" class="text-danger fw-medium">
-              Non Dispatch
-            </option>
-          </select>
-        </div>
-
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-cancel btn-secondary"
-            id="cancelStat"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="btn btn-update fw-medium"
-            id="btn-saveDisStat"
-          >
-            Save Dispatch Status
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div
     class="modal fade"
@@ -510,7 +452,7 @@
           <section>
             <ul class="list-unstyled d-grid gap-2">
               <a href="../"
-                ><li>
+                ><li >
                   <div class="d-flex align-items-center gap-2">
                     <i class="bx bxs-dashboard"></i>
                     <p>Dashboard</p>
@@ -526,15 +468,15 @@
                 </li></a
               >
               <a href="../empList/"
-                ><li class="active">
+                ><li>
                   <div class="d-flex align-items-center gap-2">
                     <i class="bx bxs-group"></i>
                     <p>Employee List</p>
                   </div>
                 </li></a
               >
-              <a href="../report/"
-                ><li>
+              <a href="./"
+                ><li class="active">
                   <div class="d-flex align-items-center gap-2">
                     <i class="bx bxs-report"></i>
                     <p>Report</p>
@@ -555,16 +497,12 @@
 
                 <div class="w-full">
                   <div class="" id="empLabel">Boglin Kit</div>
-                  <div
-                    class="text-uppercase text-[10px] text-gray-400"
-                    id="grpLabel"
-                  >
+                  <div class="text-uppercase text-[10px] text-gray-400" id="grpLabel">
                     Systems group
                   </div>
                 </div>
               </div>
             </li>
-
             <a href="#" id="portalBtn"
               ><li>
                 <div class="d-flex align-items-center gap-2">

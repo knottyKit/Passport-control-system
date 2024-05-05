@@ -30,11 +30,12 @@ if (url.searchParams.get("id")) {
 } else {
   window.location.href = "/PCS/";
 }
-
 checkAccess()
-  .then((acc) => {
-    if (acc) {
+  .then((emp) => {
+    if (emp.isSuccess) {
+      empDetails = emp.data;
       $(document).ready(function () {
+        fillEmployeeDetails();
         Promise.all([
           getEmployeeDetails(),
           getPassport(true),
@@ -85,10 +86,9 @@ checkAccess()
           .catch((error) => {
             alert(`${error}`);
           });
-        dispatchStatus();
       });
     } else {
-      alert("Access denied");
+      alert(emp.message);
       window.location.href = `${rootFolder}`;
     }
   })
@@ -104,9 +104,6 @@ $(document).on("click", ".table-titles .title.first", function () {
 $(document).on("click", ".table-titles .title.second", function () {
   $(".table-titles .title.second, .table-two").addClass("active");
   $(".table-titles .title.first, .table-one").removeClass("active");
-});
-$(document).on("click", ".seeMore", function () {
-  window.location.href = "path/to/your/page.html";
 });
 $(document).on("click", "#menu", function () {
   $(".navigation").addClass("open");
@@ -126,9 +123,7 @@ $(document).on("mouseleave", ".editThis", function () {
     $(this).removeClass("hov");
   }
 });
-$(document).on("change", "#dispatchStatus", function () {
-  dispatchStatus();
-});
+
 $(document).on("click", "#btn-updateVisa", function () {
   $("#updateVisa").find("input").removeAttr("disabled");
   $(this).closest(".modal").find(".attach").removeClass("d-none");
@@ -177,19 +172,6 @@ $(document).on("click", ".btn-delete", function () {
 });
 $(document).on("click", "#btn-deleteEntry", function () {
   deleteDispatch();
-});
-$(document).on("change", "#dToggle", function () {
-  getDispatchHistory()
-    .then((dlst) => {
-      dHistory = dlst;
-      fillHistory(dHistory);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-});
-$(document).on("click", "#btn-saveDisStat", function () {
-  saveStat();
 });
 $(document).on("click", "#btn-savePass", function () {
   savePass();
@@ -309,15 +291,6 @@ $(document).on("click", "#btnExport", function () {
 //#endregion
 
 //#region FUNCTIONS
-function dispatchStatus() {
-  var stat = $("#dispatchStatus").val();
-  if (stat == 1) {
-    $("#dispatchStatus").addClass("text-success").removeClass("text-danger");
-  }
-  if (stat == 0) {
-    $("#dispatchStatus").addClass("text-danger").removeClass("text-success");
-  }
-}
 function getEmployeeDetails() {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -355,8 +328,7 @@ function fillDetails(empnum) {
     $("#dStat").addClass("bg-success").removeClass("bg-danger");
     $("#dStat").text("For Dispatch");
   }
-  $("#dispatchStatus").val(empnum.dispatch);
-  dispatchStatus();
+
   $("#disModalEmpName").text(`${empnum.firstname} ${empnum.lastname}`);
   ename = `${empnum.firstname} ${empnum.lastname}`;
 }
@@ -514,15 +486,12 @@ function visaInput(vsa) {
   }
 }
 function getDispatchHistory() {
-  const yScope = parseInt($("#dToggle").val());
-
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
       url: "php/get_dispatch_history.php",
       data: {
         empID: empID,
-        yScope: yScope,
       },
       dataType: "json",
       success: function (response) {
@@ -625,36 +594,6 @@ function displayDays(dd) {
   $("#dCount").text(countText);
   setBar(dd);
   colorBar(dd);
-}
-function saveStat() {
-  const disStat = $("#dispatchStatus").val();
-  $.ajax({
-    type: "POST",
-    url: "php/update_dispatch_status.php",
-    data: {
-      empID: empID,
-      dispatch: disStat,
-    },
-    success: function (response) {
-      getEmployeeDetails()
-        .then((emps) => {
-          fillDetails(emps);
-          $("#cancelStat").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-    },
-    error: function (xhr, status, error) {
-      if (xhr.status === 404) {
-        reject("Not Found Error: The requested resource was not found.");
-      } else if (xhr.status === 500) {
-        reject("Internal Server Error: There was a server error.");
-      } else {
-        reject("An unspecified error occurreds.");
-      }
-    },
-  });
 }
 function deleteDispatch() {
   const delID = $("#storeId").attr("del-id");
@@ -912,29 +851,90 @@ function resetVisaInput() {
 </button>
   `);
 }
+// function checkAccess() {
+//   return new Promise((resolve, reject) => {
+//     $.ajax({
+//       type: "GET",
+//       url: "php/check_permission.php",
+//       dataType: "json",
+//       success: function (data) {
+//         const acc = data;
+//         resolve(acc);
+//       },
+//       error: function (xhr, status, error) {
+//         if (xhr.status === 404) {
+//           reject("Not Found Error: The requested resource was not found.");
+//         } else if (xhr.status === 500) {
+//           reject("Internal Server Error: There was a server error.");
+//         } else {
+//           reject("An unspecified error occurred.");
+//         }
+//       },
+//     });
+//   });
+// }
 function checkAccess() {
+  const response = {
+    isSuccess: true,
+    data: {
+      empNum: 464,
+      empGroup: {
+        id: 21,
+        name: "System Group",
+        acr: "SYS",
+      },
+      empName: {
+        firstname: "Collene Keith",
+        surname: "Medrano",
+      },
+    },
+  };
+  // const response = {
+  //   isSuccess: false,
+  //   message: "Access Denied",
+  // };
+  // const response = {
+  //   isSuccess: false,
+  //   message: "Not logged in",
+  // };
   return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
-      url: "php/check_permission.php",
-      dataType: "json",
-      success: function (data) {
-        const acc = data;
-        resolve(acc);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.");
-        }
-      },
-    });
+    // $.ajax({
+    //   type: "GET",
+    //   url: "php/check_permission.php",
+    //   dataType: "json",
+    //   success: function (data) {
+    //     const acc = data;
+    //     resolve(acc);
+    //   },
+    //   error: function (xhr, status, error) {
+    //     if (xhr.status === 404) {
+    //       reject("Not Found Error: The requested resource was not found.");
+    //     } else if (xhr.status === 500) {
+    //       reject("Internal Server Error: There was a server error.");
+    //     } else {
+    //       reject("An unspecified error occurred.1");
+    //     }
+    //   },
+    // });
+    resolve(response);
   });
 }
-
+function fillEmployeeDetails() {
+  const fName = empDetails.empName.firstname;
+  const sName = empDetails.empName.surname;
+  const initials = getInitials(fName, sName);
+  const grpName = empDetails.empGroup.name;
+  $("#empLabel").html(`${fName} ${sName}`);
+  $("#empInitials").html(`${initials}`);
+  $("#grpLabel").html(`${grpName}`);
+}
+function getInitials(firstname, surname) {
+  let initials = "";
+  var firstInitial = firstname.charAt(0);
+  var lastInitial = surname.charAt(0);
+  initials = `${firstInitial}${lastInitial}`;
+  return initials.toUpperCase();
+}
 function checkEditAccess() {
   return new Promise((resolve, reject) => {
     $.ajax({
