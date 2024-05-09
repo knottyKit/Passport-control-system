@@ -72,8 +72,11 @@ $(document).on("click", "#portalBtn", function () {
 function getDispatchlist() {
   return new Promise((resolve, reject) => {
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: "php/get_dispatch_list.php",
+      data: {
+        empnum: empDetails["id"],
+      },
       dataType: "json",
       success: function (data) {
         const dList = data;

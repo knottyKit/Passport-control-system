@@ -47,4 +47,18 @@ function checkEditAccess($empnum)
     }
     return $access;
 }
+function alLGroupAccess($empnum)
+{
+    global $connkdt;
+    $access = FALSE;
+    $permissionID = 42;
+    $userQ = "SELECT COUNT(*) FROM user_permissions WHERE permission_id = :permissionID AND fldEmployeeNum = :empID";
+    $userStmt = $connkdt->prepare($userQ);
+    $userStmt->execute([":empID" => $empnum, ":permissionID" => $permissionID]);
+    $userCount = $userStmt->fetchColumn();
+    if ($userCount > 0) {
+        $access = TRUE;
+    }
+    return $access;
+}
 #endregion

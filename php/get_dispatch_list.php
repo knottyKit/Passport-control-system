@@ -1,7 +1,8 @@
 <?php
 #region DB Connect
+require_once '../dbconn/dbconnectkdtph.php';
 require_once '../dbconn/dbconnectpcs.php';
-// require_once '../dbconn/globalFunctions.php';
+require_once '../dbconn/globalFunctions.php';
 #endregion
 
 #region set timezone
@@ -11,10 +12,11 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 $dispatchList = array();
 $dateFilter = date("Y-m-d");
-// if (!empty($_POST['ySelect'])) {
-//     $dateFilter = date("Y", strtotime($_POST['ySelect']));
-// }
-
+$empNum = 0;
+if (!empty($_POST['id'])) {
+    $empNum = $_POST['id'];
+}
+$allGroupAccess = alLGroupAccess($empNum);
 #endregion
 
 #region Entries Query
