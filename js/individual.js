@@ -11,6 +11,7 @@ switch (document.location.hostname) {
     break;
 }
 let empDetails = [];
+let editAccess = false;
 //#endregion
 checkAccess()
   .then((emp) => {
@@ -22,11 +23,16 @@ checkAccess()
           getDispatchlist(),
           getExpiringPassport(),
           getExpiringVisa(),
+          checkEditAccess(),
         ])
-          .then(([dList, epList, evList]) => {
+          .then(([dList, epList, evList, eaccess]) => {
             fillDispatchList(dList);
             fillPassport(epList);
             fillVisa(evList);
+            editAccess = eaccess;
+            if (!editAccess) {
+              $("table tbody tr").css("cursor", "default");
+            }
           })
           .catch((error) => {
             alert(`${error}`);
@@ -52,8 +58,10 @@ $(document).on("click", "#closeNav", function () {
   $("body").removeClass("overflow-hidden");
 });
 $(document).on("click", ".rowEmp", function () {
-  var empID = $(this).attr("emp-id");
-  window.location.href = `./empDetails?id=${empID}`;
+  if (editAccess) {
+    var empID = $(this).attr("emp-id");
+    window.location.href = `./empDetails?id=${empID}`;
+  }
 });
 $(document).on("click", "#portalBtn", function () {
   window.location.href = `${rootFolder}`;
@@ -208,21 +216,17 @@ function formatDays(numberOfDays) {
   }
 }
 function checkAccess() {
-  const response = {
-    isSuccess: true,
-    data: {
-      empNum: 464,
-      empGroup: {
-        id: 21,
-        name: "System Group",
-        acr: "SYS",
-      },
-      empName: {
-        firstname: "Joshua Mari",
-        surname: "Coquia",
-      },
-    },
-  };
+  // const response = {
+  //   isSuccess: true,
+  //   data: {
+  //     id: 464,
+  //     group: "Systems Group",
+  //     empname: {
+  //       firstname: "Joshua Mari",
+  //       surname: "Coquia",
+  //     },
+  //   },
+  // };
   // const response = {
   //   isSuccess: false,
   //   message: "Access Denied",
@@ -232,32 +236,54 @@ function checkAccess() {
   //   message: "Not logged in",
   // };
   return new Promise((resolve, reject) => {
-    // $.ajax({
-    //   type: "GET",
-    //   url: "php/check_permission.php",
-    //   dataType: "json",
-    //   success: function (data) {
-    //     const acc = data;
-    //     resolve(acc);
-    //   },
-    //   error: function (xhr, status, error) {
-    //     if (xhr.status === 404) {
-    //       reject("Not Found Error: The requested resource was not found.");
-    //     } else if (xhr.status === 500) {
-    //       reject("Internal Server Error: There was a server error.");
-    //     } else {
-    //       reject("An unspecified error occurred.");
-    //     }
-    //   },
-    // });
-    resolve(response);
+    $.ajax({
+      type: "GET",
+      url: "dbconn/check_permissions.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+    // resolve(response);
+  });
+}
+function checkEditAccess() {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "GET",
+      url: "php/check_edit_permission.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.1");
+        }
+      },
+    });
   });
 }
 function fillEmployeeDetails() {
-  const fName = empDetails.empName.firstname;
-  const sName = empDetails.empName.surname;
+  const fName = empDetails.empname.firstname;
+  const sName = empDetails.empname.surname;
   const initials = getInitials(fName, sName);
-  const grpName = empDetails.empGroup.name;
+  const grpName = empDetails.group;
   $("#empLabel").html(`${fName} ${sName}`);
   $("#empInitials").html(`${initials}`);
   $("#grpLabel").html(`${grpName}`);

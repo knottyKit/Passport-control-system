@@ -2,4 +2,5 @@
 /empDetails/EmployeesFolder/
 
 #ignore dbconn folder
-/dbconn/
+/dbconn/dbconnectkdtph.php
+/dbconn/dbconnectpcs.php
