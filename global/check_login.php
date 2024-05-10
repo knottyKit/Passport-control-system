@@ -1,7 +1,7 @@
 <?php
 #region DB Connect
-require_once 'dbconnectpcs.php';
-require_once 'dbconnectkdtph.php';
+require_once '../dbconn/dbconnectpcs.php';
+require_once '../dbconn/dbconnectkdtph.php';
 require_once 'globalFunctions.php';
 #endregion
 

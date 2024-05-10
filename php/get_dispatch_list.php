@@ -2,7 +2,7 @@
 #region DB Connect
 require_once '../dbconn/dbconnectkdtph.php';
 require_once '../dbconn/dbconnectpcs.php';
-require_once '../dbconn/globalFunctions.php';
+require_once '../global/globalfunctions.php';
 #endregion
 
 #region set timezone
@@ -13,17 +13,23 @@ date_default_timezone_set('Asia/Manila');
 $dispatchList = array();
 $dateFilter = date("Y-m-d");
 $empNum = 0;
-if (!empty($_POST['id'])) {
-    $empNum = $_POST['id'];
+if (!empty($_POST['empnum'])) {
+    $empNum = $_POST['empnum'];
 }
-$allGroupAccess = alLGroupAccess($empNum);
+$membersStatement = "";
+$groupMembers = getMembers($empNum);
+if (count($groupMembers) > 0) {
+    $implodeString = implode("','", array_values($groupMembers));
+    $membersStatement = "AND ed.emp_number IN ('" . $implodeString . "')";
+}
+
 #endregion
 
 #region Entries Query
 try {
     $dispatchQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename, ll.location_name, dl.dispatch_from,dl.dispatch_to,pd.passport_expiry,vd.visa_expiry FROM 
     `dispatch_list` AS dl JOIN `employee_details` AS ed ON dl.emp_number=ed.emp_number JOIN `location_list` AS ll ON dl.location_id=ll.location_id LEFT JOIN `passport_details` 
-    AS pd ON pd.emp_number=ed.emp_number  LEFT JOIN `visa_details` AS vd ON vd.emp_number=ed.emp_number WHERE dl.dispatch_to >= :dateFilter AND ed.emp_dispatch=1 ORDER BY 
+    AS pd ON pd.emp_number=ed.emp_number  LEFT JOIN `visa_details` AS vd ON vd.emp_number=ed.emp_number WHERE dl.dispatch_to >= :dateFilter AND ed.emp_dispatch=1 $membersStatement ORDER BY 
     dl.dispatch_id DESC";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":dateFilter" => $dateFilter]);

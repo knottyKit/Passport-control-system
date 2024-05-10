@@ -61,4 +61,36 @@ function alLGroupAccess($empnum)
     }
     return $access;
 }
+function getMembers($empnum)
+{
+    global $connkdt;
+    $members = array();
+    $yearMonth = date("Y-m-01");
+    $allGroupAccess = alLGroupAccess($empnum);
+    $myGroups = array();
+    if (!$allGroupAccess) {
+        $groupsQ = "SELECT fldGroup, fldGroups FROM emp_prof WHERE fldEmployeeNum=:empnum";
+        $groupsStmt = $connkdt->prepare($groupsQ);
+        $groupsStmt->execute([":empnum" => $empnum]);
+        if ($groupsStmt->rowCount() > 0) {
+            $groupArr = $groupsStmt->fetch();
+            if ($groupArr["fldGroups"] != '') {
+                $myGroups = explode("/", $groupArr["fldGroups"]);
+            } else {
+                array_push($myGroups, $groupArr["fldGroup"]);
+            }
+        }
+    }
+    foreach ($myGroups as $grp) {
+        $memsQ = "SELECT fldEmployeeNum FROM emp_prof WHERE fldGroup=:grp AND fldEmployeeNum <> :empnum AND (fldResignDate IS NULL OR fldResignDate ='0000-00-00' OR fldResignDate > :yearMonth) AND fldNick<>''";
+        $memsStmt = $connkdt->prepare($memsQ);
+        $memsStmt->execute([":empnum" => $empnum, ":grp" => $grp, ":yearMonth" => $yearMonth]);
+        if ($memsStmt->rowCount() > 0) {
+            $memArr = $memsStmt->fetchAll();
+            $arrValues = array_column($memArr, "fldEmployeeNum");
+            $members = array_merge($members, $arrValues);
+        }
+    }
+    return $members;
+}
 #endregion

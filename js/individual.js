@@ -241,7 +241,7 @@ function checkAccess() {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
-      url: "dbconn/check_permissions.php",
+      url: "global/check_login.php",
       dataType: "json",
       success: function (data) {
         const acc = data;
