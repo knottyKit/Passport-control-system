@@ -23,13 +23,12 @@ checkAccess()
           getDispatchlist(),
           getExpiringPassport(),
           getExpiringVisa(),
-          checkEditAccess(),
         ])
-          .then(([dList, epList, evList, eaccess]) => {
+          .then(([dList, epList, evList]) => {
             fillDispatchList(dList);
             fillPassport(epList);
             fillVisa(evList);
-            editAccess = eaccess;
+            editAccess = emp.data.edit;
             if (!editAccess) {
               $("table tbody tr").css("cursor", "default");
             }
@@ -258,28 +257,6 @@ function checkAccess() {
       },
     });
     // resolve(response);
-  });
-}
-function checkEditAccess() {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
-      url: "php/check_edit_permission.php",
-      dataType: "json",
-      success: function (data) {
-        const acc = data;
-        resolve(acc);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.1");
-        }
-      },
-    });
   });
 }
 function fillEmployeeDetails() {

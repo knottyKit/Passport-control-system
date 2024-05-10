@@ -45,6 +45,8 @@ try {
         $empDetails["group"] = $groupname;
 
 
+        $editAccess = checkEditAccess($empnum);
+        $empDetails["edit"] = $editAccess;
         $userAccess = checkAccess($empnum);
         if ($userAccess) {
             $result["isSuccess"] = true;
