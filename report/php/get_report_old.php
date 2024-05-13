@@ -25,10 +25,6 @@ if ($groupID != 0) {
     $groupQuery = "WHERE group_id = $groupID";
 }
 
-if (!empty($_COOKIE["userID"])) {
-    $userHash = $_COOKIE["userID"];
-}
-
 $startYear = $dateNow . "-01-01";
 $endYear = $dateNow . "-12-31";
 #endregion
