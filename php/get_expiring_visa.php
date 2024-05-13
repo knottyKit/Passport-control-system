@@ -1,7 +1,7 @@
 <?php
 #region DB Connect
 require_once '../dbconn/dbconnectpcs.php';
-// require_once '../dbconn/globalFunctions.php';
+require_once '../global/globalFunctions.php';
 #endregion
 
 #region set timezone
@@ -9,10 +9,20 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
+$empNum = 0;
+if (!empty($_POST['empnum'])) {
+    $empNum = $_POST['empnum'];
+}
+$membersStatement = "";
+$groupMembers = getMembers($empNum);
+if (count($groupMembers) > 0) {
+    $implodeString = implode("','", array_values($groupMembers));
+    $membersStatement = "(AND ed.emp_number IN ('" . $implodeString . "'))";
+}
 $expiringList = array();
 $expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiring_in,ed.emp_number FROM `visa_details` AS vd JOIN 
 `employee_details` AS ed ON vd.emp_number=ed.emp_number WHERE vd.visa_expiry>=CURDATE() AND  vd.visa_expiry <= DATE_ADD(CURDATE(), INTERVAL 7 MONTH) AND ed.emp_dispatch = 1 
-OR vd.visa_expiry < CURDATE() ORDER BY CASE WHEN vd.visa_expiry>=CURDATE() THEN 1 ELSE vd.visa_expiry END";
+OR vd.visa_expiry < CURDATE() $membersStatement ORDER BY CASE WHEN vd.visa_expiry>=CURDATE() THEN 1 ELSE vd.visa_expiry END";
 $expireStmt = $connpcs->prepare($expireQ);
 #endregion
 

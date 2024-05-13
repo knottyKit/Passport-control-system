@@ -127,8 +127,11 @@ function fillDispatchList(dlist) {
 function getExpiringPassport() {
   return new Promise((resolve, reject) => {
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: "php/get_expiring_passport.php",
+      data: {
+        empnum: empDetails["id"],
+      },
       dataType: "json",
       success: function (data) {
         const epList = data;
@@ -166,8 +169,11 @@ function fillPassport(eplist) {
 function getExpiringVisa() {
   return new Promise((resolve, reject) => {
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: "php/get_expiring_visa.php",
+      data: {
+        empnum: empDetails["id"],
+      },
       dataType: "json",
       success: function (data) {
         const evList = data;

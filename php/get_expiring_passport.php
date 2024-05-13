@@ -1,7 +1,7 @@
 <?php
 #region DB Connect
 require_once '../dbconn/dbconnectpcs.php';
-// require_once '../dbconn/globalFunctions.php';
+require_once '../global/globalFunctions.php';
 #endregion
 
 #region set timezone
@@ -9,10 +9,20 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
+$empNum = 0;
+if (!empty($_POST['empnum'])) {
+    $empNum = $_POST['empnum'];
+}
+$membersStatement = "";
+$groupMembers = getMembers($empNum);
+if (count($groupMembers) > 0) {
+    $implodeString = implode("','", array_values($groupMembers));
+    $membersStatement = "(AND ed.emp_number IN ('" . $implodeString . "'))";
+}
 $expiringList = array();
 $expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiring_in,ed.emp_number FROM `passport_details` AS pd 
 JOIN `employee_details` AS ed ON pd.emp_number=ed.emp_number WHERE pd.passport_expiry>=CURDATE() AND  pd.passport_expiry <= DATE_ADD(CURDATE(), INTERVAL 10 MONTH) 
-AND ed.emp_dispatch = 1 OR pd.passport_expiry < CURDATE() ORDER BY CASE WHEN pd.passport_expiry>=CURDATE() THEN 1 ELSE pd.passport_expiry END";
+AND ed.emp_dispatch = 1 OR pd.passport_expiry < CURDATE() $membersStatement ORDER BY CASE WHEN pd.passport_expiry>=CURDATE() THEN 1 ELSE pd.passport_expiry END";
 $expireStmt = $connpcs->prepare($expireQ);
 #endregion
 
