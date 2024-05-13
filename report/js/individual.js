@@ -12,6 +12,7 @@ switch (document.location.hostname) {
 }
 const dispTableID = ["eList", "eListNon"];
 let empDetails = [];
+let groupList = [];
 //#endregion
 checkAccess()
   .then((emp) => {
@@ -21,7 +22,8 @@ checkAccess()
         fillEmployeeDetails();
         Promise.all([getGroups(), getYear()])
           .then(([grps, yr]) => {
-            fillGroups(grps);
+            groupList = grps;
+            fillGroups(groupList);
             fillYear(yr);
             getReport()
               .then((rep) => {
@@ -209,8 +211,9 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
+  const groupIDS = grps.map((obj) => obj.id);
   var grpSelect = $("#grpSel");
-  grpSelect.html("<option>Select Group</option>");
+  grpSelect.html(`<option value=${groupIDS}>Select Group</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.id)
