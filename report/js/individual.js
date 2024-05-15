@@ -23,10 +23,11 @@ checkAccess()
         Promise.all([getGroups(), getYear()])
           .then(([grps, yr]) => {
             groupList = grps;
-            fillGroups(groupList);
             fillYear(yr);
+            fillGroups(groupList);
             getReport()
               .then((rep) => {
+                console.log(rep);
                 createTable(rep);
               })
               .catch((error) => {
@@ -160,7 +161,7 @@ function createTable(repData) {
   });
 }
 function getReport() {
-  const grpID = $("#grpSel").find("option:selected").attr("grp-id");
+  const grpID = $("#grpSel").val();
   const yr = $("#yearSel").val();
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -172,6 +173,7 @@ function getReport() {
       },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         const rep = response;
         resolve(rep);
       },
@@ -213,7 +215,7 @@ function getGroups() {
 function fillGroups(grps) {
   const groupIDS = grps.map((obj) => obj.id);
   var grpSelect = $("#grpSel");
-  grpSelect.html(`<option value=${groupIDS}>Select Group</option>`);
+  grpSelect.html(`<option value=${groupIDS.toString()}>Select Group</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.id)

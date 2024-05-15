@@ -143,21 +143,18 @@ function fillGroups(grps) {
 }
 function getEmployees() {
   const grpID = $("#grpSel").find("option:selected").attr("grp-id");
-  const disp = $(".title.first").hasClass("active") ? 1 : 0;
   const keyword = $("#empSearch").val();
-  dispatch_days = 0;
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "POST",
       url: "php/get_employee_list.php",
       data: {
         groupID: grpID,
-        dispatch: disp,
         searchkey: keyword,
-        sortKey: sortKey,
       },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         const emps = response;
         resolve(emps);
       },
@@ -188,12 +185,7 @@ function fillEmployees(emps) {
     row.append(
       `<td><i class="bx bxs-user-detail fs-5 seeMore" id=${item.empID}></i></td>`
     );
-
-    if (item.dispatch == 1) {
-      tableFD.append(row);
-    } else {
-      tableND.append(row);
-    }
+    tableFD.append(row);
   });
   dispTableID.forEach((element) => {
     checkEmpty(element);

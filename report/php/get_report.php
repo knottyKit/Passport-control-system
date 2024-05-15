@@ -1,6 +1,7 @@
 <?php
 #region DB Connect
 require_once '../../dbconn/dbconnectpcs.php';
+require_once '../../dbconn/dbconnectnew.php';
 #endregion
 
 #region set timezone
@@ -10,7 +11,6 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 $dateNow = date('Y');
 $groupID = 0;
-$groupQuery = "";
 $finalReport = New ArrayObject();
 #endregion
 
@@ -21,9 +21,7 @@ if (!empty($_POST["yearSelected"])) {
 if (!empty($_POST["groupID"])) {
     $groupID = $_POST["groupID"];
 }
-if ($groupID != 0) {
-    $groupQuery = "WHERE group_id = $groupID";
-}
+$groupQuery = "WHERE `id` IN ($groupID)";
 
 if (!empty($_COOKIE["userID"])) {
     $userHash = $_COOKIE["userID"];
@@ -35,14 +33,14 @@ $endYear = $dateNow . "-12-31";
 
 #region main
 try {
-    $getGroups = "SELECT group_id as id, group_name as name, (SELECT COUNT(*) FROM employee_details WHERE group_id = id) as empCount FROM group_list $groupQuery 
-    HAVING empCount > 0 ORDER BY group_name";
-    $groupsStmt = $connpcs->prepare($getGroups);
+    $getGroups = "SELECT `id` as `newID`, `name`, (SELECT COUNT(*) FROM `employee_list` WHERE `group_id` = `newID` AND `emp_status` != 0) as `empCount` FROM 
+    `group_list` $groupQuery HAVING `empCount` > 0 ORDER BY `name`";
+    $groupsStmt = $connnew->prepare($getGroups);
     $groupsStmt->execute([]);
     $groups = $groupsStmt->fetchAll();
     
     foreach($groups as $gval) {
-        $oneGroupID = $gval["id"];
+        $oneGroupID = $gval["newID"];
         $groupName = $gval["name"];
 
         // $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_expiry as visaExpiry, 
@@ -50,9 +48,9 @@ try {
         // `dispatch_to` >= :startYear))) as dCount FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
         // vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID HAVING dCount > 0 ORDER BY ed.emp_number";
 
-        $reportQ = "SELECT ed.emp_number as id, CONCAT(UPPER(ed.emp_surname), ', ', ed.emp_firstname) as empName, gl.group_abbr as groupName, vd.visa_issue as visaIssue,
-        vd.visa_expiry as visaExpiry FROM employee_details as ed LEFT JOIN group_list as gl ON ed.group_id = gl.group_id LEFT JOIN visa_details as vd ON ed.emp_number = 
-        vd.emp_number WHERE ed.emp_dispatch = 1 AND ed.group_id = :oneGroupID ORDER BY ed.emp_number";
+        $reportQ = "SELECT ed.id, CONCAT(UPPER(ed.surname), ', ', ed.firstname) as empName, gl.abbreviation as groupName, vd.visa_issue as visaIssue,
+        vd.visa_expiry as visaExpiry FROM kdtphdb_new.employee_list as ed LEFT JOIN kdtphdb_new.group_list as gl ON ed.group_id = gl.id LEFT JOIN visa_details 
+        as vd ON ed.id = vd.emp_number WHERE ed.emp_status = 1 AND ed.group_id = :oneGroupID ORDER BY ed.id";
 
         $reportStmt = $connpcs->prepare($reportQ);
 
@@ -71,7 +69,6 @@ try {
                 $dispatchStmt = $connpcs->prepare($dispatchQ);
                 $dispatchStmt->execute([":empID" => "$empID", ":startYear" => "$startYear", ":endYear" => "$endYear"]);
                 $dispatch = $dispatchStmt->fetchAll();
-    
     
                 $days = 0;
                 $dispatchArray = array();

@@ -24,24 +24,23 @@ checkAccess()
       $(document).ready(function () {
         fillEmployeeDetails();
         getYears();
-        Promise.all([
-          getGroups(),
-          getEmployees(),
-          getLocations(),
-          checkEditAccess(),
-        ])
-          .then(([grps, emps, locs, eAccess]) => {
-            editAccess = eAccess;
+        getGroups()
+          .then((grps) => {
             fillGroups(grps);
-            fillEmployees(emps);
-            fillLocations(locs);
-            if (eAccess === false) {
-              $("#updateEmp").remove();
-            }
+            Promise.all([getEmployees(), getLocations(), checkEditAccess()])
+              .then(([emps, locs, eAccess]) => {
+                editAccess = eAccess;
+                fillEmployees(emps);
+                fillLocations(locs);
+                if (eAccess === false) {
+                  $("#updateEmp").remove();
+                }
+              })
+              .catch((error) => {
+                alert(`${error}`);
+              });
           })
-          .catch((error) => {
-            alert(`${error}`);
-          });
+          .catch(() => {});
       });
     } else {
       alert(emp.message);
@@ -216,8 +215,9 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
+  const groupIDS = grps.map((obj) => obj.id);
   var grpSelect = $("#grpSel");
-  grpSelect.html("<option value='0'>Select Group</option>");
+  grpSelect.html(`<option value=${groupIDS.toString()}>Select Group</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.id)
@@ -227,7 +227,8 @@ function fillGroups(grps) {
   });
 }
 function getEmployees() {
-  const grpID = $("#grpSel").find("option:selected").attr("grp-id");
+  const grpID = $("#grpSel").val();
+  console.log(grpID);
   dispatch_days = 0;
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -239,6 +240,7 @@ function getEmployees() {
       dataType: "json",
       success: function (response) {
         const emps = response;
+        console.log(emps);
         resolve(emps);
       },
       error: function (xhr, status, error) {
@@ -255,6 +257,11 @@ function getEmployees() {
 }
 function fillEmployees(emps) {
   var empSelect = $("#empSel");
+  if (emps.length === 0) {
+    empSelect.prop("disabled", true);
+  } else {
+    empSelect.prop("disabled", false);
+  }
   empSelect.html("<option value='0' hidden>Select Employee</option>");
   $.each(emps, function (index, item) {
     var option = $("<option>")

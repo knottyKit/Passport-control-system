@@ -1,6 +1,7 @@
 <?php
 #region DB Connect
 require_once '../../dbconn/dbconnectpcs.php';
+require_once '../../dbconn/dbconnectnew.php';
 #endregion
 
 #region set timezone
@@ -10,25 +11,24 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 
 $emps = array();
-$grpID = NULL;
-$grpStmt = '';
+$grpID = 0;
 if (!empty($_POST['grpID'])) {
-    $grpID = (int)$_POST['grpID'];
-    $grpStmt = "AND `group_id`= $grpID";
+    $grpID = $_POST['grpID'];
 }
+$grpStmt = "AND `group_id` IN ($grpID)";
 #endregion
 
 #region main query
 try {
-    $empQ = "SELECT CONCAT(emp_surname,', ',emp_firstname) AS ename,emp_number FROM `employee_details` WHERE emp_dispatch = 1 $grpStmt ORDER BY emp_surname";
-    $empStmt = $connpcs->query($empQ);
+    $empQ = "SELECT CONCAT(`surname`,', ',`firstname`) AS ename, `id` FROM `employee_list` WHERE `emp_status` = 1 $grpStmt GROUP BY `id` ORDER BY `surname`";
+    $empStmt = $connnew->query($empQ);
 
     if ($empStmt->rowCount() > 0) {
         $emparr = $empStmt->fetchAll();
         foreach ($emparr as $emp) {
             $output = array();
             $name = $emp['ename'];
-            $id = $emp['emp_number'];
+            $id = $emp['id'];
             $output += ["name" => $name];
             $output += ["id" => $id];
             array_push($emps, $output);
