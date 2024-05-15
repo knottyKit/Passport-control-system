@@ -213,14 +213,14 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
-  const groupIDS = grps.map((obj) => obj.id);
+  const groupIDS = grps.map((obj) => obj.newID);
   var grpSelect = $("#grpSel");
-  grpSelect.html(`<option value=${groupIDS.toString()}>Select Group</option>`);
+  grpSelect.html(`<option value=${groupIDS.toString()}>All Groups</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
-      .attr("value", item.id)
+      .attr("value", item.newID)
       .text(item.abbreviation)
-      .attr("grp-id", item.id);
+      .attr("grp-id", item.newID);
     grpSelect.append(option);
   });
 }

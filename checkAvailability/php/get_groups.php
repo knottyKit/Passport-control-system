@@ -32,13 +32,13 @@ try {
     $userStmt->execute([":empID" => "$empID"]);
     $userCount = $userStmt->fetchColumn();
     if ($userCount > 0) {
-        $groupQ = "SELECT `id`, `name`, `abbreviation`, (SELECT COUNT(*) FROM kdtphdb_new.employee_group WHERE `group_id` = `id`) as `empCount` 
-        FROM kdtphdb_new.group_list HAVING `empCount` > 0 ORDER BY `name`";
-        $groupStmt = $connpcs->prepare($groupQ);
+        $groupQ = "SELECT `id` as `newID`, `name`, `abbreviation`, (SELECT COUNT(*) FROM employee_list WHERE `group_id` = `newID` AND `emp_status` = 1) as `empCount` 
+        FROM group_list HAVING `empCount` > 0 ORDER BY `name`";
+        $groupStmt = $connnew->prepare($groupQ);
         $groupStmt->execute([]);
         $groups = $groupStmt->fetchAll();
     } else {
-        $groupQ = "SELECT gl.`id`, gl.`name`, gl.`abbreviation` FROM employee_group as eg LEFT JOIN group_list as gl ON eg.`group_id` = gl.`id` 
+        $groupQ = "SELECT gl.`id` as `newID`, gl.`name`, gl.`abbreviation` FROM employee_group as eg LEFT JOIN group_list as gl ON eg.`group_id` = gl.`id` 
         WHERE eg.`employee_number` = :empID ";
         $groupStmt = $connnew->prepare($groupQ);
         $groupStmt->execute([":empID" => $empID]);

@@ -215,20 +215,19 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
-  const groupIDS = grps.map((obj) => obj.id);
+  const groupIDS = grps.map((obj) => obj.newID);
   var grpSelect = $("#grpSel");
-  grpSelect.html(`<option value=${groupIDS.toString()}>Select Group</option>`);
+  grpSelect.html(`<option value=${groupIDS.toString()}>All Groups</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
-      .attr("value", item.id)
+      .attr("value", item.newID)
       .text(item.name)
-      .attr("grp-id", item.id);
+      .attr("grp-id", item.newID);
     grpSelect.append(option);
   });
 }
 function getEmployees() {
   const grpID = $("#grpSel").val();
-  console.log(grpID);
   dispatch_days = 0;
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -240,7 +239,6 @@ function getEmployees() {
       dataType: "json",
       success: function (response) {
         const emps = response;
-        console.log(emps);
         resolve(emps);
       },
       error: function (xhr, status, error) {
@@ -573,7 +571,6 @@ function insertDispatch() {
 
   toggleLoadingAnimation(true);
   if (!empID || !locID || !startD || !endD) {
-    console.log("complete required fields");
     toggleLoadingAnimation(false);
     return;
   }

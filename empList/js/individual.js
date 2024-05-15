@@ -22,10 +22,16 @@ checkAccess()
       empDetails = emp.data;
       $(document).ready(function () {
         fillEmployeeDetails();
-        Promise.all([getGroups(), getEmployees()])
-          .then(([grps, emps]) => {
+        getGroups()
+          .then((grps) => {
             fillGroups(grps);
-            fillEmployees(emps);
+            getEmployees()
+              .then((emps) => {
+                fillEmployees(emps);
+              })
+              .catch((error) => {
+                alert(`${error}`);
+              });
           })
           .catch((error) => {
             alert(`${error}`);
@@ -131,18 +137,21 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
+  const groupIDS = grps.map((obj) => obj.newID);
   var grpSelect = $("#grpSel");
-  grpSelect.html("<option>Select Group</option>");
+  grpSelect.html(
+    `<option selected value=${groupIDS.toString()}>All Groups</option>`
+  );
   $.each(grps, function (index, item) {
     var option = $("<option>")
-      .attr("value", item.id)
+      .attr("value", item.newID)
       .text(item.abbreviation)
-      .attr("grp-id", item.id);
+      .attr("grp-id", item.newID);
     grpSelect.append(option);
   });
 }
 function getEmployees() {
-  const grpID = $("#grpSel").find("option:selected").attr("grp-id");
+  const grpID = $("#grpSel").val();
   const keyword = $("#empSearch").val();
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -154,7 +163,6 @@ function getEmployees() {
       },
       dataType: "json",
       success: function (response) {
-        console.log(response);
         const emps = response;
         resolve(emps);
       },
