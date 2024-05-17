@@ -11,10 +11,13 @@ switch (document.location.hostname) {
     break;
 }
 const dispTableID = ["eList", "eListNon"];
-var sortNum = 1;
-var sortEmp = 4;
-var sortKey = 1;
+// var sortNum = 1;
+// var sortEmp = 4;
+// var sortKey = 1;
+let sortNumAsc = true;
+let sortNameAsc = true;
 let empDetails = [];
+let empList = [];
 //#endregion
 checkAccess()
   .then((emp) => {
@@ -27,7 +30,8 @@ checkAccess()
             fillGroups(grps);
             getEmployees()
               .then((emps) => {
-                fillEmployees(emps);
+                empList = emps;
+                fillEmployees(empList);
               })
               .catch((error) => {
                 alert(`${error}`);
@@ -59,19 +63,11 @@ $(document).on("click", ".seeMore", function () {
   var empID = $(this).attr("id");
   window.location.href = `../empDetails?id=${empID}`;
 });
-$(document).on("click", ".title", function () {
-  getEmployees()
-    .then((emps) => {
-      fillEmployees(emps);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
-});
 $(document).on("change", "#grpSel", function () {
   getEmployees()
     .then((emps) => {
-      fillEmployees(emps);
+      empList = emps;
+      fillEmployees(empList);
     })
     .catch((error) => {
       alert(`${error}`);
@@ -80,33 +76,18 @@ $(document).on("change", "#grpSel", function () {
 $(document).on("input", "#empSearch", function () {
   getEmployees()
     .then((emps) => {
-      fillEmployees(emps);
+      empList = emps;
+      fillEmployees(empList);
     })
     .catch((error) => {
       alert(`${error}`);
     });
 });
 $(document).on("click", ".sortEmpNum", function () {
-  sortNum = sortNum === 1 ? 2 : 1;
-  sortKey = sortNum;
-  getEmployees()
-    .then((emps) => {
-      fillEmployees(emps);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
+  toggleSortNum();
 });
 $(document).on("click", ".sortEmpName", function () {
-  sortEmp = sortEmp === 3 ? 4 : 3;
-  sortKey = sortEmp;
-  getEmployees()
-    .then((emps) => {
-      fillEmployees(emps);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
+  toggleSortName();
 });
 $(document).on("click", "#portalBtn", function () {
   window.location.href = `${rootFolder}`;
@@ -163,6 +144,7 @@ function getEmployees() {
       },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         const emps = response;
         resolve(emps);
       },
@@ -186,7 +168,7 @@ function fillEmployees(emps) {
   $.each(emps, function (index, item) {
     var row = $(`<tr d-id=${item.empID}>`);
     row.append(`<td>${item.empID}</td>`);
-    row.append(`<td>${item.firstname} ${item.lastname}</td>`);
+    row.append(`<td>${item.lastname}, ${item.firstname}</td>`);
     row.append(`<td>${item.groupAbbr}</td>`);
     row.append(`<td>${item.passportExpiry}</td>`);
     row.append(`<td>${item.visaExpiry}</td>`);
@@ -207,21 +189,21 @@ function checkEmpty(tbodyID) {
   }
 }
 function checkAccess() {
-  const response = {
-    isSuccess: true,
-    data: {
-      empNum: 464,
-      empGroup: {
-        id: 21,
-        name: "System Group",
-        acr: "SYS",
-      },
-      empName: {
-        firstname: "Collene Keith",
-        surname: "Medrano",
-      },
-    },
-  };
+  // const response = {
+  //   isSuccess: true,
+  //   data: {
+  //     empNum: 464,
+  //     empGroup: {
+  //       id: 21,
+  //       name: "System Group",
+  //       acr: "SYS",
+  //     },
+  //     empName: {
+  //       firstname: "Collene Keith",
+  //       surname: "Medrano",
+  //     },
+  //   },
+  // };
   // const response = {
   //   isSuccess: false,
   //   message: "Access Denied",
@@ -231,32 +213,32 @@ function checkAccess() {
   //   message: "Not logged in",
   // };
   return new Promise((resolve, reject) => {
-    // $.ajax({
-    //   type: "GET",
-    //   url: "php/check_permission.php",
-    //   dataType: "json",
-    //   success: function (data) {
-    //     const acc = data;
-    //     resolve(acc);
-    //   },
-    //   error: function (xhr, status, error) {
-    //     if (xhr.status === 404) {
-    //       reject("Not Found Error: The requested resource was not found.");
-    //     } else if (xhr.status === 500) {
-    //       reject("Internal Server Error: There was a server error.");
-    //     } else {
-    //       reject("An unspecified error occurred.");
-    //     }
-    //   },
-    // });
-    resolve(response);
+    $.ajax({
+      type: "GET",
+      url: "../global/check_login.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.1");
+        }
+      },
+    });
+    // resolve(response);
   });
 }
 function fillEmployeeDetails() {
-  const fName = empDetails.empName.firstname;
-  const sName = empDetails.empName.surname;
+  const fName = empDetails.empname.firstname;
+  const sName = empDetails.empname.surname;
   const initials = getInitials(fName, sName);
-  const grpName = empDetails.empGroup.name;
+  const grpName = empDetails.group;
   $("#empLabel").html(`${fName} ${sName}`);
   $("#empInitials").html(`${initials}`);
   $("#grpLabel").html(`${grpName}`);
@@ -267,5 +249,31 @@ function getInitials(firstname, surname) {
   var lastInitial = surname.charAt(0);
   initials = `${firstInitial}${lastInitial}`;
   return initials.toUpperCase();
+}
+function toggleSortNum() {
+  sortNumAsc = !sortNumAsc;
+  sortByNum(sortNumAsc);
+}
+function sortByNum(isAscending) {
+  let sortedList = empList.slice().sort(function (a, b) {
+    return isAscending ? a.empID - b.empID : b.empID - a.empID;
+  });
+  fillEmployees(sortedList);
+}
+function toggleSortName() {
+  sortNameAsc = !sortNameAsc;
+  sortByName(sortNameAsc);
+}
+function sortByName(isAscending) {
+  let sortedList = empList.slice().sort(function (a, b) {
+    var nameA = a.lastname.toUpperCase() + a.firstname.toUpperCase();
+    var nameB = b.lastname.toUpperCase() + b.firstname.toUpperCase();
+    if (isAscending) {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
+  fillEmployees(sortedList);
 }
 //#endregion

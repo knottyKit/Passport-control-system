@@ -26,7 +26,7 @@ if ($groupID != 0) {
 }
 if (!empty($_POST['searchkey'])) {
     $searchkey = $_POST['searchkey'];
-    $searchStmt = "AND (CONCAT_WS(' ',ed.firstname,ed.surname) LIKE '%$searchkey%' OR ed.emp_number LIKE '%$searchkey%')";
+    $searchStmt = "AND (CONCAT_WS(' ',ed.firstname,ed.surname) LIKE '%$searchkey%' OR ed.id LIKE '%$searchkey%')";
 }
 #endregion
 
@@ -34,7 +34,7 @@ if (!empty($_POST['searchkey'])) {
 try {
     $employeesQuery = "SELECT ed.id as empID, ed.surname as lastname, ed.firstname as firstname, gl.abbreviation as groupAbbr, pd.passport_expiry as passportExpiry, 
     vd.visa_expiry as visaExpiry FROM kdtphdb_new.employee_list as ed LEFT JOIN kdtphdb_new.group_list as gl ON ed.group_id = gl.id LEFT JOIN passport_details as pd 
-    ON ed.id = pd.emp_number LEFT JOIN visa_details as vd ON ed.id = vd.emp_number WHERE ed.emp_status = 1 AND $groupQuery $searchStmt";
+    ON ed.id = pd.emp_number LEFT JOIN visa_details as vd ON ed.id = vd.emp_number WHERE ed.emp_status = 1 AND $groupQuery $searchStmt ORDER BY ed.id";
     $empStmt = $connpcs->prepare($employeesQuery);
     $empStmt->execute([]);
     if ($empStmt->rowCount() > 0) {
