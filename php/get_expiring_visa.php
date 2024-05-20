@@ -17,11 +17,11 @@ $membersStatement = "";
 $groupMembers = getMembers($empNum);
 if (count($groupMembers) > 0) {
     $implodeString = implode("','", array_values($groupMembers));
-    $membersStatement = "(AND ed.emp_number IN ('" . $implodeString . "'))";
+    $membersStatement = "(AND ed.id IN ('" . $implodeString . "'))";
 }
 $expiringList = array();
-$expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiring_in,ed.emp_number FROM `visa_details` AS vd JOIN 
-`employee_details` AS ed ON vd.emp_number=ed.emp_number WHERE vd.visa_expiry>=CURDATE() AND  vd.visa_expiry <= DATE_ADD(CURDATE(), INTERVAL 7 MONTH) AND ed.emp_dispatch = 1 
+$expireQ = "SELECT CONCAT(ed.firstname,' ',ed.surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiring_in,ed.id FROM `visa_details` AS vd JOIN 
+kdtphdb_new.employee_list AS ed ON vd.emp_number=ed.id WHERE vd.visa_expiry>=CURDATE() AND  vd.visa_expiry <= DATE_ADD(CURDATE(), INTERVAL 7 MONTH) AND ed.emp_status = 1 
 OR vd.visa_expiry < CURDATE() $membersStatement ORDER BY CASE WHEN vd.visa_expiry>=CURDATE() THEN 1 ELSE vd.visa_expiry END";
 $expireStmt = $connpcs->prepare($expireQ);
 #endregion

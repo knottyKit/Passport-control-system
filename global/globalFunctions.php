@@ -1,6 +1,7 @@
 <?php
 #region DB Connect
 require_once '../dbconn/dbconnectpcs.php';
+require_once '../dbconn/dbconnectnew.php';
 require_once '../dbconn/dbconnectkdtph.php';
 #endregion
 #region Functions
@@ -63,17 +64,18 @@ function alLGroupAccess($empnum)
 }
 function getMembers($empnum)
 {
-    global $connkdt;
+    global $connnew;
     $members = array();
     $yearMonth = date("Y-m-01");
     $myGroups = getGroups($empnum);
     foreach ($myGroups as $grp) {
-        $memsQ = "SELECT fldEmployeeNum FROM emp_prof WHERE fldGroup=:grp AND fldEmployeeNum <> :empnum AND (fldResignDate IS NULL OR fldResignDate ='0000-00-00' OR fldResignDate > :yearMonth) AND fldNick<>''";
-        $memsStmt = $connkdt->prepare($memsQ);
-        $memsStmt->execute([":empnum" => $empnum, ":grp" => $grp, ":yearMonth" => $yearMonth]);
+        $memsQ = "SELECT `id` FROM `employee_list` WHERE `group_id` = :grp AND (`resignation_date` IS NULL OR `resignation_date` = '0000-00-00' OR `resignation_date` > :yearMonth) 
+        AND `nickname` <> ''";
+        $memsStmt = $connnew->prepare($memsQ);
+        $memsStmt->execute([":grp" => $grp, ":yearMonth" => $yearMonth]);
         if ($memsStmt->rowCount() > 0) {
             $memArr = $memsStmt->fetchAll();
-            $arrValues = array_column($memArr, "fldEmployeeNum");
+            $arrValues = array_column($memArr, "id");
             $members = array_merge($members, $arrValues);
         }
     }
@@ -81,19 +83,18 @@ function getMembers($empnum)
 }
 function getGroups($empnum)
 {
-    global $connkdt;
+    global $connnew;
     $allGroupAccess = alLGroupAccess($empnum);
     $myGroups = array();
     if (!$allGroupAccess) {
-        $groupsQ = "SELECT fldGroup, fldGroups FROM emp_prof WHERE fldEmployeeNum=:empnum";
-        $groupsStmt = $connkdt->prepare($groupsQ);
+        $groupsQ = "SELECT `group_id` FROM `employee_group` WHERE `employee_number` = :empnum";
+        $groupsStmt = $connnew->prepare($groupsQ);
         $groupsStmt->execute([":empnum" => $empnum]);
         if ($groupsStmt->rowCount() > 0) {
-            $groupArr = $groupsStmt->fetch();
-            if ($groupArr["fldGroups"] != '') {
-                $myGroups = explode("/", $groupArr["fldGroups"]);
-            } else {
-                array_push($myGroups, $groupArr["fldGroup"]);
+            $groupArr = $groupsStmt->fetchAll();
+            foreach($groupArr as $grp) {
+                $group = $grp['group_id'];
+                array_push($myGroups, $group);
             }
         }
     }

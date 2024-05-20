@@ -20,16 +20,15 @@ $membersStatement = "";
 $groupMembers = getMembers($empNum);
 if (count($groupMembers) > 0) {
     $implodeString = implode("','", array_values($groupMembers));
-    $membersStatement = "AND ed.emp_number IN ('" . $implodeString . "')";
+    $membersStatement = "AND ed.id IN ('" . $implodeString . "')";
 }
-
 #endregion
 
 #region Entries Query
 try {
-    $dispatchQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename, ll.location_name, dl.dispatch_from,dl.dispatch_to,pd.passport_expiry,vd.visa_expiry FROM 
-    `dispatch_list` AS dl JOIN `employee_details` AS ed ON dl.emp_number=ed.emp_number JOIN `location_list` AS ll ON dl.location_id=ll.location_id LEFT JOIN `passport_details` 
-    AS pd ON pd.emp_number=ed.emp_number  LEFT JOIN `visa_details` AS vd ON vd.emp_number=ed.emp_number WHERE dl.dispatch_to >= :dateFilter AND ed.emp_dispatch=1 $membersStatement ORDER BY 
+    $dispatchQ = "SELECT CONCAT(ed.firstname,' ',ed.surname) AS ename, ll.location_name, dl.dispatch_from,dl.dispatch_to,pd.passport_expiry,vd.visa_expiry FROM 
+    `dispatch_list` AS dl JOIN kdtphdb_new.employee_list AS ed ON dl.emp_number=ed.id JOIN `location_list` AS ll ON dl.location_id=ll.location_id LEFT JOIN `passport_details` 
+    AS pd ON pd.emp_number=ed.id  LEFT JOIN `visa_details` AS vd ON vd.emp_number=ed.id WHERE dl.dispatch_to >= :dateFilter AND ed.emp_status=1 $membersStatement ORDER BY 
     dl.dispatch_id DESC";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":dateFilter" => $dateFilter]);

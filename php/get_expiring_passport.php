@@ -17,12 +17,12 @@ $membersStatement = "";
 $groupMembers = getMembers($empNum);
 if (count($groupMembers) > 0) {
     $implodeString = implode("','", array_values($groupMembers));
-    $membersStatement = "(AND ed.emp_number IN ('" . $implodeString . "'))";
+    $membersStatement = "(AND ed.id IN ('" . $implodeString . "'))";
 }
 $expiringList = array();
-$expireQ = "SELECT CONCAT(ed.emp_firstname,' ',ed.emp_surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiring_in,ed.emp_number FROM `passport_details` AS pd 
-JOIN `employee_details` AS ed ON pd.emp_number=ed.emp_number WHERE pd.passport_expiry>=CURDATE() AND  pd.passport_expiry <= DATE_ADD(CURDATE(), INTERVAL 10 MONTH) 
-AND ed.emp_dispatch = 1 OR pd.passport_expiry < CURDATE() $membersStatement ORDER BY CASE WHEN pd.passport_expiry>=CURDATE() THEN 1 ELSE pd.passport_expiry END";
+$expireQ = "SELECT CONCAT(ed.firstname,' ',ed.surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiring_in,ed.id FROM `passport_details` AS pd 
+JOIN kdtphdb_new.employee_list AS ed ON pd.emp_number=ed.id WHERE pd.passport_expiry>=CURDATE() AND  pd.passport_expiry <= DATE_ADD(CURDATE(), INTERVAL 10 MONTH) 
+AND ed.emp_status = 1 OR pd.passport_expiry < CURDATE() $membersStatement ORDER BY CASE WHEN pd.passport_expiry>=CURDATE() THEN 1 ELSE pd.passport_expiry END";
 $expireStmt = $connpcs->prepare($expireQ);
 #endregion
 
