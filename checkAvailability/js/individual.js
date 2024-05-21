@@ -596,6 +596,7 @@ function insertDispatch() {
     },
     dataType: "json",
     success: function (response) {
+      console.log(response);
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
         toggleLoadingAnimation(false);
