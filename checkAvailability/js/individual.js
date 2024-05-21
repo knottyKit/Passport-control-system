@@ -297,7 +297,7 @@ function countDays(strt, end) {
 }
 function displayDays(cdays) {
   if (cdays.difference === 1) {
-    $("#daysCount").text(" 1 day.");
+    $("#daysCount").text(" 1 day");
   } else {
     $("#daysCount").text(`${cdays.difference} days`);
   }
