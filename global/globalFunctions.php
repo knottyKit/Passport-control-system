@@ -1,8 +1,5 @@
 <?php
 #region DB Connect
-require_once '../dbconn/dbconnectpcs.php';
-require_once '../dbconn/dbconnectnew.php';
-require_once '../dbconn/dbconnectkdtph.php';
 #endregion
 #region Functions
 function checkOverlap($empnum, $range)
@@ -92,7 +89,7 @@ function getGroups($empnum)
         $groupsStmt->execute([":empnum" => $empnum]);
         if ($groupsStmt->rowCount() > 0) {
             $groupArr = $groupsStmt->fetchAll();
-            foreach($groupArr as $grp) {
+            foreach ($groupArr as $grp) {
                 $group = $grp['group_id'];
                 array_push($myGroups, $group);
             }

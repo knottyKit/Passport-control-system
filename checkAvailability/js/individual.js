@@ -731,32 +731,32 @@ function checkAccess() {
   //   message: "Not logged in",
   // };
   return new Promise((resolve, reject) => {
-    // $.ajax({
-    //   type: "GET",
-    //   url: "php/check_permission.php",
-    //   dataType: "json",
-    //   success: function (data) {
-    //     const acc = data;
-    //     resolve(acc);
-    //   },
-    //   error: function (xhr, status, error) {
-    //     if (xhr.status === 404) {
-    //       reject("Not Found Error: The requested resource was not found.");
-    //     } else if (xhr.status === 500) {
-    //       reject("Internal Server Error: There was a server error.");
-    //     } else {
-    //       reject("An unspecified error occurred.1");
-    //     }
-    //   },
-    // });
-    resolve(response);
+    $.ajax({
+      type: "GET",
+      url: "../global/check_login.php",
+      dataType: "json",
+      success: function (data) {
+        const acc = data;
+        resolve(acc);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred.");
+        }
+      },
+    });
+    // resolve(response);
   });
 }
 function fillEmployeeDetails() {
-  const fName = empDetails.empName.firstname;
-  const sName = empDetails.empName.surname;
+  const fName = empDetails.empname.firstname;
+  const sName = empDetails.empname.surname;
   const initials = getInitials(fName, sName);
-  const grpName = empDetails.empGroup.name;
+  const grpName = empDetails.group;
   $("#empLabel").html(`${fName} ${sName}`);
   $("#empInitials").html(`${initials}`);
   $("#grpLabel").html(`${grpName}`);
