@@ -11,16 +11,18 @@ date_default_timezone_set('Asia/Manila');
 #region Initialize Variable
 
 $emps = array();
+$grpStmt = "";
 $grpID = 0;
-if (!empty($_POST['grpID'])) {
+if (!empty($_POST['grpID']) and $_POST['grpID'] != 0) {
     $grpID = $_POST['grpID'];
+    $grpStmt = "AND `group_id` IN ($grpID)";
 }
-$grpStmt = "AND `group_id` IN ($grpID)";
 #endregion
 
 #region main query
 try {
     $empQ = "SELECT CONCAT(`surname`,', ',`firstname`) AS ename, `id` FROM `employee_list` WHERE `emp_status` = 1 $grpStmt GROUP BY `id` ORDER BY `surname`";
+    // die($empQ);
     $empStmt = $connnew->query($empQ);
 
     if ($empStmt->rowCount() > 0) {

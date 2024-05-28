@@ -51,6 +51,7 @@ checkAccess()
     alert(`${error}`);
   });
 //#region BINDS
+
 $(document).on("click", "#menu", function () {
   $(".navigation").addClass("open");
   $("body").addClass("overflow-hidden");
@@ -62,9 +63,6 @@ $(document).on("click", "#closeNav", function () {
 $(document).on("change", "#grpSel", function () {
   getEmployees().then((emps) => {
     fillEmployees(emps);
-    $("#empDetails__name").text("");
-    $(".emptyState").removeClass("d-none");
-    $(".withContent").addClass("d-none");
   });
 });
 $(document).on("click", ".btn-close", function () {
@@ -189,6 +187,21 @@ $(document).on("click", "#btnExport", function () {
 $(document).on("click", "#portalBtn", function () {
   window.location.href = `${rootFolder}`;
 });
+$(document).on("click", ".rmvToast", function () {
+  $(this).closest(".toasty").remove();
+});
+$(document).on(
+  "click",
+  "#grpSel, #empSel, #locSel, #startDate, #endDate",
+  function () {
+    $(this).removeClass("bg-red-100  border-red-400");
+    $(".errTxt").remove();
+  }
+);
+$(document).on("change", "#startDate", function () {
+  const sdate = $(this).val();
+  $("#endDate").attr("min", sdate);
+});
 //#endregion
 
 //#region FUNCTIONS
@@ -215,9 +228,8 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
-  const groupIDS = grps.map((obj) => obj.newID);
   var grpSelect = $("#grpSel");
-  grpSelect.html(`<option value=${groupIDS.toString()}>All Groups</option>`);
+  grpSelect.html("<option value='0'>Select Group</option>");
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.newID)
@@ -255,11 +267,6 @@ function getEmployees() {
 }
 function fillEmployees(emps) {
   var empSelect = $("#empSel");
-  if (emps.length === 0) {
-    empSelect.prop("disabled", true);
-  } else {
-    empSelect.prop("disabled", false);
-  }
   empSelect.html("<option value='0' hidden>Select Employee</option>");
   $.each(emps, function (index, item) {
     var option = $("<option>")
@@ -297,7 +304,7 @@ function countDays(strt, end) {
 }
 function displayDays(cdays) {
   if (cdays.difference === 1) {
-    $("#daysCount").text(" 1 day");
+    $("#daysCount").text(" 1 day.");
   } else {
     $("#daysCount").text(`${cdays.difference} days`);
   }
@@ -350,10 +357,10 @@ function fillPassport(pport) {
     $("#passExp").text(pexpiry);
     if (pvalid) {
       $("#passStatus").removeClass("bg-danger");
-      $("#passStatus").addClass("bg-success");
+      $("#passStatus").addClass("bg-[var(--tertiary)]");
       $("#passStatus").text("Valid");
     } else {
-      $("#passStatus").removeClass("bg-success");
+      $("#passStatus").removeClass("bg-[var(--tertiary)]");
       $("#passStatus").addClass("bg-danger");
       $("#passStatus").text("Expired");
     }
@@ -408,10 +415,10 @@ function fillVisa(vsa) {
     $("#visaExp").text(vexpiry);
     if (vvalid) {
       $("#visaStatus").removeClass("bg-danger");
-      $("#visaStatus").addClass("bg-success");
+      $("#visaStatus").addClass("bg-[var(--tertiary)]");
       $("#visaStatus").text("Valid");
     } else {
-      $("#visaStatus").removeClass("bg-success");
+      $("#visaStatus").removeClass("bg-[var(--tertiary)]");
       $("#visaStatus").addClass("bg-danger");
       $("#visaStatus").text("Expired");
     }
@@ -553,24 +560,57 @@ function setBar(dd) {
 function colorBar(dd) {
   $("#daysWarning").addClass("d-none");
   if (dd >= full) {
-    $("#progBar").addClass("bg-danger").removeClass("bg-success bg-warning");
+    $("#progBar")
+      .addClass("bg-danger")
+      .removeClass("bg-[var(--tertiary)] bg-warning");
     if (dd > full) {
       $("#daysWarning").removeClass("d-none");
     }
   } else if (dd >= 150 && dd < full) {
-    $("#progBar").addClass("bg-warning").removeClass("bg-success bg-danger");
+    $("#progBar")
+      .addClass("bg-warning")
+      .removeClass("bg-[var(--tertiary)] bg-danger");
   } else {
-    $("#progBar").addClass("bg-success").removeClass("bg-warning bg-danger");
+    $("#progBar")
+      .addClass("bg-[var(--tertiary)]")
+      .removeClass("bg-warning bg-danger");
   }
 }
 function insertDispatch() {
+  const grp = $("#grpSel").find("option:selected").attr("grp-id");
   const empID = $("#empSel").find("option:selected").attr("emp-id");
   const locID = $("#locSel").find("option:selected").attr("loc-id");
   const startD = $("#startDate").val();
   const endD = $("#endDate").val();
-
+  let ctr = 0;
   toggleLoadingAnimation(true);
-  if (!empID || !locID || !startD || !endD) {
+  if (!grp) {
+    $("#grpSel").addClass("bg-red-100  border-red-400");
+    ctr++;
+  }
+  if (!empID) {
+    $("#empSel").addClass("bg-red-100  border-red-400");
+    ctr++;
+  }
+  if (!locID) {
+    $("#locSel").addClass("bg-red-100  border-red-400");
+    ctr++;
+  }
+  if (!startD) {
+    $("#startDate").addClass("bg-red-100  border-red-400");
+    ctr++;
+  }
+  if (!endD) {
+    $("#endDate").addClass("bg-red-100  border-red-400");
+    ctr++;
+  }
+  if (ctr > 0) {
+    $(".form").append(`
+    <div class="errTxt mb-3 flex items-center gap-1">
+    <i class='bx bx-info-circle text-red-600'></i>
+    <p class="text-red-600">Please complete all fields.</p>
+    </div>`);
+    console.log("complete required fields");
     toggleLoadingAnimation(false);
     return;
   }
@@ -596,11 +636,11 @@ function insertDispatch() {
     },
     dataType: "json",
     success: function (response) {
-      console.log(response);
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
         toggleLoadingAnimation(false);
-        alert(`${response.error}`); // Reject the promise
+        showToast("error", `${response.error}`);
+        // alert(`${response.error} to ba yon`); // Reject the promise
       } else {
         Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
           .then(([dlst, dd, yrl]) => {
@@ -613,6 +653,7 @@ function insertDispatch() {
             $("#daysCount").text("");
             to_add = 0;
             countTotal();
+            showToast("success", "Successfully added a dispatch entry.");
             toggleLoadingAnimation(false);
           })
           .catch((error) => {
@@ -633,12 +674,17 @@ function insertDispatch() {
   });
 }
 function clearInput() {
+  $("#grpSel, #empSel, #locSel, #startDate, #endDate").removeClass(
+    "bg-red-100  border-red-400"
+  );
+  $(".errTxt").remove();
   $("#grpSel, #empSel, #locSel").val(0);
   $("#startDate, #endDate").val("");
   to_add = 0;
   $("#daysCount").text("");
   $("#empSel").change();
 }
+
 function getLocations() {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -691,6 +737,7 @@ function deleteDispatch() {
           fillYearly(yrl);
           countTotal();
           $("#deleteEntry .btn-close").click();
+          showToast("success", "Entry deleted");
         })
         .catch((error) => {
           alert(`${error}`);
@@ -707,19 +754,37 @@ function deleteDispatch() {
     },
   });
 }
+// function checkAccess() {
+//   return new Promise((resolve, reject) => {
+//     $.ajax({
+//       type: "GET",
+//       url: "php/check_permission.php",
+//       dataType: "json",
+//       success: function (data) {
+//         const acc = data;
+//         resolve(acc);
+//       },
+//       error: function (xhr, status, error) {
+//         if (xhr.status === 404) {
+//           reject("Not Found Error: The requested resource was not found.");
+//         } else if (xhr.status === 500) {
+//           reject("Internal Server Error: There was a server error.");
+//         } else {
+//           reject("An unspecified error occurred.1");
+//         }
+//       },
+//     });
+//   });
+// }
 function checkAccess() {
   const response = {
     isSuccess: true,
     data: {
-      empNum: 464,
-      empGroup: {
-        id: 21,
-        name: "System Group",
-        acr: "SYS",
-      },
-      empName: {
-        firstname: "Collene Keith",
-        surname: "Medrano",
+      id: 6969,
+      group: "Systems Group",
+      empname: {
+        firstname: "Korin Kitto",
+        surname: "Medurano",
       },
     },
   };
@@ -732,25 +797,25 @@ function checkAccess() {
   //   message: "Not logged in",
   // };
   return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
-      url: "../global/check_login.php",
-      dataType: "json",
-      success: function (data) {
-        const acc = data;
-        resolve(acc);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.");
-        }
-      },
-    });
-    // resolve(response);
+    //   $.ajax({
+    //     type: "GET",
+    //     url: "global/check_login.php",
+    //     dataType: "json",
+    //     success: function (data) {
+    //       const acc = data;
+    //       resolve(acc);
+    //     },
+    //     error: function (xhr, status, error) {
+    //       if (xhr.status === 404) {
+    //         reject("Not Found Error: The requested resource was not found.");
+    //       } else if (xhr.status === 500) {
+    //         reject("Internal Server Error: There was a server error.");
+    //       } else {
+    //         reject("An unspecified error occurred.");
+    //       }
+    //     },
+    //   });
+    resolve(response);
   });
 }
 function fillEmployeeDetails() {
@@ -797,22 +862,6 @@ function saveEditEntry() {
   var dateJapan = $("#editentryDateJ").val();
   var datePh = $("#editentryDateP").val();
   const empID = $("#empSel").find("option:selected").attr("emp-id");
-  // var fd = new FormData();
-  // fd.append("location", loc);
-  // fd.append("dateJapan", dateJapan);
-  // fd.append("datePh", datePh);
-
-  // $.ajax({
-  //   type: "POST",
-  //   url: "",
-  //   data: fd,
-  //   contentType: false,
-  //   cache: false,
-  //   processData: false,
-  //   success: function (response) {
-  //     $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
-  //   },
-  // });
   const editID = $("#btn-saveEntry").attr("e-id");
   $.ajax({
     type: "POST",
@@ -828,7 +877,8 @@ function saveEditEntry() {
     success: function (response) {
       const isSuccess = response.isSuccess;
       if (!isSuccess) {
-        alert(`${response.conflict}`); // Reject the promise
+        showToast("error", `${response.error}`);
+        // alert(`${response.error}`); // Reject the promise
       } else {
         Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
           .then(([dlst, dd, yrl]) => {
@@ -838,6 +888,7 @@ function saveEditEntry() {
             fillYearly(yrl);
             countTotal();
             $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+            showToast("success", "Entry saved");
           })
           .catch((error) => {
             alert(`${error}`);
@@ -965,7 +1016,6 @@ function arrangeName(nme) {
   rearrangedName = nameParts[1] + " " + nameParts[0]; // Concatenate the parts in the desired order
   return rearrangedName;
 }
-
 function toggleLoadingAnimation(show) {
   if (show) {
     $("#appendHere").append(`
@@ -989,4 +1039,51 @@ function toggleLoadingAnimation(show) {
     $("#loadingAnimation").remove();
   }
 }
+//3 TYPES OF TOAST TO USE(success, error, warn)
+//EXAMPLE showToast("error", "error message eto")
+function showToast(type, str) {
+  let toast = document.createElement("div");
+  if (type === "success") {
+    toast.classList.add("toasty");
+    toast.classList.add("success");
+    toast.innerHTML = `
+    <i class='bx bx-check text-xl text-[var(--tertiary)]'></i>
+  <div class="flex flex-col py-3">
+    <h5 class="text-md font-semibold leading-2">Success</h5>
+    <p class="text-gray-600 text-sm">${str}</p>
+    <span><i class='rmvToast bx bx-x absolute top-[10px] right-[10px] text-[16px] cursor-pointer' ></i></span>
+  </div>
+    `;
+  }
+  if (type === "error") {
+    toast.classList.add("toasty");
+    toast.classList.add("error");
+    toast.innerHTML = `
+    <i class='bx bx-x text-xl text-[var(--red-color)]'></i>
+  <div class="flex flex-col py-3">
+    <h5 class="text-md font-semibold leading-2">Error</h5>
+    <p class="text-gray-600 text-sm">${str}</p>
+    <span><i class='rmvToast bx bx-x absolute top-[10px] right-[10px] text-[16px] cursor-pointer' ></i></span>
+  </div>
+    `;
+  }
+  if (type === "warn") {
+    toast.classList.add("toasty");
+    toast.classList.add("warn");
+    toast.innerHTML = `
+    <i class='bx bx-info-circle text-lg text-[#ffaa33]'></i>
+    <div class="flex flex-col py-3">
+      <h5 class="text-md font-semibold leading-2">Warning</h5>
+      <p class="text-gray-600 text-sm">${str}</p>
+      <span><i class='rmvToast bx bx-x absolute top-[10px] right-[10px] text-[16px] cursor-pointer' ></i></span>
+    </div>
+      `;
+  }
+  $(".toastBox").append(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
 //#endregion
