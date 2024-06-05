@@ -9,6 +9,14 @@ ep.`fldEmployeeNum` = kl.`fldID` GROUP BY ep.`fldEmployeeNum`";
 $getEmployeesStmt = $connkdt->query($getEmployees);
 $employees = $getEmployeesStmt->fetchAll();
 
+$truncateEL = "TRUNCATE TABLE `employee_list`";
+$truncateELStmt = $connkdtn->prepare($truncateEL);
+$truncateELStmt->execute();
+
+$truncateEG = "TRUNCATE TABLE `employee_group`";
+$truncateEGStmt = $connkdtn->prepare($truncateEG);
+$truncateEGStmt->execute();
+
 foreach($employees as $emp) {
     $id = $emp['fldEmployeeNum'];
     $surname = $emp['fldSurname'];
@@ -58,7 +66,7 @@ foreach($employees as $emp) {
         $desigID = 0;
     }
 
-    $insertEmp = "INSERT INTO `employee_list`(`id`, `surname`, `firstname`, `nickname`, `username`, `email`, `group_id`, `designation`, `birthdate`, `gender`, 
+    $insertEmp = "INSERT IGNORE INTO `employee_list`(`id`, `surname`, `firstname`, `nickname`, `username`, `email`, `group_id`, `designation`, `birthdate`, `gender`, 
     `marital_status`, `date_hired`, `emp_status`, `resignation_date`) VALUES (:id, :surname, :firstname, :nickname, :username, :email, :groupID, :desigID, 
     :birthday, :gender, :mstatus, :datehired, :active, :resigndate)";
     $insertEmpStmt = $connkdtn->prepare($insertEmp);
@@ -74,7 +82,7 @@ foreach($employees as $emp) {
             $getgIDStmt->execute([":gname" => "$gname"]);
             $gID = $getgIDStmt->fetchColumn();
 
-            $insertgID = "INSERT INTO `employee_group`(`employee_number`, `group_id`) VALUES (:id, :gID)";
+            $insertgID = "INSERT IGNORE INTO `employee_group`(`employee_number`, `group_id`) VALUES (:id, :gID)";
             $insertgIDStmt = $connkdtn->prepare($insertgID);
             $insertgIDStmt->execute([":id" => "$id", ":gID" => "$gID"]);
         }

@@ -8,7 +8,6 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
-$searchkey = NULL;
 $groupID = $sortKey = 0;
 $dispatch = 1;
 $employees = array();
@@ -20,21 +19,26 @@ $sortKey = 1;
 #region Set Variable Values
 if (!empty($_POST["groupID"])) {
     $groupID = $_POST["groupID"];
-}
-if ($groupID != 0) {
-    $groupQuery = "ed.group_id IN ($groupID)";
-}
-if (!empty($_POST['searchkey'])) {
-    $searchkey = $_POST['searchkey'];
-    $searchStmt = "AND (CONCAT_WS(' ',ed.firstname,ed.surname) LIKE '%$searchkey%' OR ed.id LIKE '%$searchkey%')";
+    $groups = $groupID;
 }
 #endregion
 
 #region main query
 try {
+    if($groupID == 0) {
+        $getID = "SELECT ep.fldEmployeeNum FROM `kdtlogin` AS kl JOIN `emp_prof` AS ep ON kl.fldEmployeeNum = ep.fldEmployeeNum JOIN `kdtbu` AS kb ON ep.fldGroup = kb.fldBU 
+        WHERE kl.fldUserHash = :userHash";
+        $getIDStmt = $connkdt->prepare($getID);
+        $getIDStmt->execute([":userHash" => "$userHash"]);
+        $userID = $getIDStmt->fetchColumn();
+
+        $groups = getGroups($userID);
+        $groups = implode(", ", $groups);
+    }
+
     $employeesQuery = "SELECT ed.id as empID, ed.surname as lastname, ed.firstname as firstname, gl.abbreviation as groupAbbr, pd.passport_expiry as passportExpiry, 
     vd.visa_expiry as visaExpiry FROM kdtphdb_new.employee_list as ed LEFT JOIN kdtphdb_new.group_list as gl ON ed.group_id = gl.id LEFT JOIN passport_details as pd 
-    ON ed.id = pd.emp_number LEFT JOIN visa_details as vd ON ed.id = vd.emp_number WHERE ed.emp_status = 1 AND $groupQuery $searchStmt ORDER BY ed.id";
+    ON ed.id = pd.emp_number LEFT JOIN visa_details as vd ON ed.id = vd.emp_number WHERE ed.emp_status = 1 AND ed.group_id IN ($groups) ORDER BY ed.id";
     $empStmt = $connpcs->prepare($employeesQuery);
     $empStmt->execute([]);
     if ($empStmt->rowCount() > 0) {
