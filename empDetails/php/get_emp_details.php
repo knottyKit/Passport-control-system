@@ -20,9 +20,9 @@ if (!empty($_POST["empID"])) {
 
 #region main function
 try {
-    $empQuery = "SELECT emp_number as id, emp_surname as lastname, emp_firstname as firstname, emp_dispatch as dispatch FROM employee_details 
-    WHERE emp_number = :empID";
-    $empStmt = $connpcs->prepare($empQuery);
+    $empQuery = "SELECT `id`, `surname` as lastname, `firstname`, `emp_status` as dispatch FROM `employee_list` 
+    WHERE `id` = :empID";
+    $empStmt = $connnew->prepare($empQuery);
     $empStmt->execute([":empID" => "$empID"]);
     $empDeets = $empStmt->fetch();
 
