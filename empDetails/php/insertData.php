@@ -31,9 +31,13 @@ try {
         $insertQ = "INSERT INTO `employee_details`(`emp_number`, `emp_surname`, `emp_firstname`, `group_id`, `emp_email`) 
         VALUES (:id, :lastname, :firstname, :groupID, :email)";
         $insertStmt = $connpcs->prepare($insertQ);
-        $insertStmt->execute([":id" => "$id", ":lastname" => "$lastname", ":firstname" => "$firstname", ":groupID" => "$groupID", ":email" => "$email"]);
-
-        echo "success";
+        if($insertStmt->execute([":id" => "$id", ":lastname" => "$lastname", ":firstname" => "$firstname", ":groupID" => "$groupID", ":email" => "$email"])) {
+            $message["isSuccess"] = true;
+            $message["message"] = "Inserted successfully";
+        } else {
+            $message["isSuccess"] = false;
+            $message["message"] = "Insert unsuccessfull";
+        }
     }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();

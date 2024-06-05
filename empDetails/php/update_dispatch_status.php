@@ -24,7 +24,13 @@ if (!empty($_POST["dispatch"])) {
 try {
     $updateQ = "UPDATE employee_details SET emp_dispatch = :dispatch WHERE emp_number = :empID";
     $updateStmt = $connpcs->prepare($updateQ);
-    $updateStmt->execute([":dispatch" => "$dispatch", ":empID" => "$empID"]);
+    if($updateStmt->execute([":dispatch" => "$dispatch", ":empID" => "$empID"])) {
+        $message["isSuccess"] = true;
+        $message["message"] = "Update successfull";
+    } else {
+        $message["isSuccess"] = false;
+        $message["message"] = "Error on updating";
+    }
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }

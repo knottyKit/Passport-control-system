@@ -9,6 +9,7 @@ date_default_timezone_set('Asia/Manila');
 
 #region Initialize Variable
 $number = $birthdate = $issued = $expiry = NULL;
+$message = [];
 $empID = 0;
 #endregion
 
@@ -59,7 +60,11 @@ try {
             unlink($folderName);
         }
         if (!rename($fileTemp, $folderName)) {
-            $message = array("message" => "Uploading file failed!");
+            $message["isSuccess"] = false;
+            $message["message"] = "Error on uploading passport"; 
+        } else {
+            $message["isSuccess"] = true;
+            $message["message"] = "Uploaded successfully";
         }
     }
 } catch (Exception $e) {

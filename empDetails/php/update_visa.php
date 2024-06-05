@@ -9,6 +9,7 @@ date_default_timezone_set('Asia/Manila');
 
 #region Initialize Variable
 $number = $issued = $expiry = NULL;
+$message = [];
 $empID = 0;
 #endregion
 
@@ -56,8 +57,12 @@ try {
         if (file_exists($folderName)) {
             unlink($folderName);
         }
-        if (!copy($fileTemp, $folderName)) {
-            $message = array("message" => "Uploading file failed!");
+        if (!rename($fileTemp, $folderName)) {
+            $message["isSuccess"] = false;
+            $message["message"] = "Error uploading visa";
+        } else {
+            $message["isSuccess"] = true;
+            $message["message"] = "Uploading visa successfully";
         }
     }
 } catch (Exception $e) {
