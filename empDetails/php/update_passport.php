@@ -50,7 +50,7 @@ try {
         $fileTemp = $_FILES['fileValue']['tmp_name'];
 
         $folderID = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID;
-        if(!file_exists($folderID)) {
+        if (!file_exists($folderID)) {
             mkdir($folderID, 0755, true);
         }
 
@@ -61,12 +61,17 @@ try {
         }
         if (!rename($fileTemp, $folderName)) {
             $message["isSuccess"] = false;
-            $message["message"] = "Error on uploading passport"; 
-        } else {
-            $message["isSuccess"] = true;
-            $message["message"] = "Uploaded successfully";
+            $message["message"] = "Error on uploading passport";
+            die(json_encode($message));
         }
     }
+
+    $message["isSuccess"] = true;
+    $message["message"] = "Uploaded successfully";
 } catch (Exception $e) {
-    echo "Connection failed: " . $e->getMessage();
+    $message["isSuccess"] = false;
+    $message["message"] = "Error on uploading passport: " . $e->getMessage();
+    // echo "Connection failed: " . $e->getMessage();
 }
+
+echo json_encode($message);

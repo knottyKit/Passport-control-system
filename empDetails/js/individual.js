@@ -171,13 +171,94 @@ $(document).on("click", ".btn-delete", function () {
   $("#storeId").attr("del-id", trID);
 });
 $(document).on("click", "#btn-deleteEntry", function () {
-  deleteDispatch();
+  deleteDispatch()
+    .then((res) => {
+      if (res.isSuccess) {
+        showToast("success", `${res.message}`);
+        Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+          .then(([dlst, dd, yrl]) => {
+            dHistory = dlst;
+            fillHistory(dHistory);
+            displayDays(dd);
+            fillYearly(yrl);
+            $("#deleteEntry .btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      } else {
+        showToast("error", `${res.message}`);
+      }
+    })
+    .catch((error) => {
+      showToast("error", `${error}`);
+    });
 });
 $(document).on("click", "#btn-savePass", function () {
-  savePass();
+  savePass()
+    .then((res) => {
+      if (res.isSuccess) {
+        showToast("success", res.message);
+        getPassport(true)
+          .then((pport) => {
+            userPassD = pport;
+            passportDisplay(userPassD);
+            resetPassInput();
+            // $("#updatePass .btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+        getPassport(false)
+          .then((pport) => {
+            userPassI = pport;
+            passportInput(userPassI);
+            resetPassInput();
+            // $("#updatePass .btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      } else {
+        showToast("error", res.message);
+      }
+    })
+    .catch((error) => {
+      showToast("error", `${error}`);
+    });
 });
 $(document).on("click", "#btn-saveVisa", function () {
-  saveVisa();
+  saveVisa()
+    .then((res) => {
+      if (res.isSuccess) {
+        showToast("success", res.message);
+        getVisa(true)
+          .then((vsa) => {
+            userVisaD = vsa;
+            visaDisplay(userVisaD);
+            resetVisaInput();
+            // $("#updateVisa .btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+        getVisa(false)
+          .then((vsa) => {
+            userVisaI = vsa;
+            visaInput(userVisaI);
+            resetVisaInput();
+            // $("#updateVisa .btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      } else {
+        showToast("error", res.message);
+      }
+    })
+    .catch((error) => {
+      showToast("error", `${error}`);
+    });
 });
 $(document).on("click", "#cancelEditPass", function () {
   resetPassInput();
@@ -185,36 +266,6 @@ $(document).on("click", "#cancelEditPass", function () {
 $(document).on("click", "#cancelEditVisa", function () {
   resetVisaInput();
 });
-// $(document).on("change", ".ddates.pass", function () {
-//   var startD = $("#upPassIssue").val();
-//   var endD = $("#upPassExp").val();
-
-//   if (!startD || !endD) {
-//     return;
-//   }
-//   var startDate = new Date(startD);
-//   var endDate = new Date(endD);
-//   if (endDate < startDate) {
-//     alert("End date must not be earlier than start date.");
-//     $("#upPassExp").val("");
-//     return;
-//   }
-// });
-// $(document).on("change", ".ddates.vsa", function () {
-//   var startD = $("#upVisaIssue").val();
-//   var endD = $("#upVisaExp").val();
-
-//   if (!startD || !endD) {
-//     return;
-//   }
-//   var startDate = new Date(startD);
-//   var endDate = new Date(endD);
-//   if (endDate < startDate) {
-//     alert("End date must not be earlier than start date.");
-//     $("#upVisaExp").val("");
-//     return;
-//   }
-// });
 $(document).on("click", "#upPassNo", function () {
   $(this).removeClass("border border-danger");
 });
@@ -224,7 +275,7 @@ $(document).on("click", "#upPassBday", function () {
 $(document).on("click", "#upPassIssue", function () {
   $(this).removeClass("border border-danger");
 });
-$(document).on("click", "#upPassexp", function () {
+$(document).on("click", "#upPassExp", function () {
   $(this).removeClass("border border-danger");
 });
 $(document).on("click", "#upPassBday", function () {
@@ -240,7 +291,28 @@ $(document).on("click", "#upVisaExp", function () {
   $(this).removeClass("border border-danger");
 });
 $(document).on("click", "#btn-saveEntry", function () {
-  saveEditEntry();
+  saveEditEntry()
+    .then((res) => {
+      if (res.isSuccess) {
+        showToast("success", res.error);
+        Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
+          .then(([dlst, dd, yrl]) => {
+            dHistory = dlst;
+            fillHistory(dHistory);
+            displayDays(dd);
+            fillYearly(yrl);
+            $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
+          })
+          .catch((error) => {
+            alert(`${error}`);
+          });
+      } else {
+        showToast("error", `${res.error}`);
+      }
+    })
+    .catch((error) => {
+      showToast("error", `${error}`);
+    });
 });
 $(document).on("change", ".edit-date", function () {
   computeTotalDays();
@@ -252,33 +324,6 @@ $(document).on("change", "#editentryDateP", function () {
   $("#editentryDateJ").attr("max", $(this).val());
 });
 $(document).on("click", ".btn-edit", function () {
-  // var loc = $(this).closest("tr").find("td:eq(1)").attr("value");
-  // var japan = $(this).closest("tr").find("td:eq(2)").html();
-  // var parsedDateJap = new Date(japan);
-
-  // var formattedDateJap =
-  //   parsedDateJap.getFullYear() +
-  //   "-" +
-  //   ("0" + (parsedDateJap.getMonth() + 1)).slice(-2) +
-  //   "-" +
-  //   ("0" + parsedDateJap.getDate()).slice(-2);
-  // var ph = $(this).closest("tr").find("td:eq(3)").html();
-  // var parsedDatePh = new Date(ph);
-  // var formattedDatePh =
-  //   parsedDatePh.getFullYear() +
-  //   "-" +
-  //   ("0" + (parsedDatePh.getMonth() + 1)).slice(-2) +
-  //   "-" +
-  //   ("0" + parsedDatePh.getDate()).slice(-2);
-
-  // var total = $(this).closest("tr").find("td:eq(4)").html();
-  // var totalpast = $(this).closest("tr").find("td:eq(5)").html();
-
-  // $("#editentryDateJ").val(formattedDateJap);
-  // $("#editentryDateP").val(formattedDatePh);
-  // $("#editentryLocation").val(loc);
-  // $(" #editentryDays").html(total);
-  // $(" #editentryPYear").html(totalpast);
   var trID = parseInt($(this).closest("tr").attr("d-id"));
   getEditDetails(trID);
   $("#editentryDateP, #editentryDateJ").prop("disabled", false);
@@ -597,34 +642,28 @@ function displayDays(dd) {
 }
 function deleteDispatch() {
   const delID = $("#storeId").attr("del-id");
-  $.ajax({
-    type: "POST",
-    url: "php/delete_dispatch_history.php",
-    data: {
-      dispatchID: delID,
-    },
-    success: function (response) {
-      Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
-        .then(([dlst, dd, yrl]) => {
-          dHistory = dlst;
-          fillHistory(dHistory);
-          displayDays(dd);
-          fillYearly(yrl);
-          $("#deleteEntry .btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-    },
-    error: function (xhr, status, error) {
-      if (xhr.status === 404) {
-        reject("Not Found Error: The requested resource was not found.");
-      } else if (xhr.status === 500) {
-        reject("Internal Server Error: There was a server error.");
-      } else {
-        reject("An unspecified error occurreds.");
-      }
-    },
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: "php/delete_dispatch_history.php",
+      data: {
+        dispatchID: delID,
+      },
+      dataType: "json",
+      success: function (response) {
+        const res = response;
+        resolve(res);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred while deleting entry.");
+        }
+      },
+    });
   });
 }
 function setBar(dd) {
@@ -652,83 +691,70 @@ function savePass() {
   const fPath = $("#upPassAttach")[0].files[0];
   const upload = $("#upPassAttach").val();
   const extension = upload.slice(((upload.lastIndexOf(".") - 1) >>> 0) + 2);
-  if (fPath) {
-    if (extension.toLowerCase() !== "pdf") {
-      alert("Please attach PDF files only");
-      $("#upPassAttach").val("");
-      return;
-    }
-  }
-
+  let ctr = 0;
   if (!passNo) {
     $("#upPassNo").addClass("border border-danger");
+    ctr++;
   }
   if (!passBday) {
     $("#upPassBday").addClass("border border-danger");
+    ctr++;
   }
   if (!passIssue) {
     $("#upPassIssue").addClass("border border-danger");
+    ctr++;
   }
   if (!passExp) {
     $("#upPassExp").addClass("border border-danger");
-  }
-
-  if (!passNo || !passBday || !passIssue || !passExp) {
-    // console.log("may empty");
-    return;
+    ctr++;
   }
   const startDate = new Date(passIssue);
   const endDate = new Date(passExp);
-  if (endDate < startDate) {
-    alert("Expiry must not be earlier than date of issue.");
-    $("#upPassExp").val("");
-    return;
-  }
-  var fd = new FormData();
-  fd.append("fileValue", fPath);
-  fd.append("empID", empID);
-  fd.append("number", passNo);
-  fd.append("birthdate", passBday);
-  fd.append("issued", passIssue);
-  fd.append("expiry", passExp);
-  $.ajax({
-    type: "POST",
-    url: "php/update_passport.php",
-    data: fd,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function (response) {
-      getPassport(true)
-        .then((pport) => {
-          userPassD = pport;
-          passportDisplay(userPassD);
-          resetPassInput();
-          // $("#updatePass .btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-      getPassport(false)
-        .then((pport) => {
-          userPassI = pport;
-          passportInput(userPassI);
-          resetPassInput();
-          // $("#updatePass .btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-    },
-    error: function (xhr, status, error) {
-      if (xhr.status === 404) {
-        reject("Not Found Error: The requested resource was not found.");
-      } else if (xhr.status === 500) {
-        reject("Internal Server Error: There was a server error.");
-      } else {
-        reject("An unspecified error occurreds.");
+
+  return new Promise((resolve, reject) => {
+    if (endDate < startDate) {
+      $("#upPassExp").val("");
+      return reject("Expiry must not be earlier than date of issue.");
+    }
+    if (fPath) {
+      if (extension.toLowerCase() !== "pdf") {
+        $("#upPassAttach").val("");
+        return reject("Please attach PDF files only.");
       }
-    },
+    }
+    if (ctr > 0) {
+      return reject("Complete all fields");
+    }
+    var fd = new FormData();
+    fd.append("fileValue", fPath);
+    fd.append("empID", empID);
+    fd.append("number", passNo);
+    fd.append("birthdate", passBday);
+    fd.append("issued", passIssue);
+    fd.append("expiry", passExp);
+    $.ajax({
+      type: "POST",
+      url: "php/update_passport.php",
+      data: fd,
+      contentType: false,
+      cache: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        // console.log(response);
+        const res = response;
+        resolve(res);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred while updating passport.");
+        }
+      },
+    });
   });
 }
 function resetPassInput() {
@@ -759,78 +785,65 @@ function saveVisa() {
   const fPath = $("#upVisaAttach")[0].files[0];
   const upload = $("#upVisaAttach").val();
   const extension = upload.slice(((upload.lastIndexOf(".") - 1) >>> 0) + 2);
-  if (fPath) {
-    if (extension.toLowerCase() !== "pdf") {
-      alert("Please attach PDF files only");
-      $("#upVisaAttach").val("");
-      return;
-    }
-  }
+  let ctr = 0;
+
   if (!visaNo) {
     $("#upVisaNo").addClass("border border-danger");
+    ctr++;
   }
   if (!visaIssue) {
     $("#upVisaIssue").addClass("border border-danger");
+    ctr++;
   }
   if (!visaExp) {
     $("#upVisaExp").addClass("border border-danger");
+    ctr++;
   }
 
-  if (!visaNo || !visaIssue || !visaExp) {
-    // console.log("may empty");
-    return;
-  }
   const startDate = new Date(visaIssue);
   const endDate = new Date(visaExp);
-  if (endDate < startDate) {
-    alert("End date must not be earlier than start date.");
-    $("#upVisaExp").val("");
-    return;
-  }
-  var fd = new FormData();
-  fd.append("fileValue", fPath);
-  fd.append("empID", empID);
-  fd.append("number", visaNo);
-  fd.append("issued", visaIssue);
-  fd.append("expiry", visaExp);
-  $.ajax({
-    type: "POST",
-    url: "php/update_visa.php",
-    data: fd,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function (response) {
-      getVisa(true)
-        .then((vsa) => {
-          userVisaD = vsa;
-          visaDisplay(userVisaD);
-          resetVisaInput();
-          // $("#updateVisa .btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-      getVisa(false)
-        .then((vsa) => {
-          userVisaI = vsa;
-          visaInput(userVisaI);
-          resetVisaInput();
-          // $("#updateVisa .btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-    },
-    error: function (xhr, status, error) {
-      if (xhr.status === 404) {
-        reject("Not Found Error: The requested resource was not found.");
-      } else if (xhr.status === 500) {
-        reject("Internal Server Error: There was a server error.");
-      } else {
-        reject("An unspecified error occurreds.");
+  return new Promise((resolve, reject) => {
+    if (fPath) {
+      if (extension.toLowerCase() !== "pdf") {
+        $("#upVisaAttach").val("");
+        return reject("Please attach PDF files only.");
       }
-    },
+    }
+    if (ctr > 0) {
+      return reject("Complete all fields.");
+    }
+    if (endDate < startDate) {
+      $("#upVisaExp").val("");
+      return reject("End date must not be earlier than start date.");
+    }
+    var fd = new FormData();
+    fd.append("fileValue", fPath);
+    fd.append("empID", empID);
+    fd.append("number", visaNo);
+    fd.append("issued", visaIssue);
+    fd.append("expiry", visaExp);
+    $.ajax({
+      type: "POST",
+      url: "php/update_visa.php",
+      data: fd,
+      contentType: false,
+      cache: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        const res = response;
+        resolve(res);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred while updating visa.");
+        }
+      },
+    });
   });
 }
 function resetVisaInput() {
@@ -937,58 +950,35 @@ function checkEditAccess() {
 }
 
 function saveEditEntry() {
-  var loc = $("#editentryLocation").val();
-  var dateJapan = $("#editentryDateJ").val();
-  var datePh = $("#editentryDateP").val();
-
-  // var fd = new FormData();
-  // fd.append("location", loc);
-  // fd.append("dateJapan", dateJapan);
-  // fd.append("datePh", datePh);
-
-  // $.ajax({
-  //   type: "POST",
-  //   url: "",
-  //   data: fd,
-  //   contentType: false,
-  //   cache: false,
-  //   processData: false,
-  //   success: function (response) {
-  //     $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
-  //   },
-  // });
+  const loc = $("#editentryLocation").val();
+  const dateJapan = $("#editentryDateJ").val();
+  const datePh = $("#editentryDateP").val();
   const editID = $("#btn-saveEntry").attr("e-id");
-  $.ajax({
-    type: "POST",
-    url: "php/update_dispatch_history.php",
-    data: {
-      dispatchID: editID,
-      locID: loc,
-      dateFrom: dateJapan,
-      dateTo: datePh,
-    },
-    success: function (response) {
-      Promise.all([getDispatchHistory(), getDispatchDays(), getYearly()])
-        .then(([dlst, dd, yrl]) => {
-          dHistory = dlst;
-          fillHistory(dHistory);
-          displayDays(dd);
-          fillYearly(yrl);
-          $("#btn-saveEntry").closest(".modal").find(".btn-close").click();
-        })
-        .catch((error) => {
-          alert(`${error}`);
-        });
-    },
-    error: function (xhr, status, error) {
-      if (xhr.status === 404) {
-        reject("Not Found Error: The requested resource was not found.");
-      } else if (xhr.status === 500) {
-        reject("Internal Server Error: There was a server error.");
-      } else {
-        reject("An unspecified error occurreds.");
-      }
-    },
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      url: "php/update_dispatch_history.php",
+      data: {
+        dispatchID: editID,
+        locID: loc,
+        dateFrom: dateJapan,
+        dateTo: datePh,
+      },
+      dataType: "json",
+      success: function (response) {
+        const res = response;
+        resolve(res);
+      },
+      error: function (xhr, status, error) {
+        if (xhr.status === 404) {
+          reject("Not Found Error: The requested resource was not found.");
+        } else if (xhr.status === 500) {
+          reject("Internal Server Error: There was a server error.");
+        } else {
+          reject("An unspecified error occurred while updating entry.");
+        }
+      },
+    });
   });
 }
 function computeTotalDays() {
@@ -1122,5 +1112,51 @@ function fillLocations(locs) {
       .attr("loc-id", item.id);
     locSelect.append(option);
   });
+}
+//3 TYPES OF TOAST TO USE(success, error, warn)
+//EXAMPLE showToast("error", "error message eto")
+function showToast(type, str) {
+  let toast = document.createElement("div");
+  if (type === "success") {
+    toast.classList.add("toasty");
+    toast.classList.add("success");
+    toast.innerHTML = `
+    <i class='bx bx-check text-xl text-[var(--tertiary)]'></i>
+  <div class="flex flex-col py-3">
+    <h5 class="text-md font-semibold leading-2">Success</h5>
+    <p class="text-gray-600 text-sm">${str}</p>
+    <span><i class='rmvToast bx bx-x absolute top-[10px] right-[10px] text-[16px] cursor-pointer' ></i></span>
+  </div>
+    `;
+  }
+  if (type === "error") {
+    toast.classList.add("toasty");
+    toast.classList.add("error");
+    toast.innerHTML = `
+    <i class='bx bx-x text-xl text-[var(--red-color)]'></i>
+  <div class="flex flex-col py-3">
+    <h5 class="text-md font-semibold leading-2">Error</h5>
+    <p class="text-gray-600 text-sm">${str}</p>
+    <span><i class='rmvToast bx bx-x absolute top-[10px] right-[10px] text-[16px] cursor-pointer' ></i></span>
+  </div>
+    `;
+  }
+  if (type === "warn") {
+    toast.classList.add("toasty");
+    toast.classList.add("warn");
+    toast.innerHTML = `
+    <i class='bx bx-info-circle text-lg text-[#ffaa33]'></i>
+    <div class="flex flex-col py-3">
+      <h5 class="text-md font-semibold leading-2">Warning</h5>
+      <p class="text-gray-600 text-sm">${str}</p>
+      <span><i class='rmvToast bx bx-x absolute top-[10px] right-[10px] text-[16px] cursor-pointer' ></i></span>
+    </div>
+      `;
+  }
+  $(".toastBox").append(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
 }
 //#endregion

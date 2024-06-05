@@ -48,7 +48,7 @@ try {
         $fileTemp = $_FILES['fileValue']['tmp_name'];
 
         $folderID = "C:/xampp/htdocs/PCS/empDetails/EmployeesFolder/" . $empID;
-        if(!file_exists($folderID)) {
+        if (!file_exists($folderID)) {
             mkdir($folderID, 0755, true);
         }
 
@@ -60,12 +60,14 @@ try {
         if (!rename($fileTemp, $folderName)) {
             $message["isSuccess"] = false;
             $message["message"] = "Error uploading visa";
-        } else {
-            $message["isSuccess"] = true;
-            $message["message"] = "Uploading visa successfully";
+            die(json_encode($message));
         }
     }
+    $message["isSuccess"] = true;
+    $message["message"] = "Uploading visa successfully";
 } catch (Exception $e) {
-    echo "Connection failed: " . $e->getMessage();
+    $message["isSuccess"] = false;
+    $message["message"] = "Error uploading visa: " . $e->getMessage();
 }
+echo json_encode($message);
 #endregion

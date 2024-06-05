@@ -22,9 +22,9 @@ if (!empty($_POST["dispatchID"])) {
 try {
     $deleteQ = "DELETE FROM dispatch_list WHERE dispatch_id = :dispatchID";
     $deleteStmt = $connpcs->prepare($deleteQ);
-    if($deleteStmt->execute([":dispatchID" => "$dispatchID"])) {
+    if ($deleteStmt->execute([":dispatchID" => "$dispatchID"])) {
         $message["isSuccess"] = true;
-        $message["message"] = "Delete sucessfully";
+        $message["message"] = "Deleted sucessfully";
     } else {
         $message["isSuccess"] = false;
         $message["message"] = "Error on deleting";
