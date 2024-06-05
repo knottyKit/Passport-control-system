@@ -333,6 +333,12 @@ $(document).on("click", ".btn-edit", function () {
 $(document).on("click", "#btnExport", function () {
   exportTable();
 });
+$(document).on("click", "#portalBtn", function () {
+  window.location.href = `${rootFolder}`;
+});
+$(document).on("click", ".rmvToast", function () {
+  $(this).closest(".toasty").remove();
+});
 //#endregion
 
 //#region FUNCTIONS
