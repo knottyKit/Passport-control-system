@@ -228,8 +228,9 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
+  const groupIDS = grps.map((obj) => obj.newID);
   var grpSelect = $("#grpSel");
-  grpSelect.html("<option value='0'>Select Group</option>");
+  grpSelect.html(`<option value=${groupIDS.toString()}>Select Group</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.newID)

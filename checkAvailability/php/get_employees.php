@@ -27,17 +27,6 @@ if (!empty($_POST['grpID'])) {
 
 #region main query
 try {
-    if($grpID == 0) {
-        $getID = "SELECT ep.fldEmployeeNum FROM `kdtlogin` AS kl JOIN `emp_prof` AS ep ON kl.fldEmployeeNum = ep.fldEmployeeNum JOIN `kdtbu` AS kb ON ep.fldGroup = kb.fldBU 
-        WHERE kl.fldUserHash = :userHash";
-        $getIDStmt = $connkdt->prepare($getID);
-        $getIDStmt->execute([":userHash" => "$userHash"]);
-        $userID = $getIDStmt->fetchColumn();
-
-        $groups = getGroups($userID);
-        $groups = implode(", ", $groups);
-    }
-
     $empQ = "SELECT CONCAT(`surname`,', ',`firstname`) AS ename, `id` FROM `employee_list` WHERE `emp_status` = 1 AND `group_id` IN ($groups) GROUP BY `id` ORDER BY `surname`";
     // die($empQ);
     $empStmt = $connnew->query($empQ);
