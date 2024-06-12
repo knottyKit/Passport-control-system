@@ -7,6 +7,7 @@ $headString = "<title>$titleName</title>
   <link rel='icon' href='../favicon.ico' type='image/x-icon'>
   <link rel='stylesheet' type='text/css' href='../tailwindcss.min.css'>
  
+  <link rel='icon' href='../favicon.ico' type='image/x-icon'>
   <link rel='stylesheet' type='text/css' href='css/font-awesome.css'>
   <link rel='stylesheet' href='css/boxicons.css' />
   <link rel='stylesheet' href='css/bootstrap.min.css'>
