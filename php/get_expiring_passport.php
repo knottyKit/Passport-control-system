@@ -19,8 +19,9 @@ $membersStatement = "";
 $groupMembers = getMembers($empNum);
 if (count($groupMembers) > 0) {
     $implodeString = implode(',', $groupMembers);
-    $membersStatement = "AND ed.id IN ('" . $implodeString . "')";
+    $membersStatement = "AND ed.id IN ($implodeString)";
 }
+
 $expiringList = array();
 $expireQ = "SELECT CONCAT(ed.firstname,' ',ed.surname) AS ename,TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiring_in,ed.id FROM `passport_details` AS pd 
 JOIN kdtphdb_new.employee_list AS ed ON pd.emp_number=ed.id WHERE pd.passport_expiry >= CURDATE() AND  pd.passport_expiry <= DATE_ADD(CURDATE(), INTERVAL 10 MONTH) 
@@ -32,6 +33,7 @@ $expireStmt = $connpcs->prepare($expireQ);
 try {
     $expireStmt->execute();
     $expireArr = $expireStmt->fetchAll();
+
     foreach ($expireArr as $exp) {
         $output = array();
         $name = $exp['ename'];

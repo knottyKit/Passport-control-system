@@ -9,7 +9,7 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize variables
-$adminMembers = array("panado-g1@global.kawasaki.com", "soriano-kdt@global.kawasaki.com", "magno-kdt@global.kawasaki.com", "mesias-kdt@global.kawasaki.com");
+$adminMembers = array();
 $adminMembers = implode(", ", $adminMembers);
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -20,8 +20,8 @@ $subject = 'Expiring Passport (for testing)';
 
 #region main function
 try {
-    $expiryPassQ = "SELECT ed.emp_email as empEmail, TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiringIn, pd.passport_expiry as expiringDate, pd.passport_number as 
-    idNum FROM employee_details as ed LEFT JOIN passport_details as pd ON ed.emp_number = pd.emp_number WHERE pd.passport_expiry >= CURDATE() AND pd.passport_expiry <= 
+    $expiryPassQ = "SELECT ed.email as empEmail, TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiringIn, pd.passport_expiry as expiringDate, pd.passport_number as 
+    idNum FROM kdtphdb_new.employee_list as ed LEFT JOIN passport_details as pd ON ed.id = pd.emp_number WHERE pd.passport_expiry >= CURDATE() AND pd.passport_expiry <= 
     DATE_ADD(CURDATE(), INTERVAL 9 MONTH)";
     $expiryPassStmt = $connpcs->prepare($expiryPassQ);
     $expiryPassStmt->execute([]);
@@ -32,8 +32,8 @@ try {
         sendEmail($expiryPass, $sendDays, $type);
     }
 
-    $expiryVisaQ = "SELECT ed.emp_email as empEmail, TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiringIn, vd.visa_expiry as expiringDate, vd.visa_number as 
-    idNum FROM employee_details as ed LEFT JOIN visa_details as vd ON ed.emp_number = vd.emp_number WHERE vd.visa_expiry >= CURDATE() AND vd.visa_expiry <= 
+    $expiryVisaQ = "SELECT ed.email as empEmail, TIMESTAMPDIFF(DAY, CURDATE(), vd.visa_expiry) AS expiringIn, vd.visa_expiry as expiringDate, vd.visa_number as 
+    idNum FROM kdtphdb_new.employee_list as ed LEFT JOIN visa_details as vd ON ed.id = vd.emp_number WHERE vd.visa_expiry >= CURDATE() AND vd.visa_expiry <= 
     DATE_ADD(CURDATE(), INTERVAL 9 MONTH)";
     $expiryVisaStmt = $connpcs->prepare($expiryVisaQ);
     $expiryVisaStmt->execute([]);

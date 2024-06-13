@@ -1,20 +1,20 @@
 <?php
 
 require "../dbconn/dbconnectkdtph.php";
-require "./dbconnect.php";
+require "../dbconn/dbconnectnew.php";
 
 $getEmployees = "SELECT ep.`fldEmployeeNum`, ep.`fldSurname`, ep.`fldFirstname`, ep.`fldNick`, ep.`fldUser`, ep.`fldGroup`, ep.`fldGroups`, ep.`fldDesig`, ep.`fldBirthDate`, 
 ep.`fldGender`, ep.`fldStatus`, ep.`fldDateHired`, ep.`fldActive`, ep.`fldResignDate`, kl.`fldOutlook` FROM `emp_prof` as ep LEFT JOIN `kdtlogin` as kl ON
-ep.`fldEmployeeNum` = kl.`fldID` GROUP BY ep.`fldEmployeeNum`";
+ep.`fldEmployeeNum` = kl.`fldEmployeeNum` GROUP BY ep.`fldEmployeeNum`";
 $getEmployeesStmt = $connkdt->query($getEmployees);
 $employees = $getEmployeesStmt->fetchAll();
 
 $truncateEL = "TRUNCATE TABLE `employee_list`";
-$truncateELStmt = $connkdtn->prepare($truncateEL);
+$truncateELStmt = $connnew->prepare($truncateEL);
 $truncateELStmt->execute();
 
 $truncateEG = "TRUNCATE TABLE `employee_group`";
-$truncateEGStmt = $connkdtn->prepare($truncateEG);
+$truncateEGStmt = $connnew->prepare($truncateEG);
 $truncateEGStmt->execute();
 
 foreach($employees as $emp) {
@@ -50,7 +50,7 @@ foreach($employees as $emp) {
 
     if(!empty($group) && $group != "-") {
         $groupIDSel = "SELECT `id` FROM `group_list` WHERE `abbreviation` = :group";
-        $groupIDStmt = $connkdtn->prepare($groupIDSel);
+        $groupIDStmt = $connnew->prepare($groupIDSel);
         $groupIDStmt->execute([":group" => "$group"]);
         $groupID = $groupIDStmt->fetchColumn();
     } else {
@@ -59,7 +59,7 @@ foreach($employees as $emp) {
 
     if(!empty($designation) && $designation != "-") {
         $getDesig = "SELECT `id` FROM `designation_list` WHERE `acronym` = :designation";
-        $getDesigStmt = $connkdtn->prepare($getDesig);
+        $getDesigStmt = $connnew->prepare($getDesig);
         $getDesigStmt->execute([":designation" => "$designation"]);
         $desigID = $getDesigStmt->fetchColumn();
     } else {
@@ -69,7 +69,7 @@ foreach($employees as $emp) {
     $insertEmp = "INSERT IGNORE INTO `employee_list`(`id`, `surname`, `firstname`, `nickname`, `username`, `email`, `group_id`, `designation`, `birthdate`, `gender`, 
     `marital_status`, `date_hired`, `emp_status`, `resignation_date`) VALUES (:id, :surname, :firstname, :nickname, :username, :email, :groupID, :desigID, 
     :birthday, :gender, :mstatus, :datehired, :active, :resigndate)";
-    $insertEmpStmt = $connkdtn->prepare($insertEmp);
+    $insertEmpStmt = $connnew->prepare($insertEmp);
     $insertEmpStmt->execute([":id" => "$id", ":surname" => "$surname", ":firstname" => "$firstname", ":nickname" => "$nickname", ":username" => "$username", 
     ":email" => "$email", ":groupID" => "$groupID", ":desigID" => "$desigID", ":birthday" => "$birthday", ":gender" => "$gender", ":mstatus" => "$mstatus", 
     ":datehired" => "$datehired", ":active" => "$active", ":resigndate" => "$resigndate"]);
@@ -78,12 +78,12 @@ foreach($employees as $emp) {
         $groups = explode("/", $groups);
         foreach($groups as $gname) {
             $getgID = "SELECT `id` FROM `group_list` WHERE `abbreviation` = :gname";
-            $getgIDStmt = $connkdtn->prepare($getgID);
+            $getgIDStmt = $connnew->prepare($getgID);
             $getgIDStmt->execute([":gname" => "$gname"]);
             $gID = $getgIDStmt->fetchColumn();
 
             $insertgID = "INSERT IGNORE INTO `employee_group`(`employee_number`, `group_id`) VALUES (:id, :gID)";
-            $insertgIDStmt = $connkdtn->prepare($insertgID);
+            $insertgIDStmt = $connnew->prepare($insertgID);
             $insertgIDStmt->execute([":id" => "$id", ":gID" => "$gID"]);
         }
     }
