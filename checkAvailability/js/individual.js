@@ -611,7 +611,7 @@ function insertDispatch() {
     <i class='bx bx-info-circle text-red-600'></i>
     <p class="text-red-600">Please complete all fields.</p>
     </div>`);
-    console.log("complete required fields");
+    // console.log("complete required fields");
     toggleLoadingAnimation(false);
     return;
   }

@@ -294,7 +294,7 @@ function getGraph() {
       url: "php/get_summary.php",
       dataType: "json",
       success: function (data) {
-        console.log(data);
+        // console.log(data);s
         const acc = data;
         resolve(acc);
       },

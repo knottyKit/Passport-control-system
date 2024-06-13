@@ -67,21 +67,15 @@ $(document).on("change", "#grpSel", function () {
   getEmployees()
     .then((emps) => {
       empList = emps;
-      fillEmployees(empList);
+      // fillEmployees(empList);
+      searchEmployee(empList);
     })
     .catch((error) => {
       alert(`${error}`);
     });
 });
 $(document).on("input", "#empSearch", function () {
-  getEmployees()
-    .then((emps) => {
-      empList = emps;
-      fillEmployees(empList);
-    })
-    .catch((error) => {
-      alert(`${error}`);
-    });
+  searchEmployee(empList);
 });
 $(document).on("click", ".sortEmpNum", function () {
   toggleSortNum();
@@ -144,7 +138,7 @@ function getEmployees() {
       },
       dataType: "json",
       success: function (response) {
-        console.log(response);
+        // console.log(response);
         const emps = response;
         resolve(emps);
       },
@@ -258,7 +252,8 @@ function sortByNum(isAscending) {
   let sortedList = empList.slice().sort(function (a, b) {
     return isAscending ? a.empID - b.empID : b.empID - a.empID;
   });
-  fillEmployees(sortedList);
+  // fillEmployees(sortedList);
+  searchEmployee(sortedList);
 }
 function toggleSortName() {
   sortNameAsc = !sortNameAsc;
@@ -274,6 +269,20 @@ function sortByName(isAscending) {
       return nameB.localeCompare(nameA);
     }
   });
-  fillEmployees(sortedList);
+  // fillEmployees(sortedList);
+  searchEmployee(sortedList);
+}
+function searchEmployee(elist) {
+  const keyword = $("#empSearch").val().toLowerCase().trim();
+  // const grp = $("#grpSel").val();
+  const results = elist.filter((emp) => {
+    const searchMatch =
+      emp.firstname.toLowerCase().includes(keyword) ||
+      emp.lastname.toLowerCase().includes(keyword) ||
+      emp.empID.toString().includes(keyword);
+    // const groupMatch = grp == 0 || emp.group.id == grp;
+    return searchMatch;
+  });
+  fillEmployees(results);
 }
 //#endregion
