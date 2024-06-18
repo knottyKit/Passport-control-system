@@ -2,6 +2,7 @@
 #region DB Connect
 require_once '../dbconn/dbconnectpcs.php';
 require_once '../dbconn/dbconnectkdtph.php';
+require_once '../dbconn/dbconnectnew.php';
 #endregion
 
 #region set timezone
@@ -9,26 +10,32 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize variables
-// $adminMembers = array();
-// $adminMembers = implode(", ", $adminMembers);
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-$headers .= "From: kdtreminder@global.kawasaki.com" . "\r\n";
-$headers .= "CC: coquia-kdt@global.kawasaki.com";
-
-$subject = 'Expiring Passport (for testing)';
-
-// if(mail('hernandez-kdt@global.kawasaki.com', 'Try lang', 'Try lang',$headers)) {
-//     echo "Sent";
-// } else {
-//     echo "Fail";
-//     $error = error_get_last();
-//     echo "Error: " . $error;
-// }
+$adminMembers = $members = [];
+$headers = $subject = $adminEmails = "";
 #endregion
 
 #region main function
 try {
+    $getAdmin = "SELECT `email` FROM `employee_list` WHERE `group_id` = 2 AND (`designation` != 29 AND `designation` != 40 AND `designation` != 43 AND `designation` 
+    != 44 AND `designation` != 45 AND `designation` != 49 AND `designation` != 51 AND `designation` != 53 AND `designation` != 50)";
+    $getAdminStmt = $connnew->prepare($getAdmin);
+    $getAdminStmt->execute([]);
+    $members = $getAdminStmt->fetchAll();
+
+    foreach($members as $admin) {
+        $email = $admin['email'];
+        if(!empty($email)) {
+            array_push($adminMembers, $email);
+        }
+    }
+    $adminEmails = implode(", ", $adminMembers);
+
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: kdtreminder@global.kawasaki.com" . "\r\n";
+    $headers .= "CC: " . $adminEmails;
+    $subject = 'Expiring Passport/VISA Alert';
+
     $expiryPassQ = "SELECT ed.email as empEmail, TIMESTAMPDIFF(DAY, CURDATE(), pd.passport_expiry) AS expiringIn, pd.passport_expiry as expiringDate, pd.passport_number as 
     idNum FROM kdtphdb_new.employee_list as ed LEFT JOIN passport_details as pd ON ed.id = pd.emp_number WHERE pd.passport_expiry >= CURDATE() AND pd.passport_expiry <= 
     DATE_ADD(CURDATE(), INTERVAL 9 MONTH)";
@@ -80,7 +87,6 @@ function sendEmail($expiryID, $sendDays, $type)
             } else {
                 echo "fail on sending email";
             }
-            
         } else {
             echo "fail " . $expiringIn . " " . $email;
         }
