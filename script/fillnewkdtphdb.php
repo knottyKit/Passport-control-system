@@ -86,12 +86,15 @@ foreach($employees as $emp) {
             $insertgIDStmt = $connnew->prepare($insertgID);
             $insertgIDStmt->execute([":id" => "$id", ":gID" => "$gID"]);
         }
-    }
+    } else {
+        $getgID = "SELECT `id` FROM `group_list` WHERE `abbreviation` = :group";
+        $getgIDStmt = $connnew->prepare($getgID);
+        $getgIDStmt->execute([":group" => "$group"]);
+        $gID = $getgIDStmt->fetchColumn();
 
-
-
-    
+        $insertgID = "INSERT IGNORE INTO `employee_group`(`employee_number`, `group_id`) VALUES (:id, :gID)";
+        $insertgIDStmt = $connnew->prepare($insertgID);
+        $insertgIDStmt->execute([":id" => "$id", ":gID" => "$gID"]);
+    }    
 }
-
-
 ?>
