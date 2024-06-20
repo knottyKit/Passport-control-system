@@ -217,6 +217,10 @@ nav li.active {
 .toasty.warn::after {
   background-color: #ffaa33;
 }
+.redText{
+  color: var(--red-color);
+  font-weight: 700;
+}
 
 @keyframes anim {
   100% {
