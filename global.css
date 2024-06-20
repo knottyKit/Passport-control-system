@@ -219,7 +219,7 @@ nav li.active {
 }
 .redText{
   color: var(--red-color);
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 @keyframes anim {
