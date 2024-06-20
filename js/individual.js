@@ -360,6 +360,23 @@ function dispatchGraph(dData) {
           beginAtZero: true,
         },
       },
+      plugins: {
+        legend: {
+          display: false, // Disable the legend
+        },
+        tooltip: {
+          callbacks: {
+            label: function (tooltipItem) {
+              var value = tooltipItem.raw;
+              return (
+                value +
+                " " +
+                (value > 1 ? "dispatch members" : "dispatch member")
+              );
+            },
+          },
+        },
+      },
     },
   });
 }
