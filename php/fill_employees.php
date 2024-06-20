@@ -47,7 +47,7 @@ try {
         $checkStmt = $connpcs->prepare($checkQ);
         $checkStmt->execute([":id" => "$id"]);
         $checkRes = $checkStmt->fetchColumn();
-        echo $checkRes;
+        
         if ($checkRes == 0) {
             $insertQ = "INSERT INTO `employee_details`(`emp_number`, `emp_surname`, `emp_firstname`, `emp_birthdate`, `group_id`, `emp_email`) VALUES 
             (:id, :surname, :firstname, :birthday, :group, :email)";
