@@ -338,7 +338,7 @@ function dispatchGraph(dData) {
       labels: months,
       datasets: [
         {
-          label: "Monthly Dispatch Rate",
+          label: "(End of month)",
           data: rates,
           backgroundColor: "#dcfce7", // Fill color under the line
           borderColor: "#22c55e", // Line color
