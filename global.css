@@ -57,6 +57,8 @@ p {
   --red-color: #df2e38;
   --yellow-color: rgb(254, 201, 88);
   --text-color: #555;
+  --gray-text: rgba(85, 85, 85, 0.7);
+  --gray-text2: rgba(85, 85, 85, 0.9);
   --tableheader: #e5e7eb;
   --dark: #212121;
   --white:#f3f2f2;
@@ -110,6 +112,9 @@ nav li.active {
   background-clip: padding-box;
   border-radius: 0.5rem;
   border: 1px solid #dee2e6;
+}
+.input.search{
+  padding: 0.375rem 0.75rem 0.375rem 2.15rem;
 }
 .input:focus,
 .select:focus {

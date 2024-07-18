@@ -20,6 +20,7 @@ checkAccess()
       empDetails = emp.data;
       $(document).ready(function () {
         fillEmployeeDetails();
+        $(".tab")[0].click();
         Promise.all([getGroups(), getYear()])
           .then(([grps, yr]) => {
             groupList = grps;
@@ -90,19 +91,27 @@ $(document).on("click", "#portalBtn", function () {
 $(document).on("click", ".tab", function () {
   var indicator = document.querySelector(".indicator");
   var tabTarget = $(this).attr("aria-controls");
-  var panelId = $(".tab-panel").attr("id");
-
+  console.log(tabTarget);
+  var $panels = $(".tab-panel");
   var $this = $(this);
   var rect = $this[0].getBoundingClientRect(); // Convert jQuery object to DOM element
   var parentRect = $this.parent()[0].getBoundingClientRect(); // Convert parent jQuery object to DOM element
 
   indicator.style.width = rect.width + "px";
   indicator.style.left = rect.left - parentRect.left + "px";
-  $(".tab span").removeClass("font-semibold");
-  $(this).find("span").addClass("font-semibold");
-  // if(tabTarget === panelId){
+  $(".tab span").removeClass("font-semibold text-[var(--dark)]");
+  $(this).find("span").addClass("font-semibold text-[var(--dark)]");
 
-  // }
+  $panels.each(function () {
+    let panelId = $(this).attr("id");
+    if (tabTarget === panelId) {
+      $(this).removeClass("invisible opacity-0");
+      $(this).addClass("visible opacity-100");
+    } else {
+      $(this).addClass("invisible opacity-0");
+      $(this).removeClass("visible opacity-100");
+    }
+  });
 });
 
 //#endregion

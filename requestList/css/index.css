@@ -92,6 +92,15 @@ table tbody tr td {
 .indicator{
   transition: left 0.4s;
 }
+.filters span{
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.filters span, .filters i{
+  color: var(--gray-text2);
+  
+}
 
 @media (max-width: 946px) {
   .selection {

@@ -250,23 +250,24 @@
         
           </div>
           <div class="w-100 h-100 bg-white rounded-lg border">
-            <div class="p-3 flex justify-content-between align-items-center">
+            <!-- <div class="p-3 flex justify-content-between align-items-center">
               <h5 class="title  text-[20px]">Title ng table</h5>
             
-            </div>
-          <div class="flex p-3">
-              <div class="tabs flex  items-center relative overflow-hidden bg-[var(--gray)]  shadow-2xl grid grid-cols-3 px-[3px] rounded-full transition"
+            </div> -->
+          <div class="flex p-3 gap-3">
+              <div class="tabs flex  items-center relative overflow-hidden bg-[var(--white)] border grid grid-cols-4 px-[3px] rounded-full transition"
               role="tablist"
               aria-label="tabs">
-              <div class="indicator absolute top-0 my-1 bottom-0  left-0 rounded-full  bg-[var(--secondary)]"></div>
+              <div class="indicator absolute top-0 my-[0.25rem] bottom-0  left-0 rounded-full  bg-[var(--secondary)]"></div>
                 <button
                 role="tab"
                 aria-selected="true"
                 aria-controls="panel-1"
                 id="tab-1"
                 tabindex="0"
-                class="relative block h-10 px-6 tab rounded-full flex gap-1 items-center">
-                  <span class="">Pending</span><small class="rounded-full w-[16px] h-[16px] bg-[var(--white)] font-semibold">10</small>
+                class="relative block  p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <span class="text-[12px] text-[var(--gray-text)]">All</span>
+                 
                 </button>
                 <button
                 role="tab"
@@ -274,8 +275,9 @@
                 aria-controls="panel-2"
                 id="tab-2"
                 tabindex="-1"
-                class="relative block h-10 px-6 tab rounded-full">
-                  <span class="">Accepted</span>
+                class="relative block  p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <span class="text-[12px] text-[var(--gray-text)]">Pending</span>
+                  <small class="rounded-full w-[14px] h-[14px] bg-[var(--dark)] text-white text-[8px] flex items-center justify-content-center font-semibold">10</small>
                 </button>
                 <button
                 role="tab"
@@ -283,23 +285,57 @@
                 aria-controls="panel-3"
                 id="tab-3"
                 tabindex="-2"
-                class="relative block h-10 px-6 tab rounded-full">
-                  <span class="">Cancelled</span>
+                class="relative block p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <span class="text-[12px] text-[var(--gray-text)]">Accepted</span>
+                </button>
+                <button
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-4"
+                id="tab-4"
+                tabindex="-3"
+                class="relative block p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <span class="text-[12px] text-[var(--gray-text)]">Cancelled</span>
                 </button>
             
               </div>
-              <div>bat anlake</div>
           </div>
+         <div class="px-3  flex gap-2 items-center py-2">
+          <p class="text-[var(--gray-text)]">Filters:</p>
+         
+             <div class="filters  w-100 flex justify-content-between gap-2 ">
+             <div class="flex gap-2">
+                <div class="rounded-md border flex gap-1 px-2 py-1 items-center justify-content-center hover:bg-[var(--white)]" role="button">
+                  <i class='bx bx-calendar'></i>
+                  <span class="">Requested Month Filter</span>
+              
+                </div>
+                <div class="rounded-md border  flex gap-1 px-2 py-1 items-center justify-content-center hover:bg-[var(--white)]" role="button">
+                  <i class='bx bx-group' ></i>
+                  <span>Group Filter</span>
+              
+                </div>
+             </div>
+             <div class="relative">
+                <input type="search" class="input search" placeholder="Search here . . .">
+                <i class='bx bx-search absolute top-[8px] text-[18px] left-[8px] text-[var(--gray-text)]' ></i>
+             </div>
+             </div>
+        
+         </div>
 
-            <div class="mt-6 relative rounded-3xl bg-[var(--white)]">
-              <div class="tab-panel p-6 transition duration-300" role="tabpanel" id="panel-1">
-                <h2 class="">Pending</h2>
+            <div class=" relative h-[calc(100%-110px)]  p-3">
+              <div class="tab-panel  transition duration-300" role="tabpanel" id="panel-1">
+                
               </div>
-              <div class="absolute top-0 tab-panel invisible opacity-0 p-6 transition duration-300" role="tabpanel" id="panel-2">
+              <div class="absolute top-0 tab-panel invisible opacity-0  transition duration-300" role="tabpanel" id="panel-2">
                 <h2 class="">Accepted</h2>
               </div>
-              <div class="absolute top-0 tab-panel invisible opacity-0 p-6 transition duration-300" role="tabpanel" id="panel-3">
+              <div class="absolute top-0 tab-panel invisible opacity-0  transition duration-300" role="tabpanel" id="panel-3">
                 <h2 class="">Cancelled</h2>
+              </div>
+              <div class="absolute top-0 tab-panel invisible opacity-0  transition duration-300" role="tabpanel" id="panel-4">
+                <h2 class="">All</h2>
               </div>
               
             </div>
