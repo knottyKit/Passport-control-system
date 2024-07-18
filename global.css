@@ -58,6 +58,9 @@ p {
   --yellow-color: rgb(254, 201, 88);
   --text-color: #555;
   --tableheader: #e5e7eb;
+  --dark: #212121;
+  --white:#f3f2f2;
+  --white-100:rgba(243, 242, 242, 0.85);
 }
 
 button {
