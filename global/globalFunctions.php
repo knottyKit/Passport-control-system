@@ -1,6 +1,4 @@
 <?php
-#region DB Connect
-#endregion
 #region Functions
 function checkOverlap($empnum, $range)
 {
@@ -8,18 +6,7 @@ function checkOverlap($empnum, $range)
     $isOverlap = false;
     $starttime = $range['start'];
     $endtime = $range['end'];
-    $dispatchQ = "SELECT
-    *
-FROM
-    `dispatch_list`
-WHERE
-    `emp_number` = 464 AND(
-        (
-            `dispatch_from` BETWEEN :starttime AND :endtime OR `dispatch_to` BETWEEN :starttime AND :endtime
-        ) OR(
-            :starttime BETWEEN `dispatch_from` AND `dispatch_to` OR :endtime BETWEEN `dispatch_from` AND `dispatch_to`
-        )
-    )";
+    $dispatchQ = "SELECT * FROM `dispatch_list` WHERE `emp_number` = 464 AND((`dispatch_from` BETWEEN :starttime AND :endtime OR `dispatch_to` BETWEEN :starttime AND :endtime) OR(:starttime BETWEEN `dispatch_from` AND `dispatch_to` OR :endtime BETWEEN `dispatch_from` AND `dispatch_to`))";
     $dispatchStmt = $connpcs->prepare($dispatchQ);
     $dispatchStmt->execute([":empnum" => $empnum, ":starttime" => $starttime, ":endtime" => $endtime]);
     if ($dispatchStmt->rowCount() > 0) {
@@ -107,5 +94,42 @@ function getGroups($empnum)
         }
     }
     return $myGroups;
+}
+function getID()
+{
+    global $connpcs;
+    $empID = 0;
+
+    if (!empty($_COOKIE["userID"])) {
+        $userHash = $_COOKIE["userID"];
+    }
+    $empidQ = "SELECT fldEmployeeNum as empID FROM kdtphdb.kdtlogin WHERE fldUserHash = :userHash";
+    $empidStmt = $connpcs->prepare($empidQ);
+    $empidStmt->execute([":userHash" => "$userHash"]);
+    if ($empidStmt->rowCount() > 0) {
+        $empID = $empidStmt->fetchColumn();
+    }
+    return $empID;
+}
+function getName($id)
+{
+    global $connnew;
+    global $connpcs;
+    $name = '';
+    $newQ = "SELECT CONCAT(`surname`,', ',`firstname`) FROM `employee_list` WHERE `id`=:id";
+    $newStmt = $connnew->prepare($newQ);
+    $newStmt->execute([":id" => $id]);
+    if ($newStmt->rowCount() > 0) {
+        $name = $newStmt->fetchColumn();
+    } else {
+        $pcsQ = "SELECT CONCAT(`surname`,', ',`firstname`) FROM `khi_details` WHERE `number`=:id";
+        $pcsStmt = $connpcs->prepare($pcsQ);
+        $pcsStmt->execute([":id" => $id]);
+        if ($pcsStmt->rowCount() > 0) {
+            $name = $pcsStmt->fetchColumn();
+        }
+    }
+
+    return ucwords(strtolower($name));
 }
 #endregion
