@@ -44,6 +44,9 @@ try {
     if ($getStmt->rowCount() > 0) {
         $details = $getStmt->fetch();
         $details['emp_name'] = getName($details['emp_number']);
+        $details['start'] = date("d M Y", strtotime($details['dispatch_from']));
+        $details['end'] = date("d M Y", strtotime($details['dispatch_to']));
+        $details['date_request'] = date("d M Y", strtotime($details['date_requested']));
         $result['isSuccess'] = TRUE;
         $result['message'] = 'Successfully fetched data';
         $result['data'] = $details;
