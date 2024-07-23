@@ -28,61 +28,61 @@
 <!-- #region modal -->
 <div class="modal fade" id="openModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal">
+  <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content">
       <div class="  modal-header border-0 ">
-        <h1 class="modal-title text-[18px]">  Dispatch Request<span class="status lg pending ms-3">Pending</span></h1>
-        <button type="button" class="btn-close text-[14px]  m-1 w-0 h-0  w-auto h-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title text-[18px]" id="titleModal"> </h1>
+        <button type="button" class="btn-close text-[14px]  m-1 w-0 h-0  w-auto h-auto" data-bs-dismiss="modal"
+          aria-label="Close"></button>
       </div>
       <div class="modal-body  flex flex-col">
-       <div  class="flex gap-3 items-start">
-        <div class="rounded-lg border-1  flex items-center">
-          <i class='bx bxs-user text-[16px] text-[var(--gray-text)] p-1 ' ></i>
-        </div>
-        <div class="w-100">
-          <p class="text-[var(--gray-text)] text-[12px] uppercase">Employee Information</p>
-          <div >
+        <div class="flex gap-3 items-start">
+          <div class="rounded-lg border-1  flex items-center">
+            <i class='bx bxs-user text-[16px] text-[var(--gray-text)] p-1 '></i>
+          </div>
+          <div class="w-100">
+            <p class="text-[var(--gray-text)] text-[12px] uppercase">Employee Information</p>
             <div>
-              <p class="font-semibold ">Collene Keith Medrano</p>
+              <div>
+                <p class="font-semibold " id="modalEmpName"></p>
+              </div>
+              <div>
+                <p class=" " id="modalGroup"></p>
+              </div>
+              <div class="flex gap-2 " id="modalPassport">
+
+              </div>
+              <div class="flex gap-2 " id="modalVisa">
+
+              </div>
+
             </div>
-            <div>
-              <p class=" ">Systems Group</p>
-            </div><div class="flex gap-2 valid">
-                <i class='bx bx-check text-[18px] text-[var(--darkest-100)]'></i>
-                <p class="text-[14px] ">Valid Passport</p>
-              </div>
-           <div class="flex gap-2 ">
-                <i class='bx bx-x text-[18px] text-[var(--red-200)]'></i>
-                <p class="text-[14px] ">Invalid Visa</p>
-              </div>
-           
           </div>
         </div>
-       </div>
-       <div  class="flex gap-3 items-start mt-3">
-        <div class="rounded-lg border-1  flex items-center">
-          <i class='bx bx-calendar text-[16px] text-[var(--gray-text)] p-1 ' ></i>
-        </div>
-        <div class="">
+        <div class="flex gap-3 items-start mt-4">
+          <div class="rounded-lg border-1  flex items-center">
+            <i class='bx bx-calendar text-[16px] text-[var(--gray-text)] p-1 '></i>
+          </div>
+          <div class="">
             <p class="text-[var(--gray-text)] text-[12px] uppercase">Duration</p>
             <div>
               <div class="flex items-center gap-2 ">
-                <p id="dateFrom">13 Jan 2024</p>
+                <p id="modalDateFrom"></p>
                 <span class="block w-[20px] h-[2px] bg-[var(--tertiary)]     ounded-lg"></span>
-                <p id="dateTo">15 Apr 2024</p>
+                <p id="modalDateTo"></p>
               </div>
               <div class="flex gap-1 items-center">
                 <span class="text-[16px] font-semibold">91</span>
                 <p>days in total</p>
               </div>
             </div>
+          </div>
         </div>
-       </div>
-       <div  class="flex gap-3 items-start mt-3">
-        <div class="rounded-lg border-1  flex items-center">
-          <i class='bx bxs-map text-[16px] text-[var(--gray-text)] p-1 ' ></i>
-        </div>
-        <div class="">
+        <div class="flex gap-3 items-start mt-4">
+          <div class="rounded-lg border-1  flex items-center">
+            <i class='bx bxs-map text-[16px] text-[var(--gray-text)] p-1 '></i>
+          </div>
+          <div class="">
             <p class="text-[var(--gray-text)] text-[12px] uppercase">Location</p>
             <div>
               <div class="flex items-center gap-2 ">
@@ -90,28 +90,28 @@
                 ,
                 <p id="dateTo">Japan</p>
               </div>
-             
+
             </div>
+          </div>
         </div>
-       </div>
-       <div class="mt-3 p-3 rounded-md border-[1px] bg-[var(--white)]">
-        <div class="flex justify-content-between mb-2">
-          <label for="" class="text-[var(--gray-text)]">Requestor's Name:</label>  <p class="text-[var(--gray-text)]">Joshua Mari Coquia</p>
+        <div class="mt-4 p-3 rounded-md border-[1px] bg-[var(--white)]">
+          <div class="flex justify-content-between mb-2">
+            <label for="" class="text-[var(--gray-text)]">Requester's Name:</label>
+            <p class="text-[var(--gray-text)]" id="modalReqName">Joshua Mari Coquia</p>
+          </div>
+          <div class="flex justify-content-between mb-2">
+            <label for="" class="text-[var(--gray-text)]">Requester's Group:</label>
+            <p class="text-[var(--gray-text)]" id="modalReqGrp">Systems Group</p>
+          </div>
+          <div class="flex justify-content-between ">
+            <label for="" class="text-[var(--gray-text)]">Date Requested:</label>
+            <p class="text-[var(--gray-text)]" id="modalReqDate"></p>
+          </div>
+
+
         </div>
-        <div class="flex justify-content-between mb-2">
-          <label for="" class="text-[var(--gray-text)]">Requestor's Group:</label>  <p class="text-[var(--gray-text)]">Systems Group</p>
-        </div>
-        <div class="flex justify-content-between ">
-          <label for="" class="text-[var(--gray-text)]">Date Requested:</label>  <p class="text-[var(--gray-text)]">14 Jan 2022</p>
-        </div>
-          
-        
-       </div>
       </div>
-      <div class="flex-nowrap modal-footer  flex gap-2 border-0 ">
-        <button class=" rounded-lg px-3 py-2 text-[var(--white)] bg-[var(--dark)] hover:bg-[var(--dark-200)] transition w-50">Reject</button>
-        <button class=" bg-[var(--secondary)] hover:bg-[var(--tertiary)] font-semibold rounded-lg px-3 py-2 w-50 text-[var(--dark)]">Accept</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -221,150 +221,140 @@
 
         <div class=" w-100 h-[calc(100%-35px)] lg:h-[calc(100%-30px)] pt-3 flex flex-col  gap-3 relative">
           <div class="lg:flex  gap-2 lg:gap-4 w-100 grid grid-cols-2">
-          <span class="card active">
-          <div class="flex gap-2 items-center">
-            <span class="icon">  <i class='bx bxs-error-circle text-[16px] font-medium '></i></span>
-            
-              <h6 class="">Pending Requests</h6>
-            
-          </div>
-          <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
-            <h2 class="text-[var(--white)] text-[32px] font-semibold">10</h2>
-           
-            
-          </div>
-          </span>
-          <span class="card ">
-            <div class="flex gap-2 items-center">
-              <span class="icon">  <i class='bx bx-check text-[16px] font-medium '></i></span>
-              
-                <h6 class=" m-0 font-semibold">Total Accepted Requests</h6>
-              
-            </div>
-            <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
-              <h2 class=" text-[32px] font-bold">24</h2>
-               <span class="bg-[var(--secondary)] px-2 py-0 rounded-lg "><small class="font-semibold">+10 today</small></span>
-            </div>
-          </span>
-          <span class="card">
+            <span class="card active">
               <div class="flex gap-2 items-center">
-                <span class="w-[25px] h-[25px] flex items-center justify-content-center rounded-md bg-[var(--dark)] ">  <i class='bx bx-x text-[16px] font-medium text-[var(--white)]'></i></span>
-                
-                  <h6 class=" m-0 font-semibold">Total Cancelled Requests</h6>
-                
+                <span class="icon"> <i class='bx bxs-error-circle text-[16px] font-medium '></i></span>
+
+                <h6 class="">Pending Requests</h6>
+
+              </div>
+              <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
+                <h2 class="text-[var(--white)] text-[32px] font-semibold">10</h2>
+
+
+              </div>
+            </span>
+            <span class="card ">
+              <div class="flex gap-2 items-center">
+                <span class="icon"> <i class='bx bx-check text-[16px] font-medium '></i></span>
+
+                <h6 class=" m-0 font-semibold">Total Accepted Requests</h6>
+
+              </div>
+              <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
+                <h2 class=" text-[32px] font-bold">24</h2>
+                <span class="bg-[var(--secondary)] px-2 py-0 rounded-lg "><small class="font-semibold">+10
+                    today</small></span>
+              </div>
+            </span>
+            <span class="card">
+              <div class="flex gap-2 items-center">
+                <span class="w-[25px] h-[25px] flex items-center justify-content-center rounded-md bg-[var(--dark)] ">
+                  <i class='bx bx-x text-[16px] font-medium text-[var(--white)]'></i></span>
+
+                <h6 class=" m-0 font-semibold">Total Cancelled Requests</h6>
+
               </div>
               <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
                 <h2 class=" text-[32px] font-bold">54</h2>
-                
+
               </div>
-          </span>
-          <span class="card">
-                <div class="flex gap-2 items-center">
-                  <span class="w-[25px] h-[25px] flex items-center justify-content-center rounded-md bg-[var(--dark)] ">  <i class='bx bxs-file text-[16px] font-medium text-[var(--white)]'></i></span>
-                  
-                    <h6 class=" m-0 font-semibold">Total Requests</h6>
-                  
-                </div>
-                <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
-                  <h2 class=" text-[32px] font-bold">54</h2>
-                  <span class="bg-[var(--secondary)] px-2 py-0 rounded-lg "><small class="font-semibold">+10 today</small></span>
-            
-                </div>
-          </span>
-          
-      
-        
+            </span>
+            <span class="card">
+              <div class="flex gap-2 items-center">
+                <span class="w-[25px] h-[25px] flex items-center justify-content-center rounded-md bg-[var(--dark)] ">
+                  <i class='bx bxs-file text-[16px] font-medium text-[var(--white)]'></i></span>
+
+                <h6 class=" m-0 font-semibold">Total Requests</h6>
+
+              </div>
+              <div class="pt-6 flex gap-3 items-center justify-content-between w-100">
+                <h2 class=" text-[32px] font-bold">54</h2>
+                <span class="bg-[var(--secondary)] px-2 py-0 rounded-lg "><small class="font-semibold">+10
+                    today</small></span>
+
+              </div>
+            </span>
+
+
+
           </div>
           <div class="w-100 h-[calc(100%-275px)] lg:h-[calc(100%-130px)] bg-white rounded-lg border">
-          
-        <div class="flex lg:flex-row flex-col justify-content-between p-3 gap-2 lg:gap-0 border-b-[1px]">
-            <div class="flex gap-3 w-100">
-                <div class="tabs w-full lg:w-auto flex gap-2  items-center relative overflow-hidden bg-[var(--white)] border grid grid-cols-4 px-[3px] rounded-lg transition"
-                role="tablist"
-                aria-label="tabs">
-                <div class="indicator absolute top-0 my-[0.25rem] bottom-0  left-0 rounded-md  bg-[var(--secondary)]"></div>
-                  <button
-                  role="tab"
-                  aria-selected="true"
-                  aria-controls="panel-1"
-                  id="tab-1"
-                  tabindex="0"
-                  class="relative block  p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+
+            <div class="flex lg:flex-row flex-col justify-content-between p-3 gap-2 lg:gap-0 border-b-[1px]">
+              <div class="flex gap-3 w-100">
+                <div
+                  class="tabs w-full lg:w-auto flex gap-2  items-center relative overflow-hidden bg-[var(--white)] border grid grid-cols-4 px-[3px] rounded-lg transition"
+                  role="tablist" aria-label="tabs">
+                  <div class="indicator absolute top-0 my-[0.25rem] bottom-0  left-0 rounded-md  bg-[var(--secondary)]">
+                  </div>
+                  <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0"
+                    class="relative block  p-2 tab rounded-full flex gap-1 items-center justify-content-center">
                     <span class="text-[12px] text-[var(--gray-text)]">All</span>
-                   
+
                   </button>
-                  <button
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="panel-2"
-                  id="tab-2"
-                  tabindex="-1"
-                  class="relative block  p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1"
+                    class="relative block  p-2 tab rounded-full flex gap-1 items-center justify-content-center">
                     <span class="text-[12px] text-[var(--gray-text)]">Pending</span>
-                    <small class="rounded-full w-[14px] h-[14px] bg-[var(--dark)] text-white text-[8px] flex items-center justify-content-center font-semibold">10</small>
+                    <small
+                      class="rounded-full w-[14px] h-[14px] bg-[var(--dark)] text-white text-[8px] flex items-center justify-content-center font-semibold">10</small>
                   </button>
-                  <button
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="panel-3"
-                  id="tab-3"
-                  tabindex="-2"
-                  class="relative block p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-2"
+                    class="relative block p-2 tab rounded-full flex gap-1 items-center justify-content-center">
                     <span class="text-[12px] text-[var(--gray-text)]">Accepted</span>
                   </button>
-                  <button
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="panel-4"
-                  id="tab-4"
-                  tabindex="-3"
-                  class="relative block p-2 tab rounded-full flex gap-1 items-center justify-content-center">
+                  <button role="tab" aria-selected="false" aria-controls="panel-4" id="tab-4" tabindex="-3"
+                    class="relative block p-2 tab rounded-full flex gap-1 items-center justify-content-center">
                     <span class="text-[12px] text-[var(--gray-text)]">Cancelled</span>
                   </button>
-              
+
                 </div>
-            </div>
-           <div class="  flex gap-2 items-center w-100">
-           
-               <div class="filters  w-100 flex  gap-2 ">
-               <div class="flex gap-2 w-full justify-content-end">
-                 <div class="relative lg:w-auto w-full">
-                  <input type="search" class="input search " placeholder="Search here . . .">
-                  <i class='bx bx-search absolute top-[8px] text-[18px] left-[8px] text-[var(--gray-text)]' ></i>
-               </div>
-                  <div class="relative">
-                   
-                    <input type="month" id="monthSel" class="opacity-0  h-full w-full absolute cursor-pointer">
-                      
-                  
-                     <div class="mobtn rounded-md border flex gap-1 pl-2 pr-1 py-2 items-center justify-content-center hover:bg-[var(--white)] monthCont" role="button">
-                      <i class='bx bx-calendar'></i>
-                      <span class="" id="monthLabel">Requested Month</span>
-                      <i class='bx bx-chevron-down text-[18px] ml-3'></i>
+              </div>
+              <div class="  flex gap-2 items-center w-100">
+
+                <div class="filters  w-100 flex  gap-2 ">
+                  <div class="flex gap-2 w-full justify-content-end">
+                    <div class="relative lg:w-auto w-full">
+                      <input type="search" class="input search " placeholder="Search here . . .">
+                      <i class='bx bx-search absolute top-[8px] text-[18px] left-[8px] text-[var(--gray-text)]'></i>
+                    </div>
+                    <div class="relative">
+
+                      <input type="month" id="monthSel" class="opacity-0  h-full w-full absolute cursor-pointer">
+
+
+                      <div
+                        class="mobtn rounded-md border flex gap-1 pl-2 pr-1 py-2 items-center justify-content-center hover:bg-[var(--white)] monthCont"
+                        role="button">
+                        <i class='bx bx-calendar'></i>
+                        <span class="" id="monthLabel">Requested Month</span>
+                        <i class='bx bx-chevron-down text-[18px] ml-3'></i>
+                      </div>
+                    </div>
+                    <div class="relative">
+                      <select name="grp select" id="grpSel" class="opacity-0  h-full w-full absolute cursor-pointer">
+
+                      </select>
+                      <div
+                        class="grpbtn rounded-md border transition flex gap-1 pl-2 pr-1   py-2 items-center justify-content-center hover:b [var  (--white)] grpCont"
+                        role="button">
+                        <i class='bx bx-group'></i>
+                        <span id="lblGrp">All Groups</span>
+                        <i class='bx bx-chevron-down text-[18px] ml-3'></i>
+
+                      </div>
                     </div>
                   </div>
-                 <div class="relative">
-                  <select name="grp select" id="grpSel" class="opacity-0  h-full w-full absolute cursor-pointer">
-         
-                  </select>
-                  <div class="grpbtn rounded-md border transition flex gap-1 pl-2 pr-1   py-2 items-center justify-content-center hover:b [var  (--white)] grpCont" role="button">
-                    <i class='bx bx-group' ></i>
-                    <span id="lblGrp">All Groups</span>
-                    <i class='bx bx-chevron-down text-[18px] ml-3'></i>
-                    
-                  </div>
+
                 </div>
-               </div>
-              
-               </div>
-          
-           </div>
-        </div>
+
+              </div>
+            </div>
 
             <div class=" relative h-[calc(100%-104px)] lg:h-[calc(100%-93px)]  p-3 pt-0 mt-3 overflow-auto">
               <table class="">
-                <thead >
-                  <tr >
+                <thead>
+                  <tr>
                     <th>Employee</th>
                     <th>Date requested</th>
                     <th>Start date</th>
@@ -375,23 +365,23 @@
                     <th>Visa</th>
                     <th></th>
                   </tr>
-                  
+
                 </thead>
                 <tbody id="tableBody">
-                
+
                 </tbody>
               </table>
-             
-              
+
+
             </div>
 
           </div>
-             
+
 
         </div>
       </div>
-      </div>
-      
+    </div>
+
 </body>
 
 
