@@ -213,6 +213,18 @@ const sampleData = [
     status: null,
   },
 ];
+const cardData = {
+  isSuccess: true,
+  message: "",
+  data: {
+    pending: 27,
+    accepted: 2,
+    cancelled: 0,
+    todaytotal: 1,
+    todayaccept: 2,
+    total: 29,
+  },
+};
 //#endregion
 checkAccess()
   .then((emp) => {
@@ -221,6 +233,7 @@ checkAccess()
       $(document).ready(function () {
         fillEmployeeDetails();
         $(".tab")[0].click();
+        fillCards();
         fillTable(sampleData);
         Promise.all([getGroups()])
           .then(([grps]) => {
@@ -277,6 +290,7 @@ $(document).on("click", "#removeMonth", function () {
   $(".monthCont").html(`<i class='bx bx-calendar'></i>
                       <span class="" id="monthLabel">Requested Month</span>
                       <i class='bx bx-chevron-down text-[18px] ml-3'></i>`);
+  $("#monthSel").val("");
 });
 // $(document).on("click", "#btnExport", function () {
 //   exportTable();
@@ -320,6 +334,26 @@ $(document).on("click", "#openModal .btn-close", function () {
 //#endregion
 
 //#region FUNCTIONS
+function fillCards() {
+  var pending = cardData.data.pending;
+  var accepted = cardData.data.accepted;
+  var cancelled = cardData.data.cancelled;
+  var todayTotal = cardData.data.todaytotal;
+  var todayAccept = cardData.data.todayaccept;
+
+  var total = cardData.data.total;
+
+  $("#cardPending, #pendingTab").text(pending);
+  $("#cardAccepted").text(accepted);
+  $("#cardTodayAccepted").html(
+    `<small class="font-semibold" >+${todayAccept} today</small>`
+  );
+  $("#cardCancelled").text(cancelled);
+  $("#cardTodayTotal").html(
+    `<small class="font-semibold" >+${todayTotal} today</small>`
+  );
+  $("#cardTotal").text(total);
+}
 function fillOpenModal(trID) {
   const req = sampleData.find((req) => req.req_id == trID);
   const name = req.emp_name;
@@ -455,6 +489,8 @@ function fillTable(sampleData) {
     $("#tableBody").append(str);
   });
 }
+
+function filterStatus(status) {}
 
 function getGroups() {
   return new Promise((resolve, reject) => {
