@@ -273,4 +273,11 @@ function emailStatusChange($status, $details)
     }
     //baguhin yung $CCarray pag prod na.
 }
+function countDays($start, $end)
+{
+    $date1 = date_create($start);
+    $date2 = date_create($end);
+    $diff = date_diff($date1, $date2);
+    return  (int)$diff->format("%a") + 1;
+}
 #endregion

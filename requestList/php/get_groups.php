@@ -11,29 +11,18 @@ date_default_timezone_set('Asia/Manila');
 #endregion
 
 #region Initialize Variable
+$userID = 0;
 $groups = array();
 #endregion
 
 #region get data values
-if (!empty($_COOKIE["userID"])) {
-    $userHash = $_COOKIE["userID"];
-}
+$userID = getID();
 #endregion
 
 #region main query
 try {
-    $empidQ = "SELECT fldEmployeeNum as empID FROM kdtphdb.kdtlogin WHERE fldUserHash = :userHash";
-    $empidStmt = $connpcs->prepare($empidQ);
-    $empidStmt->execute([":userHash" => "$userHash"]);
-    if ($empidStmt->rowCount() > 0) {
-        $empID = $empidStmt->fetchColumn();
-    }
 
-    // $userQ = "SELECT COUNT(*) FROM kdtphdb.user_permissions WHERE permission_id = 42 AND fldEmployeeNum = :empID";
-    // $userStmt = $connpcs->prepare($userQ);
-    // $userStmt->execute([":empID" => "$empID"]);
-    // $userCount = $userStmt->fetchColumn();
-    $userCount = alLGroupAccess($empID);
+    $userCount = alLGroupAccess($userID);
     if ($userCount) {
         $groupQ = "SELECT `id` as `newID`, `name`, `abbreviation`, (SELECT COUNT(*) FROM kdtphdb_new.employee_group WHERE `group_id` = `newID`) as empCount 
         FROM kdtphdb_new.group_list HAVING empCount > 0 ORDER BY `name`";
