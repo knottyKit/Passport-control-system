@@ -13,6 +13,250 @@ switch (document.location.hostname) {
 const dispTableID = ["eList", "eListNon"];
 let empDetails = [];
 let groupList = [];
+let monthNames = [
+  "January",
+  "February",
+  "March",
+  "Arpil",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+let sampleData = [
+  {
+    req_id: 41,
+    emp_name: "Apolinario, Timothy Jay",
+    group_id: 16,
+    requester_name: "",
+    from: "2024-07-22",
+    to: "2024-07-29",
+    req_date: "2024-07-22",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 40,
+    emp_name: "Apolinario, Timothy Jay",
+    group_id: 16,
+    requester_name: "",
+    from: "2024-07-15",
+    to: "2024-08-01",
+    req_date: "2024-07-22",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 39,
+    emp_name: "Herrera, Rhanzces Julia",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-06-01",
+    to: "2024-06-05",
+    req_date: "2024-07-22",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 38,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-05-01",
+    to: "2024-05-03",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 37,
+    emp_name: "Coquia, Joshua Mari",
+    group_id: 16,
+    requester_name: "Coquia, Joshua Mari",
+    from: "2024-04-04",
+    to: "2024-04-05",
+    req_date: "2024-07-19",
+    passValid: true,
+    visaValid: true,
+    status: 1,
+  },
+  {
+    req_id: 36,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-03-27",
+    to: "2024-03-30",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 35,
+    emp_name: "Coquia, Joshua Mari",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-02-21",
+    to: "2024-03-01",
+    req_date: "2024-07-19",
+    passValid: true,
+    visaValid: true,
+    status: null,
+  },
+  {
+    req_id: 34,
+    emp_name: "Cabiso, Sean Patrick",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-09-25",
+    to: "2024-09-27",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 30,
+    emp_name: "Coquia, Joshua Mari",
+    group_id: 16,
+    requester_name: "",
+    from: "2024-04-27",
+    to: "2024-04-28",
+    req_date: "2024-07-19",
+    passValid: true,
+    visaValid: true,
+    status: null,
+  },
+  {
+    req_id: 29,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-06-05",
+    to: "2024-06-18",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 34,
+    emp_name: "Cabiso, Sean Patrick",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-09-25",
+    to: "2024-09-27",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 30,
+    emp_name: "Coquia, Joshua Mari",
+    group_id: 16,
+    requester_name: "",
+    from: "2024-04-27",
+    to: "2024-04-28",
+    req_date: "2024-07-19",
+    passValid: true,
+    visaValid: true,
+    status: null,
+  },
+  {
+    req_id: 29,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-06-05",
+    to: "2024-06-18",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 34,
+    emp_name: "Cabiso, Sean Patrick",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-09-25",
+    to: "2024-09-27",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 30,
+    emp_name: "Coquia, Joshua Mari",
+    group_id: 16,
+    requester_name: "",
+    from: "2024-04-27",
+    to: "2024-04-28",
+    req_date: "2024-07-19",
+    passValid: true,
+    visaValid: true,
+    status: null,
+  },
+  {
+    req_id: 29,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-06-05",
+    to: "2024-06-18",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 34,
+    emp_name: "Cabiso, Sean Patrick",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-09-25",
+    to: "2024-09-27",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 30,
+    emp_name: "Coquia, Joshua Mari",
+    group_id: 16,
+    requester_name: "",
+    from: "2024-04-27",
+    to: "2024-04-28",
+    req_date: "2024-07-19",
+    passValid: true,
+    visaValid: true,
+    status: null,
+  },
+  {
+    req_id: 29,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    requester_name: "Reyes, Dave",
+    from: "2024-06-05",
+    to: "2024-06-18",
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+];
 //#endregion
 checkAccess()
   .then((emp) => {
@@ -21,6 +265,7 @@ checkAccess()
       $(document).ready(function () {
         fillEmployeeDetails();
         $(".tab")[0].click();
+        fillTable(sampleData);
         Promise.all([getGroups(), getYear()])
           .then(([grps, yr]) => {
             groupList = grps;
@@ -29,7 +274,7 @@ checkAccess()
             getReport()
               .then((rep) => {
                 // console.log(rep);
-                createTable(rep);
+                // createTable(rep);
               })
               .catch((error) => {
                 alert(`${error}`);
@@ -58,10 +303,20 @@ $(document).on("click", "#closeNav", function () {
 });
 
 $(document).on("change", "#grpSel", function () {
+  var sel = $("#grpSel option:selected").text();
+  var grp = $(this).val().split(",").length;
+
+  $("#lblGrp").text(sel);
+  console.log(grp);
+  if (grp === 1) {
+    $(this).addClass("active");
+  } else {
+    $(this).removeClass("active");
+  }
   toggleLoadingAnimation(true);
   getReport()
     .then((rep) => {
-      createTable(rep);
+      // createTable(rep);
       toggleLoadingAnimation(false);
     })
     .catch((error) => {
@@ -69,22 +324,25 @@ $(document).on("change", "#grpSel", function () {
       alert(`${error}`);
     });
 });
-$(document).on("change", "#yearSel", function () {
-  toggleLoadingAnimation(true);
-  $("#selectedYear").text($(this).val());
-  getReport()
-    .then((rep) => {
-      createTable(rep);
-      toggleLoadingAnimation(false);
-    })
-    .catch((error) => {
-      toggleLoadingAnimation(false);
-      alert(`${error}`);
-    });
+
+$(document).on("change", "#monthSel", function () {
+  var [year, month] = $(this).val().split("-");
+  $(this).addClass("active");
+
+  var monthName = monthNames[parseInt(month) - 1];
+  $(".monthCont").html(`<i class='bx bx-calendar'></i>
+                      <span class="" id="monthLabel">${monthName} ${year}</span>
+                      <i class='bx bx-x text-[18px] ml-3 z-[100]' id="removeMonth"></i>`);
 });
-$(document).on("click", "#btnExport", function () {
-  exportTable();
+$(document).on("click", "#removeMonth", function () {
+  $("#monthSel").removeClass("active");
+  $(".monthCont").html(`<i class='bx bx-calendar'></i>
+                      <span class="" id="monthLabel">Requested Month</span>
+                      <i class='bx bx-chevron-down text-[18px] ml-3'></i>`);
 });
+// $(document).on("click", "#btnExport", function () {
+//   exportTable();
+// });
 $(document).on("click", "#portalBtn", function () {
   window.location.href = `${rootFolder}`;
 });
@@ -102,89 +360,73 @@ $(document).on("click", ".tab", function () {
   $(".tab span").removeClass("font-semibold text-[var(--dark)]");
   $(this).find("span").addClass("font-semibold text-[var(--dark)]");
 
-  $panels.each(function () {
-    let panelId = $(this).attr("id");
-    if (tabTarget === panelId) {
-      $(this).removeClass("invisible opacity-0");
-      $(this).addClass("visible opacity-100");
-    } else {
-      $(this).addClass("invisible opacity-0");
-      $(this).removeClass("visible opacity-100");
-    }
-  });
+  // $panels.each(function () {
+  //   let panelId = $(this).attr("id");
+  //   if (tabTarget === panelId) {
+  //     $(this).removeClass("invisible opacity-0");
+  //     $(this).addClass("visible opacity-100");
+  //   } else {
+  //     $(this).addClass("invisible opacity-0");
+  //     $(this).removeClass("visible opacity-100");
+  //   }
+  // });
+});
+$(document).on("click", "td", function () {
+  $("#openModal").modal("show");
+});
+$(document).on("click", "#openModal .btn-close", function () {
+  $("#openModal").modal("hide");
 });
 
 //#endregion
 
 //#region FUNCTIONS
-function createTable(repData) {
-  $("#dataHere").empty();
-  Object.entries(repData).forEach(([key, groups]) => {
-    $("#dataHere").append(
-      `<tr><td colspan=8 class='text-start' data-f-name="Arial" data-f-sz="9"  data-a-h="left" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${key}</td></tr>`
-    );
-    groups.forEach((element) => {
-      var ele = $(element.dispatch);
-      var rspan = ele.length;
-      var visa = element.visaExpiry;
-      var str = "";
-      var deets = `
-  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
-        element.empName
+function fillOpenModal(trId) {
+  
+}
+function fillTable(sampleData) {
+  var str = "";
+  $.each(sampleData, function (index, item) {
+    str = `
+    <tr req-id="${item.req_id}">
+      <td>${item.emp_name}</td>
+      <td>${item.req_date}</td>
+      <td>${item.from}</td>
+      <td>${item.to}</td>
+      <td>${item.requester_name}</td>
+      <td>${
+        item.status === null
+          ? ` <span class=" status pending ">
+                        Accepted
+                      </span>`
+          : item.status === 1
+          ? `  <span class=" status accepted ">
+                        Accepted
+                      </span>`
+          : `<span class=" status cancel ">
+                        Cancelled
+                      </span>`
       }</td>
-  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
-        element.groupName
+      <td>${
+        item.passValid === true
+          ? `  <span class="validity "><i class='bx bx-check text-[18px]   font-semibold'></i></span>`
+          : ` <span class="validity "><i class='bx bx-x text-[18px] font-semibold'></i></span>`
       }</td>
-  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${
-        visa || "-"
-      }</td>
-  `;
-      var tot = `
-  <td rowspan="${rspan}" data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${element.totalDays}</td>
-  `;
+        <td>${
+          item.visaValid === true
+            ? `  <span class="validity "><i class='bx bx-check text-[18px]   font-semibold'></i></span>`
+            : ` <span class="validity "><i class='bx bx-x text-[18px] font-semibold'></i></span>`
+        }</td>
+      <td>
+        <div class="openIcon ">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"   width="144px" height="144px">
+            <path d="M 41.470703 4.9863281 A 1.50015 1.50015 0 0 0 41.308594 5 L 27.5 5 A 1.50015 1.50015 0 1 0 27.5 8 L 37.878906 8 L 22.439453 23.439453 A 1.50015 1.50015 0 1 0 24.560547 25.560547 L 40 10.121094 L 40 20.5 A 1.50015 1.50015 0 1 0 43 20.5 L 43 6.6894531 A 1.50015 1.50015 0 0 0 41.470703 4.9863281 z M 12.5 8 C 8.3754991 8 5 11.375499 5 15.5 L 5 35.5 C 5 39.624501 8.3754991 43 12.5 43 L 32.5 43 C 36.624501 43 40 39.624501 40 35.5 L 40 25.5 A 1.50015 1.50015 0 1 0 37 25.5 L 37 35.5 C 37 38.003499 35.003499 40 32.5 40 L 12.5 40 C 9.9965009 40 8 38.003499 8 35.5 L 8 15.5 C 8 12.996501 9.9965009 11 12.5 11 L 22.5 11 A 1.50015 1.50015 0 1 0 22.5 8 L 12.5 8 z" fill="rgba(85, 85, 85, 0.5)"  stroke="rgba(85, 85, 85, 0.5)" stroke-width="1"/>
+          </svg>
+        </div>
+      </td>
+    </tr>`;
 
-      if (rspan === 0) {
-        str += `
-  <tr>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
-      element.empName
-    }</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
-      element.groupName
-    }</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">${
-      element.visaExpiry || "-"
-    }</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">-</td>
-    <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000" rowspan="1">-</td>
-    
-  </tr> 
-  `;
-      } else {
-        element.dispatch.forEach((dispData, index) => {
-          var dDeets = "";
-          var dTot = "";
-          if (index === 0) {
-            dDeets = deets;
-            dTot = tot;
-          }
-          str += `<tr>
-      ${dDeets}
-      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.totalPast}</td>
-      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_from}</td>
-      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.dispatch_to}</td>
-      <td data-f-name="Arial" data-f-sz="9"  data-a-h="center" data-a-v="middle" 	data-b-a-s="thin" data-b-a-c="000000">${dispData.duration}</td>
-      ${dTot}
-      
-      </tr>`;
-        });
-      }
-
-      $("#dataHere").append(str);
-    });
+    $("#tableBody").append(str);
   });
 }
 function getReport() {
