@@ -17,7 +17,7 @@ let monthNames = [
   "January",
   "February",
   "March",
-  "Arpil",
+  "April",
   "May",
   "June",
   "July",
@@ -27,7 +27,21 @@ let monthNames = [
   "November",
   "December",
 ];
-let sampleData = [
+let monthNames2 = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+const sampleData = [
   {
     req_id: 41,
     emp_name: "Apolinario, Timothy Jay",
@@ -50,7 +64,7 @@ let sampleData = [
     req_date: "2024-07-22",
     passValid: false,
     visaValid: false,
-    status: null,
+    status: 0,
   },
   {
     req_id: 39,
@@ -148,114 +162,6 @@ let sampleData = [
     visaValid: false,
     status: null,
   },
-  {
-    req_id: 34,
-    emp_name: "Cabiso, Sean Patrick",
-    group_id: 16,
-    requester_name: "Reyes, Dave",
-    from: "2024-09-25",
-    to: "2024-09-27",
-    req_date: "2024-07-19",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
-  {
-    req_id: 30,
-    emp_name: "Coquia, Joshua Mari",
-    group_id: 16,
-    requester_name: "",
-    from: "2024-04-27",
-    to: "2024-04-28",
-    req_date: "2024-07-19",
-    passValid: true,
-    visaValid: true,
-    status: null,
-  },
-  {
-    req_id: 29,
-    emp_name: "Reyes, Dave",
-    group_id: 16,
-    requester_name: "Reyes, Dave",
-    from: "2024-06-05",
-    to: "2024-06-18",
-    req_date: "2024-07-19",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
-  {
-    req_id: 34,
-    emp_name: "Cabiso, Sean Patrick",
-    group_id: 16,
-    requester_name: "Reyes, Dave",
-    from: "2024-09-25",
-    to: "2024-09-27",
-    req_date: "2024-07-19",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
-  {
-    req_id: 30,
-    emp_name: "Coquia, Joshua Mari",
-    group_id: 16,
-    requester_name: "",
-    from: "2024-04-27",
-    to: "2024-04-28",
-    req_date: "2024-07-19",
-    passValid: true,
-    visaValid: true,
-    status: null,
-  },
-  {
-    req_id: 29,
-    emp_name: "Reyes, Dave",
-    group_id: 16,
-    requester_name: "Reyes, Dave",
-    from: "2024-06-05",
-    to: "2024-06-18",
-    req_date: "2024-07-19",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
-  {
-    req_id: 34,
-    emp_name: "Cabiso, Sean Patrick",
-    group_id: 16,
-    requester_name: "Reyes, Dave",
-    from: "2024-09-25",
-    to: "2024-09-27",
-    req_date: "2024-07-19",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
-  {
-    req_id: 30,
-    emp_name: "Coquia, Joshua Mari",
-    group_id: 16,
-    requester_name: "",
-    from: "2024-04-27",
-    to: "2024-04-28",
-    req_date: "2024-07-19",
-    passValid: true,
-    visaValid: true,
-    status: null,
-  },
-  {
-    req_id: 29,
-    emp_name: "Reyes, Dave",
-    group_id: 16,
-    requester_name: "Reyes, Dave",
-    from: "2024-06-05",
-    to: "2024-06-18",
-    req_date: "2024-07-19",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
 ];
 //#endregion
 checkAccess()
@@ -266,19 +172,10 @@ checkAccess()
         fillEmployeeDetails();
         $(".tab")[0].click();
         fillTable(sampleData);
-        Promise.all([getGroups(), getYear()])
-          .then(([grps, yr]) => {
+        Promise.all([getGroups()])
+          .then(([grps]) => {
             groupList = grps;
-            fillYear(yr);
             fillGroups(groupList);
-            getReport()
-              .then((rep) => {
-                // console.log(rep);
-                // createTable(rep);
-              })
-              .catch((error) => {
-                alert(`${error}`);
-              });
           })
           .catch((error) => {
             alert(`${error}`);
@@ -314,15 +211,6 @@ $(document).on("change", "#grpSel", function () {
     $(this).removeClass("active");
   }
   toggleLoadingAnimation(true);
-  getReport()
-    .then((rep) => {
-      // createTable(rep);
-      toggleLoadingAnimation(false);
-    })
-    .catch((error) => {
-      toggleLoadingAnimation(false);
-      alert(`${error}`);
-    });
 });
 
 $(document).on("change", "#monthSel", function () {
@@ -372,7 +260,8 @@ $(document).on("click", ".tab", function () {
   // });
 });
 $(document).on("click", "td", function () {
-  $("#openModal").modal("show");
+  var rowID = $(this).closest("tr").attr("req-id");
+  fillOpenModal(rowID);
 });
 $(document).on("click", "#openModal .btn-close", function () {
   $("#openModal").modal("hide");
@@ -381,29 +270,109 @@ $(document).on("click", "#openModal .btn-close", function () {
 //#endregion
 
 //#region FUNCTIONS
-function fillOpenModal(trId) {
-  
+function fillOpenModal(trID) {
+  // var name,
+  //   grp,
+  //   passValidity,
+  //   visaValidity,
+  //   startDate,
+  //   endDate,
+  //   location,
+  //   reqName,
+  //   reqGrp,
+  //   reqDate,
+  //   status = "";
+
+  const req = sampleData.find((req) => req.req_id == trID);
+  const name = req.emp_name;
+  const grp = req.group_id;
+  const passValidity = req.passValid;
+  const visaValidity = req.visaValid;
+  const startDate = req.from;
+  const endDate = req.to;
+  const reqName = req.requester_name;
+  const reqDate = req.req_date;
+  const status = req.status;
+
+  formatStatus(status);
+  formatVisaPassport(visaValidity, passValidity);
+  $("#modalEmpName").text(name);
+  $("#modalGroup").text(grp);
+  $("#modalDateFrom").text(formatDate(startDate));
+  $("#modalDateTo").text(formatDate(endDate));
+  $("#modalReqName").text(reqName);
+  $("#modalReqDate").text(formatDate(reqDate));
+  formatButtons(status);
+  $("#openModal").modal("show");
 }
+function formatButtons(status) {
+  $("#openModal .modal-footer").remove();
+  if (status === null) {
+    $("#openModal .modal-content")
+      .append(`<div class="flex-nowrap modal-footer  flex gap-2 border-0 ">
+        <button
+          class=" rounded-lg px-3 py-2 text-[var(--white)] bg-[var(--dark)] hover:bg-[var(--dark-200)] transition w-50">Reject</button>
+        <button
+          class=" bg-[var(--secondary)] hover:bg-[var(--tertiary)] font-semibold rounded-lg px-3 py-2 w-50 text-[var(--dark)]">Accept</button>
+      </div>`);
+  } else {
+    $("#openModal .modal-footer").remove();
+  }
+}
+function formatDate(date) {
+  var [year, month, day] = date.split("-");
+  monthName = monthNames2[parseInt(month) - 1];
+
+  return day + " " + monthName + " " + year;
+}
+function formatStatus(status) {
+  let statusString =
+    status === null ? "pending" : status === 1 ? "accepted" : "cancelled";
+  $("#titleModal").html(
+    `  Dispatch Request<span class="status lg ${statusString} ms-3">${statusString}</span>`
+  );
+}
+function formatVisaPassport(visa, passport) {
+  function updateModal(id, isValid) {
+    const iconClass = isValid
+      ? "bx-check text-[var(--darkest-100)]"
+      : "bx-x text-[var(--red-200)]";
+    const className = isValid
+      ? "text-[var(--darkest-100)]"
+      : "text-[var(--red-200)]";
+    const statusText = isValid ? "Valid" : "Invalid";
+    $(id).html(`
+      <i class='bx ${iconClass} text-[18px]'></i>
+      <p class="text-[14px] ${className}">${statusText} ${
+      id === "#modalPassport" ? "Passport" : "Visa"
+    }</p>
+    `);
+  }
+
+  updateModal("#modalPassport", passport);
+  updateModal("#modalVisa", visa);
+}
+
 function fillTable(sampleData) {
   var str = "";
   $.each(sampleData, function (index, item) {
     str = `
     <tr req-id="${item.req_id}">
       <td>${item.emp_name}</td>
-      <td>${item.req_date}</td>
-      <td>${item.from}</td>
-      <td>${item.to}</td>
+      <td>${formatDate(item.req_date)}</td>
+      <td>${formatDate(item.from)}</td>
+      <td>${formatDate(item.to)}</td>
       <td>${item.requester_name}</td>
       <td>${
         item.status === null
           ? ` <span class=" status pending ">
-                        Accepted
+                        Pending
                       </span>`
           : item.status === 1
           ? `  <span class=" status accepted ">
                         Accepted
                       </span>`
-          : `<span class=" status cancel ">
+          : `<span class=" status cancelled ">
                         Cancelled
                       </span>`
       }</td>
@@ -429,35 +398,7 @@ function fillTable(sampleData) {
     $("#tableBody").append(str);
   });
 }
-function getReport() {
-  const grpID = $("#grpSel").val();
-  const yr = $("#yearSel").val();
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "POST",
-      url: "php/get_report.php",
-      data: {
-        groupID: grpID,
-        yearSelected: yr,
-      },
-      dataType: "json",
-      success: function (response) {
-        // console.log(response);
-        const rep = response;
-        resolve(rep);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.");
-        }
-      },
-    });
-  });
-}
+
 function getGroups() {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -555,37 +496,7 @@ function getInitials(firstname, surname) {
   initials = `${firstInitial}${lastInitial}`;
   return initials.toUpperCase();
 }
-function getYear() {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
-      url: "php/get_year.php",
-      dataType: "json",
-      success: function (response) {
-        const yrs = response;
-        resolve(yrs);
-      },
-      error: function (xhr, status, error) {
-        if (xhr.status === 404) {
-          reject("Not Found Error: The requested resource was not found.");
-        } else if (xhr.status === 500) {
-          reject("Internal Server Error: There was a server error.");
-        } else {
-          reject("An unspecified error occurred.");
-        }
-      },
-    });
-  });
-}
-function fillYear(yr) {
-  $("#yearSel").empty();
-  yr.forEach((element) => {
-    $("#yearSel").append(`<option>${element}</option>`);
-  });
-  const curYear = new Date().getFullYear();
-  $("#yearSel").val(curYear);
-  $("#selectedYear").text(curYear);
-}
+
 function exportTable() {
   const yr = $("#yearSel").val();
   TableToExcel.convert(document.getElementById("repTable"), {

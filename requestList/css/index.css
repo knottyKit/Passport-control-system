@@ -144,11 +144,6 @@ cursor: pointer;
     width: 0;
   }
 
-.validity{
-  display: flex;
-  align-items: center;
-}
-
 .status{
   padding: 3px 16px;
   border-radius: 0.375rem;
@@ -168,7 +163,7 @@ cursor: pointer;
   /* border: 1px solid var(--darkest); */
   color: var(--darkest-100) !important;
 }
-.status.cancel{
+.status.cancelled{
   background-color: var(--red-100);
   /* border: 1px solid var(--red-200); */
   color: var(--red-200) !important;
