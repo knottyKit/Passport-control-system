@@ -43,36 +43,17 @@ let monthNames2 = [
 ];
 const sampleData = [
   {
-    req_id: 41,
-    emp_name: "Apolinario, Timothy Jay",
-    group_id: 16,
-    requester_name: "",
-    from: "2024-07-22",
-    to: "2024-07-29",
-    req_date: "2024-07-22",
-    passValid: false,
-    visaValid: false,
-    status: null,
-  },
-  {
-    req_id: 40,
-    emp_name: "Apolinario, Timothy Jay",
-    group_id: 16,
-    requester_name: "",
-    from: "2024-07-15",
-    to: "2024-08-01",
-    req_date: "2024-07-22",
-    passValid: false,
-    visaValid: false,
-    status: 0,
-  },
-  {
     req_id: 39,
     emp_name: "Herrera, Rhanzces Julia",
     group_id: 16,
-    requester_name: "Reyes, Dave",
+    specific_loc: "Tokyo Tokyo",
+    location: "Japan",
+    group_name: "Systems Group",
+    requester_name: "Becina, Artemio Roel",
+    requester_group: "Electrical Engineering Group",
     from: "2024-06-01",
     to: "2024-06-05",
+    duration: 5,
     req_date: "2024-07-22",
     passValid: false,
     visaValid: false,
@@ -82,9 +63,14 @@ const sampleData = [
     req_id: 38,
     emp_name: "Reyes, Dave",
     group_id: 16,
+    specific_loc: "gasg",
+    location: "Japan",
+    group_name: "Systems Group",
     requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
     from: "2024-05-01",
     to: "2024-05-03",
+    duration: 3,
     req_date: "2024-07-19",
     passValid: false,
     visaValid: false,
@@ -94,9 +80,14 @@ const sampleData = [
     req_id: 37,
     emp_name: "Coquia, Joshua Mari",
     group_id: 16,
+    specific_loc: "Kobe",
+    location: "Japan",
+    group_name: "Systems Group",
     requester_name: "Coquia, Joshua Mari",
+    requester_group: "Systems Group",
     from: "2024-04-04",
     to: "2024-04-05",
+    duration: 2,
     req_date: "2024-07-19",
     passValid: true,
     visaValid: true,
@@ -106,9 +97,14 @@ const sampleData = [
     req_id: 36,
     emp_name: "Reyes, Dave",
     group_id: 16,
+    specific_loc: "dsdfsd",
+    location: "Japan",
+    group_name: "Systems Group",
     requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
     from: "2024-03-27",
     to: "2024-03-30",
+    duration: 4,
     req_date: "2024-07-19",
     passValid: false,
     visaValid: false,
@@ -118,9 +114,14 @@ const sampleData = [
     req_id: 35,
     emp_name: "Coquia, Joshua Mari",
     group_id: 16,
+    specific_loc: "Tokyo Tokyo",
+    location: "Japan",
+    group_name: "Systems Group",
     requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
     from: "2024-02-21",
     to: "2024-03-01",
+    duration: 10,
     req_date: "2024-07-19",
     passValid: true,
     visaValid: true,
@@ -130,33 +131,82 @@ const sampleData = [
     req_id: 34,
     emp_name: "Cabiso, Sean Patrick",
     group_id: 16,
+    specific_loc: "Tokyo Tokyo",
+    location: "Japan",
+    group_name: "Systems Group",
     requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
     from: "2024-09-25",
     to: "2024-09-27",
+    duration: 3,
     req_date: "2024-07-19",
     passValid: false,
     visaValid: false,
     status: null,
   },
   {
-    req_id: 30,
-    emp_name: "Coquia, Joshua Mari",
-    group_id: 16,
-    requester_name: "",
-    from: "2024-04-27",
-    to: "2024-04-28",
-    req_date: "2024-07-19",
-    passValid: true,
-    visaValid: true,
-    status: null,
-  },
-  {
     req_id: 29,
     emp_name: "Reyes, Dave",
     group_id: 16,
+    specific_loc: "fgsfgsf",
+    location: "Japan",
+    group_name: "Systems Group",
     requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
     from: "2024-06-05",
     to: "2024-06-18",
+    duration: 14,
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 24,
+    emp_name: "Herrera, Rhanzces Julia",
+    group_id: 16,
+    specific_loc: "Tokyo Tokyo",
+    location: "Japan",
+    group_name: "Systems Group",
+    requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
+    from: "2024-07-19",
+    to: "2024-07-27",
+    duration: 9,
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: null,
+  },
+  {
+    req_id: 23,
+    emp_name: "Herrera, Rhanzces Julia",
+    group_id: 16,
+    specific_loc: "Tokyo Tokyo",
+    location: "Japan",
+    group_name: "Systems Group",
+    requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
+    from: "2024-07-18",
+    to: "2024-07-28",
+    duration: 11,
+    req_date: "2024-07-19",
+    passValid: false,
+    visaValid: false,
+    status: 1,
+  },
+  {
+    req_id: 20,
+    emp_name: "Reyes, Dave",
+    group_id: 16,
+    specific_loc: "fsdzfsdf",
+    location: "Japan",
+    group_name: "Systems Group",
+    requester_name: "Reyes, Dave",
+    requester_group: "Systems Group",
+    from: "2024-06-26",
+    to: "2024-06-29",
+    duration: 4,
     req_date: "2024-07-19",
     passValid: false,
     visaValid: false,
@@ -271,21 +321,9 @@ $(document).on("click", "#openModal .btn-close", function () {
 
 //#region FUNCTIONS
 function fillOpenModal(trID) {
-  // var name,
-  //   grp,
-  //   passValidity,
-  //   visaValidity,
-  //   startDate,
-  //   endDate,
-  //   location,
-  //   reqName,
-  //   reqGrp,
-  //   reqDate,
-  //   status = "";
-
   const req = sampleData.find((req) => req.req_id == trID);
   const name = req.emp_name;
-  const grp = req.group_id;
+  const grp = req.group_name;
   const passValidity = req.passValid;
   const visaValidity = req.visaValid;
   const startDate = req.from;
@@ -293,6 +331,10 @@ function fillOpenModal(trID) {
   const reqName = req.requester_name;
   const reqDate = req.req_date;
   const status = req.status;
+  const location = req.specific_loc;
+  const country = req.location;
+  const duration = req.duration;
+  const reqGrp = req.requester_group;
 
   formatStatus(status);
   formatVisaPassport(visaValidity, passValidity);
@@ -302,6 +344,21 @@ function fillOpenModal(trID) {
   $("#modalDateTo").text(formatDate(endDate));
   $("#modalReqName").text(reqName);
   $("#modalReqDate").text(formatDate(reqDate));
+  $("#modalLoc").text(location);
+  $("#modalCountry").text(country);
+  $("#modalReqGrp").text(reqGrp);
+  if (duration > 1) {
+    $("#modalDuration").html(
+      `<span class="text-[16px] font-semibold" >${duration}</span>
+       <p>days in total</p>`
+    );
+  } else {
+    $("#modalDuration").html(
+      `<span class="text-[16px] font-semibold" >${duration}</span>
+       <p>day in total</p>`
+    );
+  }
+
   formatButtons(status);
   $("#openModal").modal("show");
 }
@@ -387,7 +444,7 @@ function fillTable(sampleData) {
             : ` <span class="validity "><i class='bx bx-x text-[18px] font-semibold'></i></span>`
         }</td>
       <td>
-        <div class="openIcon ">
+        <div class="openIcon " title="Open item">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"   width="144px" height="144px">
             <path d="M 41.470703 4.9863281 A 1.50015 1.50015 0 0 0 41.308594 5 L 27.5 5 A 1.50015 1.50015 0 1 0 27.5 8 L 37.878906 8 L 22.439453 23.439453 A 1.50015 1.50015 0 1 0 24.560547 25.560547 L 40 10.121094 L 40 20.5 A 1.50015 1.50015 0 1 0 43 20.5 L 43 6.6894531 A 1.50015 1.50015 0 0 0 41.470703 4.9863281 z M 12.5 8 C 8.3754991 8 5 11.375499 5 15.5 L 5 35.5 C 5 39.624501 8.3754991 43 12.5 43 L 32.5 43 C 36.624501 43 40 39.624501 40 35.5 L 40 25.5 A 1.50015 1.50015 0 1 0 37 25.5 L 37 35.5 C 37 38.003499 35.003499 40 32.5 40 L 12.5 40 C 9.9965009 40 8 38.003499 8 35.5 L 8 15.5 C 8 12.996501 9.9965009 11 12.5 11 L 22.5 11 A 1.50015 1.50015 0 1 0 22.5 8 L 12.5 8 z" fill="rgba(85, 85, 85, 0.5)"  stroke="rgba(85, 85, 85, 0.5)" stroke-width="1"/>
           </svg>

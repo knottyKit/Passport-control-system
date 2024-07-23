@@ -71,8 +71,8 @@
                 <span class="block w-[20px] h-[2px] bg-[var(--tertiary)]     ounded-lg"></span>
                 <p id="modalDateTo"></p>
               </div>
-              <div class="flex gap-1 items-center">
-                <span class="text-[16px] font-semibold">91</span>
+              <div class="flex gap-1 items-center" id="modalDuration">
+                <span class="text-[16px] font-semibold" ></span>
                 <p>days in total</p>
               </div>
             </div>
@@ -86,9 +86,8 @@
             <p class="text-[var(--gray-text)] text-[12px] uppercase">Location</p>
             <div>
               <div class="flex items-center gap-2 ">
-                <p class="font-semibold" id="">Kobe</p>
-                ,
-                <p id="dateTo">Japan</p>
+                <p class="font-semibold" id="modalLoc"></p>,
+                <p id="modalCountry"></p>
               </div>
 
             </div>
@@ -97,11 +96,11 @@
         <div class="mt-4 p-3 rounded-md border-[1px] bg-[var(--white)]">
           <div class="flex justify-content-between mb-2">
             <label for="" class="text-[var(--gray-text)]">Requester's Name:</label>
-            <p class="text-[var(--gray-text)]" id="modalReqName">Joshua Mari Coquia</p>
+            <p class="text-[var(--gray-text)]" id="modalReqName"></p>
           </div>
           <div class="flex justify-content-between mb-2">
             <label for="" class="text-[var(--gray-text)]">Requester's Group:</label>
-            <p class="text-[var(--gray-text)]" id="modalReqGrp">Systems Group</p>
+            <p class="text-[var(--gray-text)]" id="modalReqGrp"></p>
           </div>
           <div class="flex justify-content-between ">
             <label for="" class="text-[var(--gray-text)]">Date Requested:</label>
