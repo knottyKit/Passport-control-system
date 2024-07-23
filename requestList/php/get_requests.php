@@ -35,8 +35,8 @@ if (count($groupMembers) > 0) {
 
 #region main query
 try {
-    $requestQ = "SELECT rl.request_id,rl.emp_number,rl.requester_id,rl.dispatch_from,rl.dispatch_to,rl.date_requested,el.group_id,pd.passport_expiry,vd.visa_expiry FROM pcosdb.request_list rl JOIN kdtphdb_new.employee_list el ON rl.emp_number=el.id LEFT JOIN `passport_details` 
-    AS pd ON pd.emp_number=el.id  LEFT JOIN `visa_details` AS vd ON vd.emp_number=el.id $membersStatement ORDER BY `date_requested` DESC";
+    $requestQ = "SELECT rl.request_id,rl.emp_number,rl.requester_id,rl.dispatch_from,rl.dispatch_to,rl.date_requested,el.group_id,pd.passport_expiry,vd.visa_expiry,rl.request_status FROM pcosdb.request_list rl JOIN kdtphdb_new.employee_list el ON rl.emp_number=el.id LEFT JOIN `passport_details` 
+    AS pd ON pd.emp_number=el.id  LEFT JOIN `visa_details` AS vd ON vd.emp_number=el.id WHERE rl.emp_number != 513 $membersStatement ORDER BY `date_requested` DESC LIMIT 10";
     $requestStmt = $connpcs->prepare($requestQ);
     $requestStmt->execute();
     if ($requestStmt->rowCount() > 0) {
@@ -65,6 +65,9 @@ try {
             }
             $output["passValid"] = $passValidity;
             $output["visaValid"] = $visaValidity;
+            // $status = ($req['request_status'] === NULL) ? "Pending" : (($req['request_status'] === 1) ? "Approved" : "Denied");
+            $status = $req['request_status'];
+            $output['status'] = $status;
             $result['data'][] = $output;
         }
         $result["isSuccess"] = TRUE;
