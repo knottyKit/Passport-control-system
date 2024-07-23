@@ -33,7 +33,7 @@ try {
         $groupQ = "SELECT gl.`id` as `newID`, gl.`name`, gl.`abbreviation` FROM employee_group as eg LEFT JOIN group_list as gl ON eg.`group_id` = gl.`id` 
         WHERE eg.`employee_number` = :empID  ORDER BY `name`";
         $groupStmt = $connnew->prepare($groupQ);
-        $groupStmt->execute([":empID" => $empID]);
+        $groupStmt->execute([":empID" => $userID]);
         $groups = $groupStmt->fetchAll();
     }
 } catch (Exception $e) {

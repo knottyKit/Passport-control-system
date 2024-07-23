@@ -280,4 +280,18 @@ function countDays($start, $end)
     $diff = date_diff($date1, $date2);
     return  (int)$diff->format("%a") + 1;
 }
+function checkRequestListAccess($empnum)
+{
+    global $connkdt;
+    $access = FALSE;
+    $permissionID = 43;
+    $userQ = "SELECT COUNT(*) FROM user_permissions WHERE permission_id = :permissionID AND fldEmployeeNum = :empID";
+    $userStmt = $connkdt->prepare($userQ);
+    $userStmt->execute([":empID" => $empnum, ":permissionID" => $permissionID]);
+    $userCount = $userStmt->fetchColumn();
+    if ($userCount > 0) {
+        $access = TRUE;
+    }
+    return $access;
+}
 #endregion
