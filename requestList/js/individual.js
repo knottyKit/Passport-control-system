@@ -234,7 +234,7 @@ checkAccess()
         fillEmployeeDetails();
         $(".tab")[0].click();
         fillCards();
-        fillTable(sampleData);
+
         Promise.all([getGroups()])
           .then(([grps]) => {
             groupList = grps;
@@ -266,14 +266,26 @@ $(document).on("change", "#grpSel", function () {
   var sel = $("#grpSel option:selected").text();
   var grp = $(this).val().split(",").length;
 
-  $("#lblGrp").text(sel);
-  console.log(grp);
   if (grp === 1) {
     $(this).addClass("active");
   } else {
     $(this).removeClass("active");
   }
+  $(".grpCont").html(
+    `<i class='bx bx-group'></i>
+      <span id="lblGrp">${sel}</span>
+      <i class='bx bx-x text-[18px] ml-3 z-[100]' id="removeGroup"></i>`
+  );
   toggleLoadingAnimation(true);
+});
+$(document).on("click", "#removeGroup", function () {
+  $("#grpSel").removeClass("active");
+  $(".grpCont").html(
+    `   <i class='bx bx-group'></i>
+        <span id="lblGrp">All Groups</span>
+        <i class='bx bx-chevron-down text-[18px] ml-3'></i>`
+  );
+  $("#grpSel").val("");
 });
 
 $(document).on("change", "#monthSel", function () {
@@ -304,6 +316,7 @@ $(document).on("click", ".tab", function () {
   console.log(tabTarget);
   var $panels = $(".tab-panel");
   var $this = $(this);
+  var tabID = $this.attr("id");
   var rect = $this[0].getBoundingClientRect(); // Convert jQuery object to DOM element
   var parentRect = $this.parent()[0].getBoundingClientRect(); // Convert parent jQuery object to DOM element
 
@@ -322,6 +335,19 @@ $(document).on("click", ".tab", function () {
   //     $(this).removeClass("visible opacity-100");
   //   }
   // });
+
+  if (tabID === "tab-1") {
+    fillTable(sampleData);
+  }
+  if (tabID === "tab-2") {
+    filterStatus(null);
+  }
+  if (tabID === "tab-3") {
+    filterStatus(1);
+  }
+  if (tabID === "tab-4") {
+    filterStatus(0);
+  }
 });
 $(document).on("click", "td", function () {
   var rowID = $(this).closest("tr").attr("req-id");
@@ -445,9 +471,11 @@ function formatVisaPassport(visa, passport) {
 }
 
 function fillTable(sampleData) {
+  $("#tableBody").empty();
   var str = "";
-  $.each(sampleData, function (index, item) {
-    str = `
+  if (sampleData.length != 0) {
+    $.each(sampleData, function (index, item) {
+      str = `
     <tr req-id="${item.req_id}">
       <td>${item.emp_name}</td>
       <td>${formatDate(item.req_date)}</td>
@@ -486,20 +514,30 @@ function fillTable(sampleData) {
       </td>
     </tr>`;
 
+      $("#tableBody").append(str);
+    });
+  } else {
+    str = `<td colspan="12" class="h-[530px]"><div class="flex items-center justify-center flex-col gap-3"><img src="../images/empty.png"   class="w-[150px] h-auto opacity-[0.75]" alt="empty">
+    <h5 class="font-semibold text-[16px] text-[var(--gray-text)]">No item found.</h5>
+    <p class="text-[var(--gray-text)]">Try adjusting your search or filter to find what you're looking for.</p>
+    </div></td>`;
     $("#tableBody").append(str);
-  });
+  }
 }
 
-function filterStatus(status) {}
+function filterStatus(statusFilter) {
+  var filteredData = sampleData.filter((stat) => statusFilter == stat.status);
+  fillTable(filteredData);
+}
 
 function getGroups() {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
       url: "php/get_groups.php",
-      dataType: "json",
+      // dataType: "json",
       success: function (response) {
-        // console.log(response);
+        console.log(response);
         const grps = response;
         resolve(grps);
       },
