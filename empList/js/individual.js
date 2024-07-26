@@ -83,7 +83,7 @@ function getGroups() {
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
-      url: "php/get_groups.php",
+      url: "../global/get_groups.php",
       dataType: "json",
       success: function (response) {
         const grps = response;
@@ -102,11 +102,8 @@ function getGroups() {
   });
 }
 function fillGroups(grps) {
-  const groupIDS = grps.map((obj) => obj.newID);
   var grpSelect = $("#grpSel");
-  grpSelect.html(
-    `<option selected value=${groupIDS.toString()}>All Groups</option>`
-  );
+  grpSelect.html(`<option selected value=0>All Groups</option>`);
   $.each(grps, function (index, item) {
     var option = $("<option>")
       .attr("value", item.newID)

@@ -15,6 +15,7 @@ function checkOverlap($empnum, $range)
 
     return $isOverlap;
 }
+
 function checkAccess($empnum)
 {
     global $connkdt;
@@ -29,6 +30,7 @@ function checkAccess($empnum)
     }
     return $access;
 }
+
 function checkEditAccess($empnum)
 {
     global $connkdt;
@@ -43,6 +45,7 @@ function checkEditAccess($empnum)
     }
     return $access;
 }
+
 function alLGroupAccess($empnum)
 {
     global $connkdt;
@@ -57,6 +60,7 @@ function alLGroupAccess($empnum)
     }
     return $access;
 }
+
 function getMembers($empnum)
 {
     global $connnew;
@@ -76,6 +80,7 @@ function getMembers($empnum)
     }
     return $members;
 }
+
 function getGroups($empnum)
 {
     global $connnew;
@@ -92,9 +97,21 @@ function getGroups($empnum)
                 array_push($myGroups, $group);
             }
         }
+    } else {
+        $groupsQ = "SELECT `id` FROM `group_list`";
+        $groupsStmt = $connnew->prepare($groupsQ);
+        $groupsStmt->execute();
+        if ($groupsStmt->rowCount() > 0) {
+            $groupArr = $groupsStmt->fetchAll();
+            foreach ($groupArr as $grp) {
+                $group = $grp['id'];
+                array_push($myGroups, $group);
+            }
+        }
     }
     return $myGroups;
 }
+
 function getID()
 {
     global $connpcs;
