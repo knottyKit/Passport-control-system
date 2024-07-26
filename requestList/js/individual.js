@@ -535,9 +535,8 @@ function getGroups() {
     $.ajax({
       type: "GET",
       url: "php/get_groups.php",
-      // dataType: "json",
+      dataType: "json",
       success: function (response) {
-        console.log(response);
         const grps = response;
         resolve(grps);
       },
