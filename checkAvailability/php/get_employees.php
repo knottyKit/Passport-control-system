@@ -39,7 +39,7 @@ try {
         $emparr = $empStmt->fetchAll();
         foreach ($emparr as $emp) {
             $output = array();
-            $name = $emp['ename'];
+            $name = ucwords(strtolower($emp['ename']));
             $id = $emp['id'];
             $output += ["name" => $name];
             $output += ["id" => $id];
