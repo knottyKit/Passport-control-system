@@ -769,48 +769,8 @@ function deleteDispatch() {
     },
   });
 }
-// function checkAccess() {
-//   return new Promise((resolve, reject) => {
-//     $.ajax({
-//       type: "GET",
-//       url: "php/check_permission.php",
-//       dataType: "json",
-//       success: function (data) {
-//         const acc = data;
-//         resolve(acc);
-//       },
-//       error: function (xhr, status, error) {
-//         if (xhr.status === 404) {
-//           reject("Not Found Error: The requested resource was not found.");
-//         } else if (xhr.status === 500) {
-//           reject("Internal Server Error: There was a server error.");
-//         } else {
-//           reject("An unspecified error occurred.1");
-//         }
-//       },
-//     });
-//   });
-// }
+
 function checkAccess() {
-  // const response = {
-  //   isSuccess: true,
-  //   data: {
-  //     id: 6969,
-  //     group: "Systems Group",
-  //     empname: {
-  //       firstname: "Korin Kitto",
-  //       surname: "Medurano",
-  //     },
-  //   },
-  // };
-  // const response = {
-  //   isSuccess: false,
-  //   message: "Access Denied",
-  // };
-  // const response = {
-  //   isSuccess: false,
-  //   message: "Not logged in",
-  // };
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",

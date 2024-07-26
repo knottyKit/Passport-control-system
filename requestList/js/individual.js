@@ -565,29 +565,6 @@ function fillGroups(grps) {
   });
 }
 function checkAccess() {
-  // const response = {
-  //   isSuccess: true,
-  //   data: {
-  //     empNum: 464,
-  //     empGroup: {
-  //       id: 21,
-  //       name: "System Group",
-  //       acr: "SYS",
-  //     },
-  //     empName: {
-  //       firstname: "Collene Keith",
-  //       surname: "Medrano",
-  //     },
-  //   },
-  // };
-  // const response = {
-  //   isSuccess: false,
-  //   message: "Access Denied",
-  // };
-  // const response = {
-  //   isSuccess: false,
-  //   message: "Not logged in",
-  // };
   return new Promise((resolve, reject) => {
     $.ajax({
       type: "GET",
