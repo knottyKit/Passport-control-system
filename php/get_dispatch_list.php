@@ -38,7 +38,7 @@ try {
         $passValidity = false;
         $visaValidity = false;
         $output = array();
-        $name = $disp['ename'];
+        $name = ucwords(strtolower($disp['ename']));
         $location = $disp['location_name'];
         $from = strtotime($disp['dispatch_from']);
         $from = date("d M Y", $from);

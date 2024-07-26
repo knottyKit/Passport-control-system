@@ -45,6 +45,9 @@ try {
             } else {
                 $val["visaExpiry"] = "None";
             }
+
+            $val['firstname'] = ucwords(strtolower($val['firstname']));
+            $val['lastname'] = ucwords(strtolower($val['lastname']));
         }
         $employees = $employeeDeets;
 
