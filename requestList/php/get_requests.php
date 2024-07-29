@@ -33,7 +33,7 @@ $membersStatement = "";
 $groupMembers = getMembers($userID);
 if (count($groupMembers) > 0) {
     $implodeString = implode("','", array_values($groupMembers));
-    $membersStatement = "AND `rl.emp_number` IN ('" . $implodeString . "')";
+    $membersStatement = "AND `rl`.emp_number IN ('" . $implodeString . "')";
 }
 #endregion
 
