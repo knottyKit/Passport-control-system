@@ -225,6 +225,7 @@ const cardData = {
     total: 29,
   },
 };
+const { jsPDF } = globalThis.jspdf;
 //#endregion
 checkAccess()
   .then((emp) => {
@@ -356,10 +357,90 @@ $(document).on("click", "td", function () {
 $(document).on("click", "#openModal .btn-close", function () {
   $("#openModal").modal("hide");
 });
+$(document).on("click", "#attachment", function () {
+  $("#openModal .btn-close").click();
+  $("#attachmentModal").modal("show");
+});
+$(document).on("click", "#attachment2", function () {
+  $("#openModal .btn-close").click();
+  $("#attachmentModal2").modal("show");
+});
+$(document).on("click", "#btnBack", function () {
+  $("#attachmentModal .btn-close").click();
+  $("#openModal").modal("show");
+});
+$(document).on("click", "#btnBack2", function () {
+  $("#attachmentModal2 .btn-close").click();
+  $("#openModal").modal("show");
+});
+$(document).on("click", "#btnPrint", function () {
+  saveToPDF();
+});
+$(document).on("click", "#btnPrint2", function () {
+  saveToPDF2();
+});
 
 //#endregion
 
 //#region FUNCTIONS
+function saveToPDF() {
+  // Ensure print styles are applied
+  $("#toPrint").css("scale", "1");
+  $("body").css("margin", "0");
+  $("#toPrint .up").css("margin-top", "0.85rem");
+  $("#toPrint .bottom-text").css("margin-top", "0");
+  $("#toPrint table td, #toPrint table th").css("padding", "0 10px 6px 10px");
+
+  // Force reflow to ensure styles are applied
+  document.body.offsetHeight;
+
+  html2canvas($("#toPrint")[0], { scale: 2 }).then((canvas) => {
+    var imgData = canvas.toDataURL("image/jpeg", 1.25);
+    var doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      displayMode: "fullwidth",
+      userUnit: 1,
+    });
+
+    // Adjusting image position and size if needed
+    doc.addImage(imgData, "JPEG", 0, 0, 210, 297);
+    doc.save("Dispatch_Request.pdf");
+  });
+
+  // Revert scale if needed
+
+  $("#toPrint .up").css("margin-top", "0");
+  $("#toPrint table td, #toPrint table th").css("padding", "0 10px");
+  $("#toPrint .bottom-text").css("margin-top", "0.5rem");
+}
+function saveToPDF2() {
+  $("#toPrint2 table td, #toPrint table th").css("padding", "0 10px 6px 10px");
+
+  // Force reflow to ensure styles are applied
+  document.body.offsetHeight;
+
+  html2canvas($("#toPrint2")[0], { scale: 2 }).then((canvas) => {
+    var imgData = canvas.toDataURL("image/jpeg", 1.25);
+    var doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      displayMode: "fullwidth",
+      userUnit: 1,
+    });
+
+    // Adjusting image position and size if needed
+    doc.addImage(imgData, "JPEG", 0, 0, 210, 297);
+    doc.save("Dispatch_Request.pdf");
+  });
+
+  // Revert scale if needed
+
+  $("#toPrint2 table td, #toPrint table th").css("padding", "0 10px 0 10px");
+}
+
 function fillCards() {
   var pending = cardData.data.pending;
   var accepted = cardData.data.accepted;
